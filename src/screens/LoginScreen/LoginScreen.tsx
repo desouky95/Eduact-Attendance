@@ -20,6 +20,7 @@ const Styles = StyleSheet.create({
     width: '100%',
     display: 'flex',
     paddingHorizontal: 30,
+    paddingVertical: 30,
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -28,10 +29,7 @@ const Styles = StyleSheet.create({
 });
 
 export const LoginScreen = () => {
-  const navigation = useNavigation<RootProps>();
-  const handleLogin = () => {
-    // navigation.push('HomeRouter', {screen: 'Test'});
-  };
+
 
   const {
     control,
@@ -62,10 +60,10 @@ export const LoginScreen = () => {
           });
         }
       }
-      console.log("CLICKED SUCCESS")
+      console.log('CLICKED SUCCESS');
     },
     e => {
-      console.log("CLICKED ERROR")
+      console.log('CLICKED ERROR');
     },
   );
 
@@ -78,7 +76,12 @@ export const LoginScreen = () => {
         name="identifier"
         render={({field: {value, onChange}}) => {
           return (
-            <FormControl isInvalid={!!errors.identifier} flex={0} w="xs">
+            <FormControl
+              // minWidth={'200px'}
+              isInvalid={!!errors.identifier}
+              flex={0}
+              // w="xs"
+            >
               <EdTextInput
                 autoComplete="email"
                 placeholder="Username or email"
@@ -99,7 +102,11 @@ export const LoginScreen = () => {
         control={control}
         name="password"
         render={({field: {value, onChange}}) => (
-          <FormControl isInvalid={!!errors.password} flex={0} w="xs">
+          <FormControl
+            isInvalid={!!errors.password}
+            flex={0}
+            // w="xs"
+          >
             <EdTextInput
               placeholder="Password"
               secureTextEntry

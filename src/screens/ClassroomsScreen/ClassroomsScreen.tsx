@@ -1,3 +1,4 @@
+import {useDatabase} from '@nozbe/watermelondb/hooks';
 import {useNavigation} from '@react-navigation/native';
 import {logo} from 'assets/index';
 import {Accordion} from 'components/Accordion/Accordion';
@@ -14,6 +15,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Classroom from 'src/database/models/Classroom';
 
 const classrooms = Array(20)
   .fill(0)
@@ -23,10 +25,24 @@ const classrooms = Array(20)
       .fill(0)
       .map((v, lIndex) => ({name: `Lesson ${index + 1} ${lIndex + 1}`})),
   }));
-export const ClassroomsScreen = () => {
+
+import withObservables from '@nozbe/with-observables';
+import {database} from 'src/database';
+import {withDatabase} from '@nozbe/watermelondb/DatabaseProvider';
+
+export const ClassroomsScreenUI = (props: any) => {
+  // console.log(props);
+  const database = useDatabase();
+
+  // const classroomsData = database.collections.get<Classroom>('classrooms')
+
+  // const observeClassrooms = classroomsData.query().observe()
+  // observeClassrooms
+  // console.log(classroomsData)
+
   return (
     <ScrollView style={{paddingHorizontal: 20}}>
-      <Spacer my={20}>
+      <Spacer my={5}>
         <Typography fontWeight={'bold'}>Classrooms</Typography>
       </Spacer>
 
@@ -89,3 +105,8 @@ const CoursePanel = ({lesson}: {lesson: {name: string}}) => {
     </TouchableOpacity>
   );
 };
+
+const enhance = withObservables(['classrooms'], ({classrooms}) => ({
+  classrooms: database.collections.get<Classroom>('classrooms').query().observe(),
+}));
+export const ClassroomsScreen = withDatabase(enhance(ClassroomsScreenUI));

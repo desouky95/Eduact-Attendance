@@ -7,7 +7,10 @@ import { AnyAction } from '@reduxjs/toolkit';
 const persistConfig: PersistConfig<any> = {
   key: 'root',
   storage: AsyncStorage,
-  // whitelist: ['auth'],
+  whitelist: ['auth','db'],
+  debug : true,
+  timeout : 0
+  
 };
 
 export const persistedReducer = persistReducer<RootReducer>(persistConfig, rootReducer);

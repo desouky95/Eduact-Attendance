@@ -1,15 +1,34 @@
-import axios, {InternalAxiosRequestConfig} from 'axios';
+import axios, {AxiosProgressEvent, InternalAxiosRequestConfig} from 'axios';
 import {BASE_URL} from '@env';
+import {Store} from 'src/store';
+
+let store: Store;
+
+export const injectStore = (_store: any) => {
+  store = _store;
+};
 
 export const api = axios.create({
   baseURL: BASE_URL,
   headers: {'User-Agent': 'Mozilla/5.0'},
-  
 });
 
-const apiConfig = {
+export const apiConfig = {
   baseUrl: BASE_URL,
   // should end with a slash
+  onUploadProgress: function (ev: any) {
+    console.log(ev);
+    // do your thing here
+  },
+  onDownloadProgress: (event: AxiosProgressEvent) => {
+    // console.log(event.loaded); // loaded
+    const total = event.event.target.responseHeaders['content-length']; // total
+    // console.log(event.event); // total
+    const current = event.event.target.response.length;
+    let percentCompleted = Math.floor((current / total) * 100);
+    return {percentCompleted, total, current};
+    // do your thing here
+  },
 };
 // Ask y
 
@@ -25,6 +44,9 @@ api.interceptors.request.use(
     //   'color: #0086b3; font-weight: bold',
     //   config,
     // );
+    if (store.getState().auth.isLogged) {
+      config.headers.Authorization = `Bearer ${store.getState().auth.token}`;
+    }
     return config;
   },
   error => Promise.reject(error),
@@ -49,3 +71,7 @@ api.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
+export type WithProgressArgs = {
+  onDownloadProgress?: (progressEvent: AxiosProgressEvent) => void;
+};

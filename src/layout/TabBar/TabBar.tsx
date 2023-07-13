@@ -5,7 +5,7 @@ import {
   useRoute,
 } from '@react-navigation/native';
 import {Typography} from 'components/Typography/Typography';
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MdIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -13,38 +13,46 @@ import {AppContext} from 'src/AppContext';
 
 const ClassroomsScreens = [
   {
+    name: 'Home',
+    icon: 'home',
+    route: 'Classroom' as keyof ClassroomRootTabParamList,
+  },
+
+  {
     name: 'Attendance',
-    icon: 'note-multiple',
-    route: 'Attendance' as keyof HomeRouterParamList,
+    icon: 'clipboard-edit',
+    route: 'Attendance' as keyof ClassroomRootTabParamList,
   },
   {
     name: 'Reference',
     icon: 'folder-multiple',
-    route: 'Reference' as keyof HomeRouterParamList,
+    route: 'Reference' as keyof ClassroomRootTabParamList,
   },
 ];
 
-const ClassroomsRoutes = ['Classrooms'].concat(
-  ClassroomsScreens.map(_ => _.name),
-);
-
 export const TabBar = (props: BottomTabBarProps) => {
   const screenName = AppContext.navigationRef?.getCurrentRoute()?.name;
+  const {params :{params}} = useRoute<ClassroomScreenProp>();
+  const navigate = useNavigation<ClassroomRootProps>();
 
-  const navigate = useNavigation<HomeProps & ClassroomsProps>();
+  const handleClick = (route: keyof ClassroomRootTabParamList) => {
+    // navigate.navigate(route as any, {classroom_id: params?.classroom_id});
 
-  
-  const handleClick = (route?: keyof HomeRouterParamList) => {
-    if (route === undefined) navigate.navigate('Home', {});
-    else navigate.navigate(route as any);
+    navigate.navigate('ClassroomRoot', {
+      params: {classroom_id: params.classroom_id},
+      screen: route,
+    })
   };
 
+
+
+  
   return (
     <View
       style={{
         flexDirection: 'row',
         height: 55,
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: '#FFF',
         shadowColor: 'black',
@@ -52,40 +60,26 @@ export const TabBar = (props: BottomTabBarProps) => {
         shadowRadius: 6,
         shadowOpacity: 0.2,
         elevation: 14,
-        columnGap: 49,
+        columnGap: 60,
+        paddingHorizontal:58
       }}>
-      <TouchableOpacity
-        onPress={() => handleClick()}
-        activeOpacity={0.9}
-        disabled={screenName === 'Home'}
-        style={{alignItems: 'center', display: 'flex'}}>
-        <Icon
-          color={screenName === 'Home' ? '#5AC0FC' : 'grey'}
-          name="home"
-          size={25}
-        />
-        <Typography color={screenName === 'Home' ? '#5AC0FC' : 'grey'}>
-          Home
-        </Typography>
-      </TouchableOpacity>
-      {ClassroomsRoutes.includes(screenName ?? '') &&
-        ClassroomsScreens.map(_ => (
-          <TouchableOpacity
-            key={_.name}
-            onPress={() => handleClick(_.route)}
-            activeOpacity={0.9}
-            disabled={screenName === _.name}
-            style={{alignItems: 'center', display: 'flex'}}>
-            <MdIcon
-              color={screenName === _.name ? '#5AC0FC' : 'grey'}
-              name={_.icon}
-              size={25}
-            />
-            <Typography color={screenName === _.name ? '#5AC0FC' : 'grey'}>
-              {_.name}
-            </Typography>
-          </TouchableOpacity>
-        ))}
+      {ClassroomsScreens.map(_ => (
+        <TouchableOpacity
+          key={_.name}
+          onPress={() => handleClick(_.route)}
+          activeOpacity={screenName !== _.route ? 0.6 : 1}
+          // disabled={screenName === _.name}
+          style={{alignItems: 'center', display: 'flex'}}>
+          <MdIcon
+            color={screenName === _.route ? '#5AC0FC' : 'grey'}
+            name={_.icon}
+            size={25}
+          />
+          <Typography fontSize={8} color={screenName === _.route ? '#5AC0FC' : 'grey'}>
+            {_.name}
+          </Typography>
+        </TouchableOpacity>
+      ))}
     </View>
   );
 };

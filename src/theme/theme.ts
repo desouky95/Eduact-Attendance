@@ -15,6 +15,24 @@ export const theme = extendTheme({
       900: '#00111f',
       main: '#50bcfc',
     },
+    cadet: {
+      50: '#f2effc',
+      100: '#d6d2e1',
+      200: '#b9b4ca',
+      300: '#9c96b4',
+      400: '#7f799e',
+      500: '#645f84',
+      600: '#4d4a68',
+      700: '#36354b',
+      800: '#20202f',
+      900: '#0c0a16',
+      main: '#36354b',
+    },
+  },
+  backgrounds: {
+    primary: {
+      backgroundColor: '#50bcfc',
+    },
   },
   components: {
     Snackbar: {
@@ -50,3 +68,4 @@ declare module 'native-base' {
 declare module 'styled-components' {
   interface DefaultTheme extends CustomThemeType {}
 }
+

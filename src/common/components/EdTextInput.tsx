@@ -10,7 +10,14 @@ import {
 import styled from 'styled-components/native';
 
 type EdTextInputProps = IInputProps;
-export const EdTextInput = ({onFocus, onBlur, ...props}: EdTextInputProps) => {
+export const EdTextInput = ({
+  onFocus,
+  onBlur,
+  px = '1',
+  py = '10',
+  padding = '11px 16px',
+  ...props
+}: EdTextInputProps) => {
   const [focused, setFocused] = useState(false);
 
   const handleOnFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
@@ -35,6 +42,7 @@ export const EdTextInput = ({onFocus, onBlur, ...props}: EdTextInputProps) => {
         isFocused={focused}
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}
+        padding={padding}
       />
     </>
   );
@@ -42,7 +50,7 @@ export const EdTextInput = ({onFocus, onBlur, ...props}: EdTextInputProps) => {
 
 const StyledEdTextInput = styled(Input)<{isFocused: boolean}>`
   border-radius: 4px;
-  padding: 11px 16px;
+  /* padding: 11px 16px; */
   min-width: 260px;
   color: #000;
 `;

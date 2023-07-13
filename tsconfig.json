@@ -3,6 +3,9 @@
   "compilerOptions": {
     "types": ["jest", "@types/styled-components-react-native"],
     "baseUrl": ".",
+    "lib": ["ES2019"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "paths": {
       "components/*": ["src/common/components/*"],
       "assets/*": ["assets/*"]

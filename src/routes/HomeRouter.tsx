@@ -22,7 +22,7 @@ export const HomeRoot = () => {
         header: HomeHeader,
         animation: 'slide_from_left',
       }}>
-      <Stack.Screen name="Downloading" component={DownloadingScreen} />
+      {/* <Stack.Screen name="Downloading" component={DownloadingScreen} /> */}
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Classrooms" component={ClassroomsScreen} />
       <Stack.Screen name="Students" component={StudentsScreen} />
@@ -34,7 +34,7 @@ export const HomeRoot = () => {
 const ClassroomRoot = () => (
   <Tab.Navigator
     screenOptions={{headerShown: false}}
-    // tabBar={TabBar}
+    tabBar={props => <TabBar {...props} />}
     initialRouteName="Classroom">
     <Tab.Screen name="Classroom" component={ClassroomScreen} />
     <Tab.Screen name="Attendance" component={AttendanceScreen} />

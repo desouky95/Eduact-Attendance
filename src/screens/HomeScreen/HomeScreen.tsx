@@ -12,15 +12,26 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import {useAppDispatch, useAppSelector} from 'src/store';
+import {database} from 'src/database';
+import {persistor, useAppDispatch, useAppSelector} from 'src/store';
 import {logout} from 'src/store/authReducer/authReducer';
+import {wipeSetup} from 'src/store/databaseSetupReducer/databaseSetupReducer';
 import styled from 'styled-components/native';
 
 export const HomeScreen = () => {
   const navigation = useNavigation<RootProps>();
   const dispatch = useAppDispatch();
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleLogout = async () => {
+    try {
+      // await database.unsafeResetDatabase();
+      dispatch(logout());
+      dispatch(wipeSetup());
+      persistor.flush().then(() => {
+        return persistor.purge();
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleClassrooms = (route: 'Classrooms' | 'Students') => {

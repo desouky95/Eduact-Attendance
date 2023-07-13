@@ -30,7 +30,8 @@ const StyledSnackbarView = styled.View<{variant: SnackbarVariant}>`
   padding: 14px 16px;
   border-radius: 4px;
   elevation: 3;
-  min-width: 344px;
+  min-width: 265px;
+  /* min-width: 344px; */
   min-height: 48px;
   align-items: flex-start;
   gap: 4px;
