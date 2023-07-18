@@ -10,7 +10,14 @@ import {LayoutChangeEvent, View, Animated, LayoutAnimation} from 'react-native';
 import {AccordionProvider} from './AccordionProvider';
 import {Typography} from 'components/Typography/Typography';
 
-export const Accordion = ({children}: PropsWithChildren) => {
+type AccordionProps = {
+  disabled?: boolean;
+};
+
+export const Accordion = ({
+  children,
+  disabled = false,
+}: PropsWithChildren<AccordionProps>) => {
   const [summary, ...otherChildren] = React.Children.toArray(
     children,
   ) as ReactElement[];
@@ -33,13 +40,19 @@ export const Accordion = ({children}: PropsWithChildren) => {
   };
   return (
     <AccordionProvider
+      disabled={disabled}
       expanded={expanded}
       setExpanded={(value: boolean) => {
         setExpanded(value);
         LayoutAnimation.configureNext(defaultAnimation);
       }}>
       <View style={{marginVertical: 12, paddingHorizontal: 2}}>
-        <View>{summary}</View>
+        <View
+          pointerEvents={disabled ? 'none' : 'auto'}
+          // style={{opacity: disabled ? 0.5 : 1}}
+        >
+          {summary}
+        </View>
         <Animated.View style={{}}>
           {expanded && <View>{otherChildren}</View>}
         </Animated.View>
@@ -47,4 +60,3 @@ export const Accordion = ({children}: PropsWithChildren) => {
     </AccordionProvider>
   );
 };
-

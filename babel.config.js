@@ -33,6 +33,7 @@ module.exports = function (api) {
             // This needs to be mirrored in tsconfig.json
             components: './src/common/components',
             assets: './assets',
+            src: './src',
           },
         },
       ],

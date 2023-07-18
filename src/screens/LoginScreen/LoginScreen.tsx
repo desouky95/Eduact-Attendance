@@ -29,8 +29,6 @@ const Styles = StyleSheet.create({
 });
 
 export const LoginScreen = () => {
-
-
   const {
     control,
     handleSubmit,
@@ -49,10 +47,9 @@ export const LoginScreen = () => {
       try {
         const {data} = await login(formData);
 
-        console.log('BEFORE DISPATCH');
         dispatch(addUser(data.data));
-        console.log('AFTER DISPATCH');
       } catch (error) {
+        console.error(error)
         if (isAxiosError(error)) {
           openSnackbar({
             variant: 'error',
@@ -60,10 +57,8 @@ export const LoginScreen = () => {
           });
         }
       }
-      console.log('CLICKED SUCCESS');
     },
     e => {
-      console.log('CLICKED ERROR');
     },
   );
 

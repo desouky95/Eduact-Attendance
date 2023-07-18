@@ -8,6 +8,7 @@ import React, {
 type AccordionContextArgs = {
   expanded: boolean;
   setExpanded: Dispatch<boolean>;
+  disabled?: boolean;
 };
 
 const AccordionContext = createContext<AccordionContextArgs | null>(null);

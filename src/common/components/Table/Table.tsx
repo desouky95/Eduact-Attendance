@@ -154,7 +154,6 @@ const TableStyles = StyleSheet.create({
 const TableHeader = styled(Flex)<{lastChild: boolean; index: number}>`
   border-right-width: 1px;
   border-color: ${p => {
-    console.log(p);
     return !p.lastChild ? p.theme.colors.gray[200] : 'transparent';
   }};
   padding: 4px 8px;

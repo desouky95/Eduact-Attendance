@@ -13,8 +13,8 @@ type EdTextInputProps = IInputProps;
 export const EdTextInput = ({
   onFocus,
   onBlur,
-  px = '1',
-  py = '10',
+  px = '11px',
+  py = '16px',
   padding = '11px 16px',
   ...props
 }: EdTextInputProps) => {
@@ -38,11 +38,14 @@ export const EdTextInput = ({
         isFullWidth={false}
         _focus={{borderColor: '#5ac0fc', backgroundColor: 'none'}}
         _invalid={{borderWidth: '1'}}
-        _input={{w: '1/2', flex: 0}}
+        // _input={{w: '1/2', flex: 0}}
+        // _input={{w: '1/2', flex: 0}}
         isFocused={focused}
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}
         padding={padding}
+        px={px}
+        py={py}
       />
     </>
   );

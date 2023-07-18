@@ -1,13 +1,18 @@
+import {useDatabase} from '@nozbe/watermelondb/hooks';
 import {useRoute} from '@react-navigation/native';
 import {Spacer} from 'components/Spacer/Spacer';
 import {Table} from 'components/Table/Table';
 import {Typography} from 'components/Typography/Typography';
 import {VStack, Flex, HStack} from 'native-base';
+import {useObservableState} from 'observable-hooks';
 import React from 'react';
 import {ScrollView, Text, View} from 'react-native';
+import {getCourse} from 'src/database/data/classrooms.data';
 import {getFontSize} from 'src/theme/getFontSize';
 import styled from 'styled-components/native';
-
+import {first, flatMap, take} from 'rxjs/operators';
+import CourseModel from 'src/database/models/Course';
+import {CourseHeader} from 'components/CourseHeader/CourseHeader';
 const students = [
   {name: 'Naasddddddddddddddddddme'},
   {name: 'Ismail'},
@@ -25,11 +30,7 @@ export const ClassroomScreen = () => {
           width: '100%',
           // backgroundColor: 'red',
         }}>
-        <Spacer my={5}>
-          <Typography fontWeight={'bold'}>
-            Classroom Name : Lecture {params?.classroom_id}
-          </Typography>
-        </Spacer>
+        <CourseHeader />
 
         <VStack space="6px" mb="32px">
           <InfoCard backgroundColor={'primary.main'}>
@@ -102,7 +103,7 @@ export const ClassroomScreen = () => {
           </HStack>
         </VStack>
 
-        <Table
+        {/* <Table
           columns={['head 1', 'head 2', 'head 3', 'head 4', 'head 5', 'head 6']}
           data={students}>
           {({TableCell, TableRow, item, index}) => (
@@ -117,7 +118,7 @@ export const ClassroomScreen = () => {
               </TableCell>
             </TableRow>
           )}
-        </Table>
+        </Table> */}
       </View>
     </ScrollView>
   );

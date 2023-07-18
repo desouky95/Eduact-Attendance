@@ -32,10 +32,10 @@ export const Router = () => {
         // initialRouteName={!isLogged ? 'Login' : 'HomeRoot'}
       >
         {!isLogged && <Stack.Screen name="Login" component={LoginScreen} />}
-        <Stack.Screen name="Downloading" component={DownloadingScreen} />
-        {/* {!db_setup_finished && (
-        )} */}
-        {/* {isLogged && db_setup_finished && (
+        {isLogged && !db_setup_finished && (
+          <Stack.Screen name="Downloading" component={DownloadingScreen} />
+        )}
+        {isLogged && db_setup_finished && (
           <Stack.Screen
             name="HomeRoot"
             component={HomeRoot}
@@ -43,7 +43,7 @@ export const Router = () => {
               headerShown: false,
             }}
           />
-        )} */}
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,25 +1,25 @@
 import {appSchema, tableSchema} from '@nozbe/watermelondb';
+import {classroomSchema} from './schemas/classroom.schema';
+import {courseSchema} from './schemas/course.schema';
+import {userSchema} from './schemas/user.schema';
+import {studentSchema} from './schemas/student.schema';
+import {centerAttendanceSchema} from './schemas/centerAttendance.schema';
+import {instructorCodeSchema} from './schemas/instructorCode.schema';
+import {unitSchema} from './schemas/unit.schema';
+import {testSchema} from './schemas/test.schema';
+import { referenceSchema } from './schemas/reference.schema';
 
 export default appSchema({
-  version: 2,
+  version: 6,
   tables: [
-    tableSchema({
-      name: 'classrooms',
-      columns: [
-        {name: 'sid', type: 'number', isIndexed: true},
-        {name: 'title', type: 'string'},
-        {name: 'label', type: 'string'},
-      ],
-    }),
-    tableSchema({
-      name: 'courses',
-      columns: [
-        {name: 'sid', type: 'number', isIndexed: true},
-        {name: 'classroom_id', type: 'number'},
-        {name: 'section_id', type: 'number'},
-        {name: 'name', type: 'string'},
-        {name: 'code', type: 'string'},
-      ],
-    }),
+    classroomSchema,
+    courseSchema,
+    userSchema,
+    studentSchema,
+    centerAttendanceSchema,
+    instructorCodeSchema,
+    unitSchema,
+    testSchema,
+    referenceSchema
   ],
 });

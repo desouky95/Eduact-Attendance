@@ -1,83 +1,91 @@
 import {Spacer} from 'components/Spacer/Spacer';
 import {Typography} from 'components/Typography/Typography';
-import {Flex} from 'native-base';
-import {Center, Progress} from 'native-base';
-import React, {useEffect, useState} from 'react';
+import {Button, Flex} from 'native-base';
+import {Center} from 'native-base';
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import {Text, View} from 'react-native';
-import {apiConfig} from 'src/api/api';
-import {getClassrooms} from 'src/api/classroom/classroom.api';
-import sync from 'src/database/sync';
-import {useDatabase} from '@nozbe/watermelondb/hooks';
 import {useAppDispatch, useAppSelector} from 'src/store';
-import {setupClassrooms} from 'src/database/actions/classroom.db.action';
-import {AxiosProgressEvent} from 'axios';
 import {actionsMap} from 'src/database/actions/actions.map';
 import {
   Step,
   completeDBSetup,
   completeStep,
 } from 'src/store/databaseSetupReducer/databaseSetupReducer';
-
-export const DownloadingScreen = () => {
-  const [value, setValue] = useState(0);
-  const [current, setCurrent] = useState('');
-  const [total, setTotal] = useState('');
-
+import {DownloadAction} from './components/DownloadAction';
+import {Spinner} from 'native-base';
+import {WithProgressArgs} from 'src/api/api';
+const DownloadingScreenUI = () => {
   const [finishSetup, setFinishSetup] = useState(false);
+  const [startSetup, setStartSetup] = useState(false);
   const dispatch = useAppDispatch();
   const {steps} = useAppSelector(s => s.db);
+
+  const [actionsToProcess, setActionsToProcess] = useState<
+    {key: string; action: (args?: WithProgressArgs) => Promise<any>}[]
+  >([]);
+  const setupDatabase = useCallback(() => {
+    Object.entries(actionsMap).forEach(([key, action]) => {
+      if (!steps[key as Step]) {
+        setActionsToProcess(prev => [...prev, {key, action}]);
+      }
+    });
+    setStartSetup(true);
+  }, [steps]);
+
   useEffect(() => {
     setupDatabase();
-  }, []);
+  }, [setupDatabase]);
 
-  const handleDownloadProgress = (event: AxiosProgressEvent) => {
-    console.log(event);
-    // const total =
-    // event.event.target.responseHeaders['content-length']; // total
-    const total = event.total ?? 1;
-    // const current = event.event.target.response.length;
-    const current = event.loaded;
-    let percentCompleted = Math.floor(event.progress! * 100);
-    const totalInMb = (total / (1024 * 1024)).toFixed(2);
-    const currentInMb = (total / (1024 * 1024)).toFixed(2);
-    setValue(percentCompleted);
-    setTotal(totalInMb);
-    setCurrent(currentInMb);
-  };
-  const setupDatabase = async () => {
-    try {
-      console.log('SETUP DATABASE');
-      Object.entries(actionsMap).map(async ([key, action]) => {
-        if (!steps[key as Step])
-          await action({
-            onDownloadProgress: handleDownloadProgress,
+  useEffect(() => {
+    if (!startSetup) return;
+    const processActions = async () => {
+      await Promise.all(
+        actionsToProcess.map(async ({action, key}) => {
+          return action().then(() => {
+            dispatch(completeStep(key as Step));
           });
-        dispatch(completeStep(key as Step));
+        }),
+      );
+    };
+    if (startSetup) {
+      processActions().then(() => {
+        setFinishSetup(true);
       });
-      setFinishSetup(true)
-    } catch (error) {}
+    }
+  }, [startSetup]);
+
+  const handleGettingStarted = () => {
+    dispatch(completeDBSetup());
   };
 
   useEffect(() => {
-    if (finishSetup) {
-      dispatch(completeDBSetup());
-    }
-  }, [finishSetup]);
+    if (Object.values(steps).some(_ => _ === false)) return;
+    setFinishSetup(true);
+  }, [steps]);
+
   return (
     <View style={{flex: 1}}>
-      <Center flex="1" alignItems="center">
-        <Flex my="10" alignItems="flex-end">
-          <Progress w="200" value={value} max={100} colorScheme="error" />
-          <Spacer mb="2" />
-          <Typography fontWeight={'bold'}>
-            {current} mb of {total} mb
-          </Typography>
-        </Flex>
-        <Text>
-          Setting up app... Almost there! We're preparing everything for you.
-          Thank you for your patience.
-        </Text>
+      <Center flex="1" alignItems="center" backgroundColor={'gray.200'}>
+        {!finishSetup && (
+          <>
+            <Spinner size={'lg'} />
+            <Text>
+              Setting up app... Almost there! We're preparing everything for
+              you. Thank you for your patience.
+            </Text>
+          </>
+        )}
+        {finishSetup && (
+          <>
+            <Text>Setup finished</Text>
+            <Flex my="10" alignItems="flex-end">
+              <Button onPress={() => handleGettingStarted()}>Start</Button>
+            </Flex>
+          </>
+        )}
       </Center>
     </View>
   );
 };
+
+export const DownloadingScreen = React.memo(DownloadingScreenUI);

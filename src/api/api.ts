@@ -1,6 +1,8 @@
 import axios, {AxiosProgressEvent, InternalAxiosRequestConfig} from 'axios';
 import {BASE_URL} from '@env';
 import {Store} from 'src/store';
+import {logout} from 'src/store/authReducer/authReducer';
+import {wipeSetup} from 'src/store/databaseSetupReducer/databaseSetupReducer';
 
 let store: Store;
 
@@ -55,19 +57,23 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   async response => {
-    console.log(
-      `%c ${response?.status} - ${getUrl(response.config)}:`,
-      'color: #008000; font-weight: bold',
-      response,
-    );
+    // console.log(
+    //   `%c ${response?.status} - ${getUrl(response.config)}:`,
+    //   'color: #008000; font-weight: bold',
+    //   response,
+    // );
     return response;
   },
   error => {
-    console.log(
-      `%c ${error.response?.status} - ${getUrl(error.response?.config)}:`,
-      'color: #a71d5d; font-weight: bold',
-      error.response,
-    );
+    if (error.response.status === 401) {
+      store.dispatch(logout());
+      store.dispatch(wipeSetup());
+    }
+    // console.log(
+    //   `%c ${error.response?.status} - ${getUrl(error.response?.config)}:`,
+    //   'color: #a71d5d; font-weight: bold',
+    //   error.response,
+    // );
     return Promise.reject(error);
   },
 );

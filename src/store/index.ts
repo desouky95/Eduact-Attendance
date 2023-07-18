@@ -3,6 +3,7 @@ import authReducer from './authReducer/authReducer';
 import {persistStore} from 'redux-persist';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import {persistedReducer} from './persistor/persistor';
+import courseReducer from './courseReducer/courseReducer';
 
 export const store = configureStore({
   reducer: persistedReducer,
@@ -10,7 +11,7 @@ export const store = configureStore({
     getDefaultMiddleware({serializableCheck: false}),
 });
 
-export type Store = typeof store
+export type Store = typeof store;
 
 export const persistor = persistStore(store);
 

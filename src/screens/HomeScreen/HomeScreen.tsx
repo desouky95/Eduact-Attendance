@@ -12,6 +12,8 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import {getClassrooms} from 'src/api/classroom/classroom.api';
+import {getStudents} from 'src/api/students/students.api';
 import {database} from 'src/database';
 import {persistor, useAppDispatch, useAppSelector} from 'src/store';
 import {logout} from 'src/store/authReducer/authReducer';
@@ -21,11 +23,17 @@ import styled from 'styled-components/native';
 export const HomeScreen = () => {
   const navigation = useNavigation<RootProps>();
   const dispatch = useAppDispatch();
+  getStudents();
+  getClassrooms();
   const handleLogout = async () => {
     try {
       // await database.unsafeResetDatabase();
       dispatch(logout());
       dispatch(wipeSetup());
+
+      database.write(async () => {
+        await database.unsafeResetDatabase();
+      });
       persistor.flush().then(() => {
         return persistor.purge();
       });
@@ -50,7 +58,7 @@ export const HomeScreen = () => {
             <Spacer
               px={26}
               height={'100%'}
-              style={{justifyContent: 'center', alignItems: 'center', gap: 34}}>
+              style={{justifyContent: 'center', alignItems: 'center',display : 'flex',gap : 30}}>
               <PaperButton
                 onPress={() => handleClassrooms('Classrooms')}
                 activeOpacity={0.9}

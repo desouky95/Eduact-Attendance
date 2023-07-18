@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useAccordion} from './AccordionProvider';
 
 export const AccordionSummary = ({children}: PropsWithChildren) => {
-  const {setExpanded, expanded} = useAccordion();
+  const {setExpanded, expanded , disabled} = useAccordion();
   return (
     <TouchableOpacity
       activeOpacity={0.9}
@@ -23,6 +23,7 @@ export const AccordionSummary = ({children}: PropsWithChildren) => {
         borderRadius: 5,
         flexDirection: 'row',
         alignItems: 'center',
+        opacity : disabled ? 0.5 : 1
       }}>
       <View style={{flex: 1, width: '100%'}}>{children}</View>
       <Icon

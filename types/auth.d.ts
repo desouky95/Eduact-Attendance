@@ -16,4 +16,13 @@ declare type User = {
   last_name: string;
   parent_id: number | null;
   username: string;
+  id: number;
+  uuid: string;
+  phone_number: string;
+  middle_name: string | null;
+  gender: 'female' | 'male';
+  profile_photo: string;
+  birth_date: Date;
+  email_verified: boolean;
+  phone_verified: boolean;
 };

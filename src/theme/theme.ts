@@ -34,6 +34,7 @@ export const theme = extendTheme({
       backgroundColor: '#50bcfc',
     },
   },
+
   components: {
     Snackbar: {
       variants: {
@@ -68,4 +69,3 @@ declare module 'native-base' {
 declare module 'styled-components' {
   interface DefaultTheme extends CustomThemeType {}
 }
-
