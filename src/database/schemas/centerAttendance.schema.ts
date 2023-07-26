@@ -5,14 +5,14 @@ export const centerAttendanceSchema = tableSchema({
   columns: [
     {
       name: 'sid',
-      isIndexed: true,
+      isOptional: true,
       type: 'number',
     },
-    {name: 'studentId', type: 'number'},
-    {name: 'classroomId', type: 'number'},
-    {name: 'courseId', type: 'number'},
-    {name: 'homeworkId', type: 'number'},
-    {name: 'quizId', type: 'number'},
+    {name: 'studentId', type: 'string'},
+    {name: 'classroomId', type: 'string'},
+    {name: 'courseId', type: 'string'},
+    {name: 'homeworkId', type: 'string'},
+    {name: 'quizId', type: 'string'},
     {name: 'type', type: 'string'},
   ],
 });

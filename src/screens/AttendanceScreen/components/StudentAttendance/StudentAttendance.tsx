@@ -1,53 +1,79 @@
 import {Q} from '@nozbe/watermelondb';
 import {Typography} from 'components/Typography/Typography';
-import {Avatar, Center, VStack} from 'native-base';
-import React, {useEffect} from 'react';
+import {Avatar, Center, VStack, Skeleton} from 'native-base';
+import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 import {firstValueFrom, mergeMap} from 'rxjs';
-import {getStudentAttendance} from 'src/database/data/classrooms.data';
+import {
+  checkStudentHasAttendance,
+  getStudentAttendance,
+} from 'src/database/data/attendance.data';
+import CenterAttendanceModel from 'src/database/models/CenterAttendanceModel';
 import UserModel from 'src/database/models/UserModel';
 import {useAppSelector} from 'src/store';
+import {AttendanceCard} from '../AttendanceCard/AttendanceCard';
 
-export const StudentAttendance = ({user}: {user: UserModel}) => {
+type Props = {
+  toggleSearch: boolean;
+  user: UserModel;
+  onSearchSuccess: () => void;
+};
+export const StudentAttendance = ({user, toggleSearch,onSearchSuccess}: Props) => {
   const course = useAppSelector(s => s.course.current);
 
-  useEffect(() => {
-    const processAttendance = async () => {
-      if (!course) return;
-      const student = await user.student;
-      console.log(user.student);
-      user.student.observe().subscribe(value => {
-        console.log({value});
-      });
-      // const student = await firstValueFrom(
-      //   user.student
-      //     .extend(Q.take(1))
-      //     .observe()
-      //     .pipe(mergeMap(s => s)),
-      // );
-      // const attendance = await getStudentAttendance(course?.sid, student.sid);
-    };
+  const [isLoading, setIsLoading] = useState(true);
+  const [processedAttendance, setProcessedAttendance] = useState(false);
 
-    processAttendance();
-  }, []);
+  const [attendances, setAttendances] = useState<CenterAttendanceModel[]>([]);
+  useEffect(() => {
+    if (!course) return;
+    if (!toggleSearch) return;
+    setIsLoading(true);
+    setProcessedAttendance(false);
+    checkStudentHasAttendance(user.sid, course.sid).then(() => {
+      setProcessedAttendance(true);
+      onSearchSuccess()
+      console.log('isLoading', isLoading);
+      console.log('processedAttendance', processedAttendance);
+    });
+  }, [toggleSearch, user.username]);
+
+  useEffect(() => {
+    if (!processedAttendance || !course) return;
+
+    const subscription = getStudentAttendance(
+      course.classroom_id,
+      user.sid,
+    ).subscribe(value => {
+      setAttendances(value);
+      setIsLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [processedAttendance]);
   return (
-    <View>
-      <Center>
-        <VStack alignItems="center" space={'6px'}>
-          <Avatar
-            bg={'yellow.500'}
-            size="lg"
-            source={{uri: user.profile_photo}}>
-            {user.first_name[0]} {user.last_name[0]}
-          </Avatar>
-          <Typography fontSize={'14px'} fontWeight={'bold'}>
-            {user.username}
-          </Typography>
-          <Typography fontSize="12px" fontWeight="600">
-            {user.first_name} {user.last_name}
-          </Typography>
-        </VStack>
-      </Center>
+    <View style={{width : '100%'}}>
+      {!isLoading && (
+        <Center width="100%" px="2">
+          <VStack alignItems="center" space={'6px'} mb="5px">
+            <Avatar
+              bg={'yellow.500'}
+              size="lg"
+              source={{uri: user.profile_photo}}>
+              {user.first_name[0]} {user.last_name[0]}
+            </Avatar>
+            <Typography fontSize={'14px'} fontWeight={'bold'}>
+              {user.username}
+            </Typography>
+            <Typography fontSize="12px" fontWeight="600">
+              {user.first_name} {user.last_name}
+            </Typography>
+          </VStack>
+          {attendances.map(attendance => (
+            <AttendanceCard key={attendance.id} attendance={attendance} />
+          ))}
+        </Center>
+      )}
     </View>
   );
 };

@@ -11,45 +11,75 @@ import StudentModel from '../models/StudentModel';
 export const setupStudents = async (withProgress?: WithProgressArgs) => {
   try {
     const {data} = await getStudents(withProgress);
-    const query = database.get<InstructorCodeModel>('instructor_codes');
+    const query = database.collections.get<InstructorCodeModel>(
+      InstructorCodeModel.table,
+    );
     const userQuery = database.get<UserModel>('users');
     const studentQuery = database.get<StudentModel>('students');
-    const batchActions: boolean | void | Model | Model[] | null = [];
+    let batchActions: Model | Model[] = [];
 
-    for (let index = 0; index < data.data.length; index++) {
-      const studentWithinCode = data.data[index];
-      const student = data.data[index].student;
-      const code = query.prepareCreate(builder => {
-        builder.sid = studentWithinCode.id;
-        builder.code = studentWithinCode.code;
-        builder.group_name = studentWithinCode.group_name;
-        builder.instructor_id = studentWithinCode.instructor_id;
-        builder.student_id = studentWithinCode.student_id;
-      });
-      batchActions.push(code);
+    const codes = data.data;
+    const students = data.data.map(_ => _.student).flat(1);
+    const users = data.data.map(_ => _.student.user).flat(1);
+
+    for (let index = 0; index < users.length; index++) {
+      const toBeCreatedUser = users[index];
       const user = userQuery.prepareCreate(builder => {
-        builder.sid = student.user.id;
-        builder.first_name = student.user.first_name;
-        builder.last_name = student.user.last_name;
-        builder.middle_name = student.user.middle_name!;
-        builder.username = student.user.username;
-        builder.email = student.user.email;
-        builder.phone_number = student.user.phone_number;
-        builder.phone_verified = student.user.phone_verified;
-        builder.profile_photo = student.user.profile_photo;
-        builder.gender = student.user.gender;
-        builder.birth_date = student.user.birth_date;
+        builder._raw.id = toBeCreatedUser.id.toString();
+        builder.sid = toBeCreatedUser.id;
+        builder.first_name = toBeCreatedUser.first_name;
+        builder.last_name = toBeCreatedUser.last_name;
+        builder.middle_name = toBeCreatedUser.middle_name!;
+        builder.username = toBeCreatedUser.username;
+        builder.email = toBeCreatedUser.email;
+        builder.phone_number = toBeCreatedUser.phone_number;
+        builder.phone_verified = toBeCreatedUser.phone_verified;
+        builder.profile_photo = toBeCreatedUser.profile_photo;
+        builder.gender = toBeCreatedUser.gender;
+        builder.birth_date = toBeCreatedUser.birth_date;
+        builder._raw._status = 'synced';
+
       });
       batchActions.push(user);
+    }
+    await database.write(async ({}) => {
+      await database.batch(batchActions);
+    });
+    batchActions = [];
+
+    for (let index = 0; index < students.length; index++) {
+      const student = students[index];
+
       const createdStudent = studentQuery.prepareCreate(builder => {
-        builder.sid = student.user.id;
+        builder._raw.id = student.user_id.toString();
+        builder.sid = student.user_id;
         builder.user_id = student.user_id;
         builder.parent_phone = student.parent_phone;
         builder.parent_relation = student.parent_relation;
         builder.ssn = student.ssn!;
+        builder._raw._status = 'synced';
+
       });
       batchActions.push(createdStudent);
     }
+    await database.write(async ({}) => {
+      await database.batch(batchActions);
+    });
+    batchActions = [];
+    for (let index = 0; index < codes.length; index++) {
+      const toBeCreatedCode = {...codes[index]};
+      const code = query.prepareCreate(builder => {
+        builder._raw.id = toBeCreatedCode.id.toString();
+        builder._setRaw('student_id', toBeCreatedCode.student.user_id);
+        builder.sid = toBeCreatedCode.id;
+        builder.code = toBeCreatedCode.code;
+        builder.group_name = toBeCreatedCode.group_name;
+        builder.instructor_id = toBeCreatedCode.instructor_id;
+        builder._raw._status = 'synced';
+      });
+      batchActions.push(code);
+    }
+
     await database.write(async ({}) => {
       await database.batch(batchActions);
     });

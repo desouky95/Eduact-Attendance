@@ -17,7 +17,7 @@ export default class InstructorCodeModel extends Model {
   static table: string = 'instructor_codes';
 
   static associations: Associations = {
-    student: {type: 'belongs_to', key: 'student_id'},
+    students: {type: 'belongs_to', key: 'student_id'},
   };
 
   @relation('students', 'studentId') student!: Query<StudentModel>;

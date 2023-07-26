@@ -7,10 +7,14 @@ import CourseModel from '../models/Course';
 import {Model} from '@nozbe/watermelondb';
 import TestModel from '../models/TestModel';
 import UnitModel from '../models/UnitModel';
+import {getGroups} from 'src/api/classroom/group.api';
+import GroupModel from '../models/GroupModel';
+import {sanitizedRaw} from '@nozbe/watermelondb/RawRecord';
 
 export const setupClassrooms = async (withProgress?: WithProgressArgs) => {
   try {
     const {data} = await getClassrooms(withProgress);
+    const groupsResponse = await getGroups(withProgress);
     const classrooms = data.data;
     const courses = classrooms.map(c => c.courses).flat(1);
     const units = courses.map(c => c.units).flat(1);
@@ -19,12 +23,14 @@ export const setupClassrooms = async (withProgress?: WithProgressArgs) => {
     const coursesQuery = database.get<CourseModel>('courses');
     const unitsQuery = database.collections.get<UnitModel>('units');
     const testsQuery = database.collections.get<TestModel>('tests');
-    
+    const groupsQuery = database.collections.get<GroupModel>(GroupModel.table);
+
     const batchActions: boolean | void | Model | Model[] | null = [];
     for (let index = 0; index < classrooms.length; index++) {
       const classroom = classrooms[index];
       batchActions.push(
         classroomsQuery.prepareCreate(_classroom => {
+          _classroom._raw.id = classroom.id.toString();
           _classroom.sid = classroom.id;
           _classroom.title = classroom.title;
           _classroom.code = classroom.code;
@@ -41,8 +47,9 @@ export const setupClassrooms = async (withProgress?: WithProgressArgs) => {
           _classroom.status = classroom.status;
           _classroom.sub_type = classroom.sub_type;
           _classroom.thumbnail = classroom.thumbnail;
-          _classroom.type = classroom.type;
+          // _classroom.type = classroom.type;
           _classroom.weight = classroom.weight;
+          _classroom._raw._status = 'synced';
         }),
       );
     }
@@ -51,6 +58,7 @@ export const setupClassrooms = async (withProgress?: WithProgressArgs) => {
       const course = courses[index];
       batchActions.push(
         coursesQuery.prepareCreate(_course => {
+          _course._raw.id = course.id.toString();
           _course.sid = course.id;
           _course.code = course.code;
           _course.classroom_id = course.classroom_id;
@@ -64,33 +72,54 @@ export const setupClassrooms = async (withProgress?: WithProgressArgs) => {
           _course.price = course.price;
           _course.section_id = course.section_id;
           _course.thumbnail = course.thumbnail!;
+          _course._raw._status = 'synced';
         }),
       );
     }
 
-    debugger;
     for (let index = 0; index < units.length; index++) {
       const unit = units[index];
-      const test = unit.test
+      const test = unit.test;
       batchActions.push(
         unitsQuery.prepareCreate(builder => {
           builder.sid = unit.id;
-          builder.course_id = unit.course_id;
+          builder._raw.id = unit.id.toString();
+          builder.course_id = unit.course_id.toString();
+          builder._raw._status = 'synced';
         }),
       );
       batchActions.push(
         testsQuery.prepareCreate(builder => {
+          builder._raw.id = test.id.toString();
           builder.sid = test.id;
-          builder.unit_id = test.unit_id;
+          builder.unit_id = test.unit_id.toString();
           builder.overall_score = test.overall_score;
           builder.passing_unit = test.passing_unit;
           builder.passing_value = test.passing_value;
           builder.title = test.title;
           builder.uuid = test.uuid;
+          builder._raw._status = 'synced';
         }),
       );
     }
-   
+
+    for (let index = 0; index < groupsResponse.data.data.length; index++) {
+      const group = groupsResponse.data.data[index];
+      batchActions.push(
+        groupsQuery.prepareCreate(builder => {
+          builder._raw = sanitizedRaw(
+            {
+              id: group.id.toString(),
+              sid: group.id,
+              name: group.name,
+              code: group.code,
+              classroom_id: group.classroom_id.toString(),
+            },
+            groupsQuery.schema,
+          );
+        }),
+      );
+    }
 
     await database.write(async () => {
       await database.batch(batchActions);

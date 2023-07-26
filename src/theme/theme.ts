@@ -1,4 +1,6 @@
-import {extendTheme} from 'native-base';
+import {ICustomTheme, extendTheme} from 'native-base';
+import {parseToRgb, toColorString} from 'polished';
+import {css} from 'styled-components';
 
 export const theme = extendTheme({
   colors: {
@@ -29,6 +31,7 @@ export const theme = extendTheme({
       main: '#36354b',
     },
   },
+
   backgrounds: {
     primary: {
       backgroundColor: '#50bcfc',
@@ -36,18 +39,30 @@ export const theme = extendTheme({
   },
 
   components: {
+    Button: {
+      variants: {
+        outline: ({colorScheme}) => {
+          return {
+            borderColor: `${colorScheme}.300`,
+            _text : {
+              color : `${colorScheme}.300`
+            }
+          };
+        },
+      },
+    },
     Snackbar: {
       variants: {
         success: {
-          background: '#16a34a',
+          backgroundColor: '#16a34a',
           color: '#FFF',
         },
         error: {
-          background: '#dc2626',
+          backgroundColor: '#dc2626',
           color: '#FFF',
         },
         warning: {
-          background: '#ea580c',
+          backgroundColor: '#ea580c',
           color: '#FFF',
         },
         normal: {
@@ -61,9 +76,30 @@ export const theme = extendTheme({
 
 export type CustomThemeType = typeof theme;
 
+export type ColorSchemaVariant = NonNullable<
+  Exclude<keyof ICustomTheme['colors'], 'contrastThreshold'>
+>;
+export const backgroundVariant = ({
+  variant,
+  density = 600,
+}: {
+  variant: string;
+  density?: keyof ICustomTheme['colors']['amber'];
+}) => {
+  return (props: any) => {
+    const theme = props.theme as ICustomTheme;
+    const color =
+      (theme.colors as any)[props[variant]]?.[density] ??
+      (theme.colors as any)[props[variant]];
+    return css`
+      background-color: ${color};
+    `;
+  };
+};
+
 // 3. Extend the internal NativeBase Theme
 declare module 'native-base' {
-  interface ICustomTheme extends CustomThemeType {}
+  export interface ICustomTheme extends CustomThemeType {}
 }
 
 declare module 'styled-components' {

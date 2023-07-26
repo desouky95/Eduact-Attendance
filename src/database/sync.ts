@@ -1,35 +1,105 @@
-import {synchronize} from '@nozbe/watermelondb/sync';
+import {SyncPullResult, synchronize} from '@nozbe/watermelondb/sync';
 import {WithProgressArgs, api} from 'src/api/api';
 import {database} from '.';
-// your_local_machine_ip_address usually looks like 192.168.0.x
-// on *nix system, you would find it out by running the ifconfig command
-// const SYNC_API_URL = 'http://<your_local_machine_ip_address>:3333/sync';
-export default async function sync(args?: WithProgressArgs) {
-  console.log('SYNC');
+import {Database} from '@nozbe/watermelondb';
+import {SyncChangesAdapter} from './SyncAdapter/SyncChangesAdapter';
+import {store} from 'src/store';
+import CenterAttendanceModel from './models/CenterAttendanceModel';
+import EnrolledCourseModel from './models/EnrolledCourseModel';
+import EnrolledClassroomModel from './models/EnrolledClassroomModel';
+// import {database} from '.';
+
+export default async function sync(database: Database) {
+  const syncAdapter = new SyncChangesAdapter();
+
   await synchronize({
     database,
-    pullChanges: async ({lastPulledAt}) => {
+    pullChanges: async ({lastPulledAt, migration, schemaVersion}) => {
       try {
-        const response = await api.get('sync', {
-          data: JSON.stringify(lastPulledAt),
-          onDownloadProgress: args?.onDownloadProgress,
-        });
+        const firstDownloadTimeStamp =
+          store.getState().db.db_first_download_timestamp;
+        const last_pulled_at = lastPulledAt ?? firstDownloadTimeStamp;
+        const urlParams = `last_pulled_at=${last_pulled_at}&schema_version=${schemaVersion}&migration=${encodeURIComponent(
+          JSON.stringify(migration),
+        )}`;
+
+        const response = await api.get(`sync?${urlParams}`);
 
         const {changes, timestamp} = response.data;
-        return {changes, timestamp};
-      } catch (error) {
-        throw new Error(error);
+        const {classrooms, courses, units, tests, users, students} =
+          await syncAdapter.toLocal(changes);
+
+        // const center_attendences =
+        //   await syncAdapter.toCreatedLocal<CenterAttendanceModel>(
+        //     'center_attendences',
+        //     changes.center_attendences,
+        //     ['studentId', 'classroomId', 'courseId'],
+        //   );
+
+        // const enroll_courses =
+        //   await syncAdapter.toCreatedLocal<EnrolledCourseModel>(
+        //     'enroll_courses',
+        //     changes.enroll_courses,
+        //     ['user_id', 'course_id'],
+        //   );
+        // const enroll_classrooms =
+        //   await syncAdapter.toCreatedLocal<EnrolledClassroomModel>(
+        //     'enroll_classrooms',
+        //     changes.enroll_courses,
+        //     ['user_id', 'classroom_id'],
+        //   );
+
+        // require('@nozbe/watermelondb/sync/debugPrintChanges').default(
+        //   changes,
+        //   false,
+        // );
+        return {
+          changes: {
+            classrooms,
+            courses,
+            units,
+            tests,
+            users,
+            students,
+            // center_attendences,
+            // enroll_courses,
+            // enroll_classrooms,
+          },
+          timestamp,
+        };
+      } catch (error: any) {
+        throw new Error(error['message']);
       }
     },
     pushChanges: async ({changes, lastPulledAt}) => {
       try {
+        require('@nozbe/watermelondb/sync/debugPrintChanges').default(
+          changes,
+          true,
+        );
+        const {enroll_courses , enroll_classrooms , center_attendences} = changes
+        // let mappedChanges = await syncAdapter.toRemote(changes);
+        // console.log('PUSHING CHANGES', mappedChanges);
         const response = await api.post(
           `sync?lastPulledAt=${lastPulledAt}`,
-          JSON.stringify(changes),
+          {enroll_classrooms,enroll_courses,center_attendences},
         );
-      } catch (error) {
-        throw new Error(error);
+      } catch (error: any) {
+        throw new Error(error['message']);
       }
+    },
+    migrationsEnabledAtVersion: 6,
+    log: {localChangeCount: 1, error: {message: '', name: ''}},
+    // conflictResolver: (table, local, remote, resolved) => {
+    //   debugger;
+    //   return {};
+    // },
+    // sendCreatedAsUpdated: true,
+    async onWillApplyRemoteChanges(info) {
+      console.log('Remote Changes', info);
+    },
+    async onDidPullChanges(_) {
+      console.log(_);
     },
   });
 }

@@ -44,7 +44,7 @@ export const CoursePanel = ({course}: {course: CourseModel}) => {
           }}
         />
         <Typography fontWeight={'bold'} color="#000">
-          {course.code}
+          {course.name}
         </Typography>
       </View>
     </TouchableOpacity>

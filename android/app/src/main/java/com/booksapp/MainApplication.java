@@ -50,35 +50,7 @@ public class MainApplication extends Application implements ReactApplication {
     return mReactNativeHost;
   }
 
-  // private static void initializeFlipper(
-  //   Context context,
-  //   ReactInstanceManager reactInstanceManager
-  // ) {
-  //   if (BuildConfig.DEBUG) {
-  //     try {
-  //       /*
-  //        We use reflection here to pick up the class that initializes
-  //        Flipper, since Flipper library is not available in release mode
-  //       */
-  //       Class<?> aClass = Class.forName("com.example.ReactNativeFlipper");
-  //       aClass
-  //         .getMethod(
-  //           "initializeFlipper",
-  //           Context.class,
-  //           ReactInstanceManager.class
-  //         )
-  //         .invoke(null, context, reactInstanceManager);
-  //     } catch (ClassNotFoundException e) {
-  //       e.printStackTrace();
-  //     } catch (NoSuchMethodException e) {
-  //       e.printStackTrace();
-  //     } catch (IllegalAccessException e) {
-  //       e.printStackTrace();
-  //     } catch (InvocationTargetException e) {
-  //       e.printStackTrace();
-  //     }
-  //   }
-  // }
+ 
 
   @Override
   public void onCreate() {

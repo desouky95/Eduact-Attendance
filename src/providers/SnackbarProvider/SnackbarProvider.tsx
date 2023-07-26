@@ -1,26 +1,23 @@
 import {Snackbar, SnackbarVariant} from 'components/Snackbar/Snackbar';
-import {Center} from 'native-base';
-import React, {
+import {
   PropsWithChildren,
-  createContext,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
+  useCallback,
   useRef,
   useState,
+  createContext,
 } from 'react';
 import {
-  Animated,
-  Button,
-  KeyboardAvoidingView,
-  useWindowDimensions,
-  Platform,
-  View,
   LayoutChangeEvent,
   LayoutRectangle,
+  useWindowDimensions,
 } from 'react-native';
-import {Easing} from 'react-native-reanimated';
-import {MotiView, AnimatePresence} from 'moti';
+import {Box} from 'native-base';
+import Animated, {
+  Easing,
+  runOnJS,
+  useAnimatedStyle,
+  withTiming,
+} from 'react-native-reanimated';
 
 type Measurements = {
   left: number;
@@ -32,85 +29,108 @@ type OpenSnackbarConfig = {
   variant?: SnackbarVariant;
   message?: string;
   duration?: number;
+  autoClose?: boolean;
 };
 
 type SnackbarContextArgs = {
   openSnackbar: (config: OpenSnackbarConfig) => void;
+  closeSnackbar: () => void;
 };
 
 export const SnackbarContext = createContext<SnackbarContextArgs | null>(null);
 
 export const SnackbarProvider = ({children}: PropsWithChildren) => {
   const [open, setOpen] = useState(false);
+  const [variant, setVariant] = useState<SnackbarVariant>('dark');
   const [message, setMessage] = useState('');
-  const [variant, setVariant] = useState<SnackbarVariant>('normal');
 
-  const [measure, setMeasure] = useState<LayoutRectangle | null>(null);
+  const measure = useRef<LayoutRectangle | null>(null);
+  const {height} = useWindowDimensions();
 
-  const fadeAnim = useRef(new Animated.Value(0));
-
-  const openSnackbar = ({
-    duration = 2000,
-    variant = 'normal',
-    message = '',
-  }: OpenSnackbarConfig) => {
-    setMessage(message);
-    setVariant(variant);
-    animate()(measure?.height, duration);
-    setOpen(true);
-    setTimeout(() => {
-      reset();
-    }, duration);
-  };
-
-  const animate = () => {
-    return (height: number = 60, duration: number = 2000) => {
-      Animated.timing(fadeAnim.current, {
-        toValue: (-1 * height) / 2,
-        useNativeDriver: true,
-        duration: 200,
-        easing: Easing.ease,
-      }).start();
-    };
-  };
-
-  const reset = () => {
-    Animated.timing(fadeAnim.current, {
-      toValue: measure?.height ?? 48,
-      useNativeDriver: true,
-      duration: 200,
-      easing: Easing.ease,
-    }).start(({finished}) => {
-      if (finished) {
-        setOpen(false);
+  const resetAnimation = useCallback(
+    (type: 'open' | 'close' = 'open') => {
+      if (type === 'close') {
+        setVariant('dark');
         setMessage('');
-        setVariant('normal');
+        return;
       }
-    });
+    },
+    [setOpen, setVariant, setMessage],
+  );
+  const onAnimationEnd = useCallback(
+    (type: 'open' | 'close', isFinished?: boolean) => {
+      if (isFinished && type == 'close') {
+        resetAnimation('close');
+      }
+    },
+    [resetAnimation],
+  );
+  const animatedValue = useAnimatedStyle(() => {
+    const measureY = measure.current?.height;
+    return {
+      transform: [
+        {
+          translateY: withTiming(
+            open ? 0 : measureY ?? 140,
+            {duration: 1000, easing: Easing.inOut(Easing.ease)},
+            cb => runOnJS(onAnimationEnd)(open ? 'open' : 'close', cb),
+          ),
+        },
+      ],
+    };
+  }, [open]);
+
+  const openSnackbar = useCallback(
+    (args: OpenSnackbarConfig) => {
+      const {
+        duration = 5000,
+        variant = 'dark',
+        message = '',
+        autoClose = false,
+      } = args;
+      setMessage(message);
+      setVariant(variant);
+      setOpen(true);
+
+      if (autoClose)
+        setTimeout(() => {
+          setOpen(false);
+        }, duration);
+    },
+    [setOpen, message, variant, setVariant, setMessage],
+  );
+
+  const closeSnackbar = () => {
+    setOpen(false);
   };
 
   return (
-    // <KeyboardAvoidingView
-    //   style={{flex: 1, width: '100%', position: 'absolute', bottom: 0}}
-    //   behavior={Platform.OS == 'ios' ? 'padding' : undefined}>
-    <SnackbarContext.Provider value={{openSnackbar: openSnackbar}}>
-      {children}
+    <SnackbarContext.Provider value={{openSnackbar, closeSnackbar}}>
       <Animated.View
+        onLayout={(e: LayoutChangeEvent) => {
+          measure.current = e.nativeEvent.layout;
+        }}
         style={[
-          {width: '100%', position: 'absolute', bottom: 0},
-          {transform: [{translateY: fadeAnim.current}]},
+          {
+            position: 'absolute',
+            flex: 1,
+            left: 0,
+            width: '100%',
+            bottom: 0,
+            zIndex: 100,
+          },
+          animatedValue,
         ]}>
-        <Center>
-          <View
-            onLayout={(e: LayoutChangeEvent) => {
-              setMeasure(e.nativeEvent.layout);
-              fadeAnim.current.setValue(e.nativeEvent.layout.height);
-            }}>
-            <Snackbar variant={variant} title={message} />
-          </View>
-        </Center>
+        {/* <Box backgroundColor="red.200" p="4" width={'100%'}> */}
+        <Box p="4" width={'100%'}>
+          <Snackbar
+            title={message}
+            variant={variant}
+            onDismiss={closeSnackbar}
+          />
+        </Box>
       </Animated.View>
+      {children}
     </SnackbarContext.Provider>
-    // </KeyboardAvoidingView>
   );
 };

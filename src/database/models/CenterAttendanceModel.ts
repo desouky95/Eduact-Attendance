@@ -10,25 +10,29 @@ import {
 import StudentModel from './StudentModel';
 import ClassroomModel from './Classroom';
 import CourseModel from './Course';
+import UserModel from './UserModel';
 
 export default class CenterAttendanceModel extends Model {
   static table: string = 'center_attendences';
 
   static associations: Associations = {
-    student: {type: 'belongs_to', key: 'studentId'},
-    classroom: {type: 'belongs_to', key: 'classroomId'},
-    course: {type: 'belongs_to', key: 'courseId'},
+    students: {type: 'belongs_to', key: 'studentId'},
+    users: {type: 'belongs_to', key: 'studentId'},
+    classrooms: {type: 'belongs_to', key: 'classroomId'},
+    courses: {type: 'belongs_to', key: 'courseId'},
+    enroll_classrooms: {type: 'belongs_to', key: 'classroomId'},
   };
 
   @relation('students', 'studentId') student!: Query<StudentModel>;
+  @relation('users', 'studentId') user!: Query<UserModel>;
   @relation('classrooms', 'classroomId') classroom!: Query<ClassroomModel>;
   @relation('courses', 'courseId') course!: Query<CourseModel>;
 
-  @field('sid') sid!: number;
-  @text('studentId') studentId!: number;
-  @text('classroomId') classroomId!: number;
-  @text('courseId') courseId!: number;
-  @text('homeworkId') homeworkId!: number;
-  @text('quizId') quizId!: number;
+  @field('sid') sid!: number | null;
+  @text('studentId') studentId!: string;
+  @text('classroomId') classroomId!: string;
+  @text('courseId') courseId!: string | null;
+  @text('homeworkId') homeworkId!: string | null;
+  @text('quizId') quizId!: string | null;
   @text('type') type!: string;
 }

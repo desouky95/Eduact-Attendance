@@ -28,30 +28,10 @@ export const searchStudents = (query: string) => {
     .get<UserModel>('users')
     .query(
       Q.or(
-        Q.where('phone_number', Q.like(`%${query}%`)),
-        Q.where('username', Q.like(`%${query}%`)),
+        Q.where('phone_number', Q.eq(query)),
+        Q.where('username', Q.eq(query)),
       ),
     );
   return _query;
 };
 
-export const getStudentAttendance = async (
-  course_id: number,
-  student_id: number,
-) => {
-  const observable = database.collections
-    .get<CourseModel>('courses')
-    .query(Q.where('sid', course_id), Q.take(1))
-    .observe()
-    .pipe(first());
-  const course = await firstValueFrom(
-    observable.pipe(mergeMap(s => s)).pipe(first()),
-  );
-
-  const _query = database.collections
-    .get<CenterAttendanceModel>('center_attendences')
-    .query(Q.where('classroom_id', course.classroom_id));
-
-  const __query = _query.extend(Q.where('student_id', student_id));
-  return __query.observe();
-};

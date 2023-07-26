@@ -4,13 +4,31 @@ import {WithSplashScreen} from './src/Splash';
 import {Router} from 'src/routes/Router';
 import {NativeBaseProvider} from 'native-base';
 import {theme} from 'src/theme/theme';
-import {SnackbarProvider} from 'src/providers/SnackbarProvider/SnackbarProvider';
 import 'react-native-reanimated';
 import 'react-native-gesture-handler';
 import DatabaseProvider from '@nozbe/watermelondb/DatabaseProvider';
 import {database} from 'src/database';
 import {useAppSelector} from 'src/store';
+import {NetworkStatus} from 'components/NetworkStatus/NetworkStatus';
+import {Text} from 'react-native';
+import {SnackbarProvider} from 'src/providers/SnackbarProvider/SnackbarProvider';
+import {SyncProvider} from 'src/providers/SyncProvider/SyncProvider';
+import {SyncStatus} from 'components/SyncStatus/SyncStatus';
 
+const useSyncState = () => {
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [syncSuccess, setSyncSuccess] = useState(false);
+  const [syncFailed, setSyncFailed] = useState(false);
+
+  return {
+    isSyncing,
+    setIsSyncing,
+    syncSuccess,
+    syncFailed,
+    setSyncFailed,
+    setSyncSuccess,
+  };
+};
 function App(): JSX.Element {
   const [isAppReady, setIsAppReady] = useState(false);
   const isLogged = useAppSelector(s => s.auth.isLogged);
@@ -19,13 +37,20 @@ function App(): JSX.Element {
     setIsAppReady(true);
   }, []);
 
+  const syncProps = useSyncState();
+
+
   return (
     <DatabaseProvider database={database}>
       <WithSplashScreen isAppReady={isAppReady}>
         <NativeBaseProvider theme={theme}>
           <ThemeProvider theme={theme}>
             <SnackbarProvider>
-              <Router />
+              <SyncProvider {...syncProps}>
+                <SyncStatus />
+                <NetworkStatus />
+                <Router />
+              </SyncProvider>
             </SnackbarProvider>
           </ThemeProvider>
         </NativeBaseProvider>

@@ -4,7 +4,7 @@ export const instructorCodeSchema = tableSchema({
   name: 'instructor_codes',
   columns: [
     {name: 'sid', isIndexed: true, type: 'number'},
-    {name: 'student_id', type: 'number'},
+    {name: 'student_id', type: 'number', isOptional: true},
     {name: 'instructor_id', type: 'number'},
     {name: 'code', type: 'string'},
     {name: 'group_name', type: 'string'},

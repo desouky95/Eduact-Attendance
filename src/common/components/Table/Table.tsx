@@ -1,6 +1,6 @@
 import {EdTextInput} from 'components/EdTextInput';
 import {Typography} from 'components/Typography/Typography';
-import {Box, Flex, HStack, VStack} from 'native-base';
+import {Box, Button, Flex, HStack, VStack} from 'native-base';
 import React, {
   PropsWithChildren,
   ReactElement,
@@ -10,7 +10,7 @@ import React, {
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {getFontSize} from 'src/theme/getFontSize';
 import styled from 'styled-components/native';
-
+import {v4 as uuid} from 'uuid';
 type CssSelectors = {
   isLastChild?: boolean;
   isFirstChild?: boolean;
@@ -22,14 +22,13 @@ type TableRowProps = {
   index?: number;
 } & CssSelectors;
 const TableRow = ({children, ...props}: TableRowProps) => {
-  console.log(props);
   return (
     <HStack
       width="100%"
       borderBottomWidth={!props.isLastChild ? '1px' : '0px'}
       borderBottomColor={!props.isLastChild ? 'gray.300' : 'transparent'}
-      maxHeight="32px"
-      minHeight="32px">
+      // maxHeight="32px"
+      minHeight="50px">
       {React.Children.map(children, (child, index) =>
         cloneElement(child as any, {
           ...child.props,
@@ -54,6 +53,7 @@ const TableCell = ({
       flexDirection="row"
       alignItems="center"
       px="12px"
+      minHeight="40px"
       flexBasis="auto"
       borderRightWidth={isLastChild ? '0px' : '1px'}
       borderRightColor={isLastChild ? 'transparent' : 'gray.200'}>
@@ -73,12 +73,16 @@ type TableProps<T> = {
   columns?: Array<string>;
   children: (args: TableItemData<T>) => ReactElement<TableRowProps>;
   headerTitle?: string;
+  withExport?: boolean;
+  onExport?: () => void;
 };
 export const Table = <T,>({
   columns,
   children,
   data,
   headerTitle = 'Data',
+  withExport = false,
+  onExport,
 }: TableProps<T>) => {
   return (
     <View style={TableStyles.tableContainer}>
@@ -89,14 +93,28 @@ export const Table = <T,>({
         mx="12px"
         alignItems="center"
         space={10}>
-        <Typography fontSize={getFontSize(12)} color="#000">
-          {headerTitle}
-        </Typography>
-        <EdTextInput borderRadius={200} flex={1} padding={'0px'} />
+        {withExport && (
+          <>
+            <Button
+              size="sm"
+              rounded="full"
+              onPress={onExport}
+              colorScheme="primary"
+              variant="outline">
+              Export
+            </Button>
+          </>
+        )}
+        {!withExport && (
+          <Typography fontSize={getFontSize(12)} color="#000">
+            {headerTitle}
+          </Typography>
+        )}
+        <EdTextInput borderRadius={200} flex={1} padding={'0px'} py="0" />
       </HStack>
       <VStack>
         {data.map((item, index) => (
-          <>
+          <React.Fragment key={`table-${index}`}>
             {React.Children.map<
               ReactElement<TableRowProps>,
               ReactElement<TableRowProps>
@@ -109,7 +127,7 @@ export const Table = <T,>({
                   isLastChild: index === data.length - 1,
                 }),
             )}
-          </>
+          </React.Fragment>
         ))}
       </VStack>
     </View>
@@ -146,7 +164,7 @@ const TableStyles = StyleSheet.create({
     // flexGrow: 1,
     width: '100%',
     display: 'flex',
-    marginBottom : 5
+    marginBottom: 5,
     // minWidth: '100%',
   },
 });
@@ -162,3 +180,5 @@ const TableHeader = styled(Flex)<{lastChild: boolean; index: number}>`
   /* flex-grow: 1; */
   /* min-width: 20%; */
 `;
+
+export const TableMemo = React.memo(Table)

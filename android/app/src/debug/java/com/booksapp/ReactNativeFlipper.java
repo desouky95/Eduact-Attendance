@@ -12,9 +12,12 @@ import com.facebook.flipper.android.utils.FlipperUtils;
 import com.facebook.flipper.core.FlipperClient;
 import com.facebook.flipper.plugins.crashreporter.CrashReporterPlugin;
 import com.facebook.flipper.plugins.databases.DatabasesFlipperPlugin;
+import com.facebook.flipper.plugins.databases.impl.SqliteDatabaseDriver;
+import com.facebook.flipper.plugins.databases.impl.SqliteDatabaseProvider;
 import com.facebook.flipper.plugins.fresco.FrescoFlipperPlugin;
 import com.facebook.flipper.plugins.inspector.DescriptorMapping;
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin;
+import com.facebook.flipper.plugins.navigation.NavigationFlipperPlugin;
 import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor;
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin;
 import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin;
@@ -22,6 +25,9 @@ import com.facebook.react.ReactInstanceEventListener;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.modules.network.NetworkingModule;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import okhttp3.OkHttpClient;
 
 /**
@@ -29,23 +35,57 @@ import okhttp3.OkHttpClient;
  * flavor of it. Here you can add your own plugins and customize the Flipper setup.
  */
 public class ReactNativeFlipper {
-  public static void initializeFlipper(Context context, ReactInstanceManager reactInstanceManager) {
+
+  public static void initializeFlipper(
+    Context context,
+    ReactInstanceManager reactInstanceManager
+  ) {
     if (FlipperUtils.shouldEnableFlipper(context)) {
       final FlipperClient client = AndroidFlipperClient.getInstance(context);
 
-      client.addPlugin(new InspectorFlipperPlugin(context, DescriptorMapping.withDefaults()));
+      client.addPlugin(
+        new InspectorFlipperPlugin(context, DescriptorMapping.withDefaults())
+      );
       client.addPlugin(new DatabasesFlipperPlugin(context));
       client.addPlugin(new SharedPreferencesFlipperPlugin(context));
       client.addPlugin(CrashReporterPlugin.getInstance());
+      client.addPlugin(NavigationFlipperPlugin.getInstance());
+      client.addPlugin(
+        new DatabasesFlipperPlugin(
+          new SqliteDatabaseDriver(
+            context,
+            new SqliteDatabaseProvider() {
+              @Override
+              public List<File> getDatabaseFiles() {
+                List<File> databaseFiles = new ArrayList<>();
+                for (String databaseName : context.databaseList()) {
+                  databaseFiles.add(context.getDatabasePath(databaseName));
+                }
+                //           String watermelondb = context.getDatabasePath("***CHANGE_ME***.db").getPath().replace("/databases", "");
+                //           databaseFiles.add(new File(watermelondb));
+                File dir = context.getDataDir();
+                File[] files = dir.listFiles((d, name) -> name.endsWith(".db"));
+                for (int i = 0; i < files.length; i++) {
+                  databaseFiles.add(files[i]);
+                }
+                return databaseFiles;
+              }
+            }
+          )
+        )
+      );
 
       NetworkFlipperPlugin networkFlipperPlugin = new NetworkFlipperPlugin();
       NetworkingModule.setCustomClientBuilder(
-          new NetworkingModule.CustomClientBuilder() {
-            @Override
-            public void apply(OkHttpClient.Builder builder) {
-              builder.addNetworkInterceptor(new FlipperOkhttpInterceptor(networkFlipperPlugin));
-            }
-          });
+        new NetworkingModule.CustomClientBuilder() {
+          @Override
+          public void apply(OkHttpClient.Builder builder) {
+            builder.addNetworkInterceptor(
+              new FlipperOkhttpInterceptor(networkFlipperPlugin)
+            );
+          }
+        }
+      );
       client.addPlugin(networkFlipperPlugin);
       client.start();
 
@@ -54,19 +94,21 @@ public class ReactNativeFlipper {
       ReactContext reactContext = reactInstanceManager.getCurrentReactContext();
       if (reactContext == null) {
         reactInstanceManager.addReactInstanceEventListener(
-            new ReactInstanceEventListener() {
-              @Override
-              public void onReactContextInitialized(ReactContext reactContext) {
-                reactInstanceManager.removeReactInstanceEventListener(this);
-                reactContext.runOnNativeModulesQueueThread(
-                    new Runnable() {
-                      @Override
-                      public void run() {
-                        client.addPlugin(new FrescoFlipperPlugin());
-                      }
-                    });
-              }
-            });
+          new ReactInstanceEventListener() {
+            @Override
+            public void onReactContextInitialized(ReactContext reactContext) {
+              reactInstanceManager.removeReactInstanceEventListener(this);
+              reactContext.runOnNativeModulesQueueThread(
+                new Runnable() {
+                  @Override
+                  public void run() {
+                    client.addPlugin(new FrescoFlipperPlugin());
+                  }
+                }
+              );
+            }
+          }
+        );
       } else {
         client.addPlugin(new FrescoFlipperPlugin());
       }

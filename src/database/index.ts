@@ -13,6 +13,9 @@ import UnitModel from './models/UnitModel';
 import TestModel from './models/TestModel';
 import {ReferenceScreen} from 'src/screens/ReferenceScreen/ReferenceScreen';
 import CourseReferenceModel from './models/CourseReferenceModel';
+import EnrolledCourseModel from './models/EnrolledCourseModel';
+import EnrolledClassroomModel from './models/EnrolledClassroomModel';
+import GroupModel from './models/GroupModel';
 
 // import Post from './model/Post' // ⬅️ You'll import your Models here
 
@@ -27,7 +30,16 @@ const adapter = new SQLiteAdapter({
   // additional installation steps have to be taken - disable if you run into issues...)
   // jsi: true /* Platform.OS === 'ios' */,
   // (optional, but you should implement this method)
+  dbName: 'instructor',
+  migrationEvents: {
+    onError(error) {
+      console.log(error);
+    },
+    onStart() {},
+    onSuccess() {},
+  },
   onSetUpError: error => {
+    console.log(error);
     // Database failed to load -- offer the user to reload the app or log out
   },
 });
@@ -37,7 +49,6 @@ export const database = new Database({
   adapter,
 
   modelClasses: [
-    // Post, // ⬅️ You'll add Models to Watermelon here
     Classroom,
     Course,
     CenterAttendanceModel,
@@ -47,5 +58,8 @@ export const database = new Database({
     UnitModel,
     TestModel,
     CourseReferenceModel,
+    EnrolledCourseModel,
+    EnrolledClassroomModel,
+    GroupModel,
   ],
 });

@@ -4,7 +4,7 @@ export const testSchema = tableSchema({
   name: 'tests',
   columns: [
     {name: 'sid', isIndexed: true, type: 'number'},
-    {name: 'unit_id', type: 'number'},
+    {name: 'unit_id', type: 'string'},
     {name: 'uuid', type: 'string'},
     {name: 'title', type: 'string'},
     {name: 'overall_score', type: 'number'},

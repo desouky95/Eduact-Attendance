@@ -10,6 +10,12 @@ import {instructorCodeSchema} from './schemas/instructorCode.schema';
 import {unitSchema} from './schemas/unit.schema';
 import {testSchema} from './schemas/test.schema';
 import {referenceSchema} from './schemas/reference.schema';
+import {enrolledCourseSchema} from './schemas/enrolledCourse.schema';
+import {number} from 'yup';
+import {classroomSchema} from './schemas/classroom.schema';
+import {courseSchema} from './schemas/course.schema';
+import {enrollClassroomSchema} from './schemas/enrollClassroom.schema';
+import {groupSchema} from './schemas/groups.schema';
 
 export default schemaMigrations({
   migrations: [
@@ -18,62 +24,18 @@ export default schemaMigrations({
       toVersion: 2,
       steps: [
         createTable({
-          name: 'classrooms',
-          columns: [
-            {name: 'sid', type: 'number', isIndexed: true},
-            {name: 'title', type: 'string'},
-            {name: 'label', type: 'string'},
-          ],
+          name: classroomSchema.name,
+          columns: classroomSchema.columnArray,
         }),
         createTable({
-          name: 'courses',
-          columns: [
-            {name: 'sid', type: 'number', isIndexed: true},
-            {name: 'classroom_id', type: 'number'},
-            {name: 'section_id', type: 'number'},
-            {name: 'name', type: 'string'},
-            {name: 'code', type: 'string'},
-          ],
+          name: courseSchema.name,
+          columns: courseSchema.columnArray,
         }),
       ],
     },
     {
       toVersion: 3,
       steps: [
-        addColumns({
-          table: 'classrooms',
-          columns: [
-            {name: 'instructor_id', type: 'number'},
-            {name: 'category_id', type: 'number'},
-            {name: 'current_course', type: 'number'},
-            {name: 'type', type: 'string'},
-            {name: 'sub_type', type: 'string'},
-            {name: 'description', type: 'string'},
-            {name: 'language', type: 'string'},
-            {name: 'thumbnail', type: 'string'},
-            {name: 'status', type: 'string'},
-            {name: 'active', type: 'boolean'},
-            {name: 'accessible', type: 'boolean'},
-            {name: 'weight', type: 'number'},
-            {name: 'has_admission', type: 'boolean'},
-            {name: 'admission_status', type: 'boolean'},
-            {name: 'code', type: 'string'},
-            {name: 'rating', type: 'number'},
-          ],
-        }),
-        addColumns({
-          table: 'courses',
-          columns: [
-            {name: 'description', type: 'string'},
-            {name: 'price', type: 'number'},
-            {name: 'old_price', type: 'number'},
-            {name: 'active', type: 'boolean'},
-            {name: 'thumbnail', type: 'string'},
-            {name: 'buyable', type: 'boolean'},
-            {name: 'order', type: 'number'},
-            {name: 'preview_url', type: 'string'},
-          ],
-        }),
         createTable({
           name: userSchema.name,
           columns: userSchema.columnArray,
@@ -116,6 +78,68 @@ export default schemaMigrations({
         createTable({
           name: referenceSchema.name,
           columns: referenceSchema.columnArray,
+        }),
+      ],
+    },
+    {
+      toVersion: 7,
+      steps: [
+        createTable({
+          name: enrolledCourseSchema.name,
+          columns: enrolledCourseSchema.columnArray,
+        }),
+      ],
+    },
+    {
+      toVersion: 8,
+      steps: [
+        addColumns({
+          table: enrolledCourseSchema.name,
+          columns: [{name: 'classroom_id', type: 'string'}],
+        }),
+      ],
+    },
+    {
+      toVersion: 9,
+      steps: [
+        createTable({
+          name: enrollClassroomSchema.name,
+          columns: enrollClassroomSchema.columnArray,
+        }),
+      ],
+    },
+    {
+      toVersion: 10,
+      steps: [
+        addColumns({
+          table: enrollClassroomSchema.name,
+          columns: [{name: 'sid', type: 'number', isOptional: true}],
+        }),
+        addColumns({
+          table: enrolledCourseSchema.name,
+          columns: [{name: 'sid', type: 'number', isOptional: true}],
+        }),
+      ],
+    },
+    {
+      toVersion: 11,
+      steps: [
+        addColumns({
+          table: enrollClassroomSchema.name,
+          columns: [{name: 'group_id', type: 'string', isOptional: true}],
+        }),
+        createTable({
+          name: groupSchema.name,
+          columns: groupSchema.columnArray,
+        }),
+      ],
+    },
+    {
+      toVersion: 12,
+      steps: [
+        addColumns({
+          table: referenceSchema.name,
+          columns: [{name: 'group_id', type: 'number', isOptional: true}],
         }),
       ],
     },

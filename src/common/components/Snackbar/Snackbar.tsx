@@ -1,32 +1,63 @@
+import {Button, IButtonProps, ICustomTheme} from 'native-base';
+import {
+  ColorSchemeType,
+  ResponsiveValue,
+} from 'native-base/lib/typescript/components/types';
+import {getContrast, invert, readableColor} from 'polished';
 import React, {useEffect} from 'react';
 
-import {CustomThemeType, theme} from 'src/theme/theme';
+import {
+  ColorSchemaVariant,
+  CustomThemeType,
+  backgroundVariant,
+  theme,
+} from 'src/theme/theme';
 import styled from 'styled-components/native';
-import {variant} from 'styled-system';
 
-export type SnackbarVariant =
-  keyof CustomThemeType['components']['Snackbar']['variants'];
+export type SnackbarVariant = Exclude<
+  keyof ICustomTheme['colors'],
+  'contrastThreshold'
+>;
 type SnackbarProps = {
-  variant?: SnackbarVariant;
+  // variant?: SnackbarVariant;
+  variant?: ColorSchemaVariant;
   title?: string;
+  dismissComponent?: React.ReactElement<typeof Button>;
+  dismissText?: string;
+  dismissComponentProps?: React.ComponentProps<typeof Button>;
+  onDismiss?: () => void;
 };
 
-export const Snackbar = ({variant = 'success', title}: SnackbarProps) => {
+export const Snackbar = ({
+  variant = 'dark',
+  title,
+  dismissComponentProps = {
+    colorScheme: 'dark',
+    backgroundColor: 'amber.200',
+  },
+  dismissText = 'DISMISS',
+  dismissComponent,
+  onDismiss,
+}: SnackbarProps) => {
   return (
     <>
       <StyledSnackbarView variant={variant}>
         <SnackbarText variant={variant}>{title}</SnackbarText>
+        {dismissComponent && dismissComponent}
+        {!dismissComponent && (
+          <SnackbarButton
+            onPress={onDismiss}
+            {...dismissComponentProps}
+            colorVariant={variant}>
+            {dismissText}
+          </SnackbarButton>
+        )}
       </StyledSnackbarView>
     </>
   );
 };
 
-const StyledSnackbarView = styled.View<{variant: SnackbarVariant}>`
-  ${variant({
-    prop: 'variant',
-    scale: 'components.Snackbar.variants',
-    variants: {},
-  })}
+const StyledSnackbarView = styled.View<{variant: ColorSchemaVariant}>`
   padding: 14px 16px;
   border-radius: 4px;
   elevation: 3;
@@ -35,12 +66,17 @@ const StyledSnackbarView = styled.View<{variant: SnackbarVariant}>`
   min-height: 48px;
   align-items: flex-start;
   gap: 4px;
-  /* opacity: 0; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  ${backgroundVariant({variant: 'variant'})}
 `;
-const SnackbarText = styled.Text<{variant: SnackbarVariant}>`
-  ${variant({
-    prop: 'variant',
-    scale: 'components.Snackbar.variants',
-    variants: {},
-  })}
+const SnackbarButton = styled(Button)<{colorVariant: ColorSchemaVariant}>`
+  ${backgroundVariant({variant: 'colorVariant', density: 700})}
+`;
+const SnackbarText = styled.Text<{variant: ColorSchemaVariant}>`
+  ${backgroundVariant({variant: 'variant'})};
+  color: ${p =>
+    readableColor(p.theme.colors[p.variant]['600'], '#000', '#FFF', true)};
+  flex: 1;
 `;

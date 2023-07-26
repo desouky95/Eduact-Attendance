@@ -4,6 +4,6 @@ export const unitSchema = tableSchema({
   name: 'units',
   columns: [
     {name: 'sid', isIndexed: true, type: 'number'},
-    {name: 'course_id', type: 'number'},
+    {name: 'course_id', type: 'string'},
   ],
 });

@@ -53,3 +53,43 @@ declare type Test = {
   passing_value: number;
   passing_unit: string;
 };
+
+declare type EnrolledCourse = {
+  id: number;
+  user_id: number;
+  course_id: number;
+  progress: number;
+  course: {
+    name: string;
+    classroom_id: number;
+  };
+  student: {
+    user_id: number;
+    user: {
+      username: string;
+      first_name: string;
+      last_name: string;
+      phone_number: string;
+    };
+  };
+};
+declare type EnrolledClassroom = {
+  user_id: number;
+  classroom_id: number;
+  active : boolean
+  completed_courses : number
+  status : string
+ 
+};
+
+declare type EnrolledClassroomResponse = {
+  enrolledClassrooms: ApiResponse<EnrolledClassroom[]>;
+};
+
+
+declare type Group = {
+  id : number
+  classroom_id : number
+  name : string
+  code : string
+}

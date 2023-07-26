@@ -65,10 +65,11 @@ api.interceptors.response.use(
     return response;
   },
   error => {
-    if (error.response.status === 401) {
+    if (error.response?.status === 401) {
       store.dispatch(logout());
       store.dispatch(wipeSetup());
     }
+    console.error(error);
     // console.log(
     //   `%c ${error.response?.status} - ${getUrl(error.response?.config)}:`,
     //   'color: #a71d5d; font-weight: bold',

@@ -16,6 +16,7 @@ export default class CourseModel extends Model {
   static associations: Associations = {
     classrooms: {type: 'belongs_to', key: 'classroom_id'},
     units: {type: 'has_many', foreignKey: 'unit_id'},
+    enroll_courses: {type: 'has_many', foreignKey: 'course_id'},
   };
 
   @text('name') name!: string;

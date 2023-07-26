@@ -34,6 +34,7 @@ export const HomeRoot = () => {
 const ClassroomRoot = () => (
   <Tab.Navigator
     screenOptions={{headerShown: false}}
+    // tabBar={props => <TabBar {...props} />}
     tabBar={props => <TabBar {...props} />}
     initialRouteName="Classroom">
     <Tab.Screen name="Classroom" component={ClassroomScreen} />

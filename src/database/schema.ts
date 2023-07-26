@@ -7,10 +7,13 @@ import {centerAttendanceSchema} from './schemas/centerAttendance.schema';
 import {instructorCodeSchema} from './schemas/instructorCode.schema';
 import {unitSchema} from './schemas/unit.schema';
 import {testSchema} from './schemas/test.schema';
-import { referenceSchema } from './schemas/reference.schema';
+import {referenceSchema} from './schemas/reference.schema';
+import {enrolledCourseSchema} from './schemas/enrolledCourse.schema';
+import { enrollClassroomSchema } from './schemas/enrollClassroom.schema';
+import { groupSchema } from './schemas/groups.schema';
 
 export default appSchema({
-  version: 6,
+  version: 12,
   tables: [
     classroomSchema,
     courseSchema,
@@ -20,6 +23,9 @@ export default appSchema({
     instructorCodeSchema,
     unitSchema,
     testSchema,
-    referenceSchema
+    referenceSchema,
+    enrolledCourseSchema,
+    enrollClassroomSchema,
+    groupSchema,
   ],
 });

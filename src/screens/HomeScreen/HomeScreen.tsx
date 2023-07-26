@@ -23,8 +23,6 @@ import styled from 'styled-components/native';
 export const HomeScreen = () => {
   const navigation = useNavigation<RootProps>();
   const dispatch = useAppDispatch();
-  getStudents();
-  getClassrooms();
   const handleLogout = async () => {
     try {
       // await database.unsafeResetDatabase();
@@ -58,7 +56,12 @@ export const HomeScreen = () => {
             <Spacer
               px={26}
               height={'100%'}
-              style={{justifyContent: 'center', alignItems: 'center',display : 'flex',gap : 30}}>
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                display: 'flex',
+                gap: 30,
+              }}>
               <PaperButton
                 onPress={() => handleClassrooms('Classrooms')}
                 activeOpacity={0.9}

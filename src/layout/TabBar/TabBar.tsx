@@ -13,8 +13,8 @@ import {AppContext} from 'src/AppContext';
 
 const ClassroomsScreens = [
   {
-    name: 'Home',
-    icon: 'home',
+    name: 'Course',
+    icon: 'book',
     route: 'Classroom' as keyof ClassroomRootTabParamList,
   },
 
@@ -32,26 +32,26 @@ const ClassroomsScreens = [
 
 export const TabBar = (props: BottomTabBarProps) => {
   const screenName = AppContext.navigationRef?.getCurrentRoute()?.name;
-  const {params :{params}} = useRoute<ClassroomScreenProp>();
+  const {
+    params: {params},
+  } = useRoute<ClassroomScreenProp>();
   const navigate = useNavigation<ClassroomRootProps>();
 
   const handleClick = (route: keyof ClassroomRootTabParamList) => {
     // navigate.navigate(route as any, {classroom_id: params?.classroom_id});
 
     navigate.navigate('ClassroomRoot', {
-      params: {classroom_id: params.classroom_id},
+      params: {current: params.current},
       screen: route,
-    })
+    });
   };
 
-
-
-  
   return (
     <View
       style={{
         flexDirection: 'row',
         height: 55,
+        position: 'relative',
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: '#FFF',
@@ -61,7 +61,7 @@ export const TabBar = (props: BottomTabBarProps) => {
         shadowOpacity: 0.2,
         elevation: 14,
         columnGap: 60,
-        paddingHorizontal:58
+        paddingHorizontal: 58,
       }}>
       {ClassroomsScreens.map(_ => (
         <TouchableOpacity
@@ -75,7 +75,9 @@ export const TabBar = (props: BottomTabBarProps) => {
             name={_.icon}
             size={25}
           />
-          <Typography fontSize={8} color={screenName === _.route ? '#5AC0FC' : 'grey'}>
+          <Typography
+            fontSize={8}
+            color={screenName === _.route ? '#5AC0FC' : 'grey'}>
             {_.name}
           </Typography>
         </TouchableOpacity>

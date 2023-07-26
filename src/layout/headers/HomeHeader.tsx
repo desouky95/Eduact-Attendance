@@ -1,15 +1,46 @@
 import {BottomTabHeaderProps} from '@react-navigation/bottom-tabs';
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
 import {logo} from 'assets/index';
-import React from 'react';
+import React, {useState} from 'react';
 import {BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
+import {
+  useAnimatedStyle,
+  withRepeat,
+  withSpring,
+} from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {useSyncProvider} from 'src/providers/SyncProvider/SyncProvider';
+import Animated from 'react-native-reanimated';
+import {useSync} from 'src/hooks/useSync';
+import { useNetInfo } from '@react-native-community/netinfo';
 
 export const HomeHeader = ({
   back,
   navigation,
   route,
 }: NativeStackHeaderProps) => {
+  const {isSyncing} = useSyncProvider();
+
+  const {isConnected} = useNetInfo()
+  const syncStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          rotate: withRepeat(
+            withSpring(isSyncing ? '360deg' : '0deg', {
+              damping: 10,
+              mass: 1,
+              stiffness: 100,
+              restDisplacementThreshold: 0.001,
+              restSpeedThreshold: 0.001,
+            }),
+          ),
+        },
+      ],
+    };
+  }, [isSyncing]);
+
+  const {runSync} = useSync();
   return (
     <View
       style={{
@@ -41,9 +72,26 @@ export const HomeHeader = ({
         <Image resizeMode="contain" style={{height: '100%'}} source={logo} />
       </View>
 
-      <View style={{minWidth: 40, alignItems: 'center'}}>
-        <Icon name="sync" size={22} color={'#5AC0FC'} />
-      </View>
+      <Animated.View
+        style={[
+          {
+            minWidth: 40,
+            alignItems: 'center',
+          },
+          syncStyle,
+        ]}>
+        <Icon
+          onPress={() => {
+            if(!isConnected)return
+            runSync();
+          }}
+          disabled={!isConnected}
+          style={{opacity : isConnected ? 1 : 0.5}}
+          name="sync"
+          size={22}
+          color={'#5AC0FC'}
+        />
+      </Animated.View>
     </View>
   );
 };

@@ -5,7 +5,7 @@ import {Accordion} from 'components/Accordion/Accordion';
 import {AccordionSummary} from 'components/Accordion/AccordionSummary';
 import {Spacer} from 'components/Spacer/Spacer';
 import {Typography} from 'components/Typography/Typography';
-import React, {useMemo} from 'react';
+import React, {useEffect, useLayoutEffect, useMemo, useState} from 'react';
 import {ScrollView, TouchableOpacity, View} from 'react-native';
 import ClassroomModel from 'src/database/models/Classroom';
 
@@ -21,7 +21,11 @@ const classrooms = Array(20)
 import withObservables from '@nozbe/with-observables';
 import {database} from 'src/database';
 import {withDatabase} from '@nozbe/watermelondb/DatabaseProvider';
-import {useObservable, useObservableState} from 'observable-hooks';
+import {
+  useObservable,
+  useObservableGetState,
+  useObservableState,
+} from 'observable-hooks';
 import {Observable} from '@nozbe/watermelondb/utils/rx';
 import {classroomsQuery} from 'src/database/data/classrooms.data';
 import {ClassroomPanel} from './components/ClassroomPanel';
@@ -29,13 +33,22 @@ import {ClassroomPanel} from './components/ClassroomPanel';
 export const ClassroomsScreen = (props: {}) => {
   const database = useDatabase();
 
-
   const data = database.collections
     .get<ClassroomModel>('classrooms')
     .query()
     .observe();
 
-  const [classrooms] = useObservableState(input$ => data, []);
+  const [classrooms, setClassrooms] = useState<ClassroomModel[]>([]);
+  useLayoutEffect(() => {
+    const subscription = data.subscribe(value => {
+      setClassrooms(value);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
   return (
     <ScrollView style={{paddingHorizontal: 20}}>
       <Spacer my={5}>
