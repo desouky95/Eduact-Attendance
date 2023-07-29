@@ -7,11 +7,17 @@ import {Typography} from 'components/Typography/Typography';
 import {searchStudents} from 'src/database/data/classrooms.data';
 import {first, flatMap} from 'rxjs';
 import UserModel from 'src/database/models/UserModel';
-import {useCameraDevices} from 'react-native-vision-camera';
+import {useCameraDevices, useFrameProcessor} from 'react-native-vision-camera';
 import {Camera} from 'react-native-vision-camera';
-import {useScanBarcodes, BarcodeFormat} from 'vision-camera-code-scanner';
+import {
+  useScanBarcodes,
+  BarcodeFormat,
+  scanBarcodes,
+} from 'vision-camera-code-scanner';
 import 'react-native-reanimated';
 import {Text} from 'react-native';
+import {StyleSheet} from 'react-native';
+import {QRCodeScanner} from '../QRCodeScanner';
 
 type Props = {
   onStudentChange: (student: UserModel) => void;
@@ -29,51 +35,17 @@ export const StudentSearch = ({onStudentChange}: Props) => {
       });
     return () => subscribe.unsubscribe();
   };
-  const [hasPermission, setHasPermission] = React.useState(false);
-  const devices = useCameraDevices();
-  const device = devices.back;
   const [scan, setScan] = React.useState(false);
 
-  // Here is where useScanBarcodes() hook is called.
-  // Specify your barcode format inside.
-  // Detected barcodes are assigned into the 'barcodes' variable.
-  const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.QR_CODE], {
-    checkInverted: true,
-  });
-
-  const onPressScan = () => {
-    if (!hasPermission)
-      (async () => {
-        const status = await Camera.requestCameraPermission();
-        setHasPermission(status === 'authorized');
-      })();
-    setScan(true);
+  const handleOnScanSuccess = (value: string) => {
+    setQuery(value);
+    setScan(false);
+    handleSearch();
   };
-
-  React.useEffect(() => {
-    console.log(barcodes);
-    if (barcodes.length > 0 && barcodes[0].rawValue) {
-      setScan(false);
-      setQuery(barcodes[0].rawValue);
-      handleSearch();
-    }
-}, [barcodes]);
 
   return (
     <>
-      {hasPermission && device && (
-        <>
-          <Camera
-            device={device}
-            isActive={true}
-            frameProcessor={frameProcessor}
-            frameProcessorFps={5}
-          />
-          {barcodes.map((barcode, idx) => (
-            <Text key={idx}>{barcode.displayValue}</Text>
-          ))}
-        </>
-      )}
+      <QRCodeScanner isActive={scan} onSuccess={handleOnScanSuccess} />
       <VStack mb="20px">
         <VStack px="38" space={'10px'} alignItems={'center'}>
           <EdTextInput
@@ -83,7 +55,7 @@ export const StudentSearch = ({onStudentChange}: Props) => {
             backgroundColor={'white'}
             py="0"
             InputRightElement={
-              <Button p="0" onPress={onPressScan}>
+              <Button p="0" onPress={() => setScan(true)}>
                 <Center
                   backgroundColor="primary.main"
                   // height="100%"

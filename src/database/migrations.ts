@@ -16,6 +16,7 @@ import {classroomSchema} from './schemas/classroom.schema';
 import {courseSchema} from './schemas/course.schema';
 import {enrollClassroomSchema} from './schemas/enrollClassroom.schema';
 import {groupSchema} from './schemas/groups.schema';
+import {testAttemptSchema} from './schemas/testAttempt.schema';
 
 export default schemaMigrations({
   migrations: [
@@ -140,6 +141,15 @@ export default schemaMigrations({
         addColumns({
           table: referenceSchema.name,
           columns: [{name: 'group_id', type: 'number', isOptional: true}],
+        }),
+      ],
+    },
+    {
+      toVersion: 13,
+      steps: [
+        createTable({
+          name: testAttemptSchema.name,
+          columns: testAttemptSchema.columnArray,
         }),
       ],
     },

@@ -118,6 +118,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file('eduact.keystore')
+            storePassword 'marwan'
+            keyAlias 'my-key-alias'
+            keyPassword 'marwan333'
+        }
     }
     buildTypes {
         debug {

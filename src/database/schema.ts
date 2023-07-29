@@ -11,9 +11,10 @@ import {referenceSchema} from './schemas/reference.schema';
 import {enrolledCourseSchema} from './schemas/enrolledCourse.schema';
 import { enrollClassroomSchema } from './schemas/enrollClassroom.schema';
 import { groupSchema } from './schemas/groups.schema';
+import { testAttemptSchema } from './schemas/testAttempt.schema';
 
 export default appSchema({
-  version: 12,
+  version: 13,
   tables: [
     classroomSchema,
     courseSchema,
@@ -27,5 +28,7 @@ export default appSchema({
     enrolledCourseSchema,
     enrollClassroomSchema,
     groupSchema,
+    testAttemptSchema
   ],
+
 });

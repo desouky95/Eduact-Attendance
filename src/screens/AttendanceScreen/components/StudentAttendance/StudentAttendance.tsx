@@ -7,24 +7,29 @@ import {firstValueFrom, mergeMap} from 'rxjs';
 import {
   checkStudentHasAttendance,
   getStudentAttendance,
+  getStudentAttendanceSync,
 } from 'src/database/data/attendance.data';
 import CenterAttendanceModel from 'src/database/models/CenterAttendanceModel';
 import UserModel from 'src/database/models/UserModel';
 import {useAppSelector} from 'src/store';
 import {AttendanceCard} from '../AttendanceCard/AttendanceCard';
+import TestModel from 'src/database/models/TestModel';
 
 type Props = {
   toggleSearch: boolean;
   user: UserModel;
   onSearchSuccess: () => void;
 };
-export const StudentAttendance = ({user, toggleSearch,onSearchSuccess}: Props) => {
+export const StudentAttendance = ({
+  user,
+  toggleSearch,
+  onSearchSuccess,
+}: Props) => {
   const course = useAppSelector(s => s.course.current);
 
   const [isLoading, setIsLoading] = useState(true);
   const [processedAttendance, setProcessedAttendance] = useState(false);
 
-  const [attendances, setAttendances] = useState<CenterAttendanceModel[]>([]);
   useEffect(() => {
     if (!course) return;
     if (!toggleSearch) return;
@@ -32,36 +37,40 @@ export const StudentAttendance = ({user, toggleSearch,onSearchSuccess}: Props) =
     setProcessedAttendance(false);
     checkStudentHasAttendance(user.sid, course.sid).then(() => {
       setProcessedAttendance(true);
-      onSearchSuccess()
-      console.log('isLoading', isLoading);
-      console.log('processedAttendance', processedAttendance);
+      onSearchSuccess();
     });
   }, [toggleSearch, user.username]);
+
+  const [attendances, setAttendances] = useState<CenterAttendanceModel[]>([]);
 
   useEffect(() => {
     if (!processedAttendance || !course) return;
 
-    const subscription = getStudentAttendance(
+    const subscription = getStudentAttendanceSync(
       course.classroom_id,
       user.sid,
     ).subscribe(value => {
       setAttendances(value);
-      setIsLoading(false);
+      setIsLoading(false)
     });
 
     return () => subscription.unsubscribe();
   }, [processedAttendance]);
   return (
-    <View style={{width : '100%'}}>
+    <View style={{width: '100%'}}>
       {!isLoading && (
         <Center width="100%" px="2">
           <VStack alignItems="center" space={'6px'} mb="5px">
+            {/* <Skeleton size="20" rounded={'full'} isLoaded={false}> */}
             <Avatar
               bg={'yellow.500'}
               size="lg"
               source={{uri: user.profile_photo}}>
               {user.first_name[0]} {user.last_name[0]}
             </Avatar>
+            {/* </Skeleton> */}
+            {/* <Skeleton.Text /> */}
+            {/* <Skeleton h="40" w='lg'  /> */}
             <Typography fontSize={'14px'} fontWeight={'bold'}>
               {user.username}
             </Typography>

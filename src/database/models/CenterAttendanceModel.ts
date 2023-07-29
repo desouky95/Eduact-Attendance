@@ -11,6 +11,7 @@ import StudentModel from './StudentModel';
 import ClassroomModel from './Classroom';
 import CourseModel from './Course';
 import UserModel from './UserModel';
+import TestModel from './TestModel';
 
 export default class CenterAttendanceModel extends Model {
   static table: string = 'center_attendences';
@@ -27,6 +28,8 @@ export default class CenterAttendanceModel extends Model {
   @relation('users', 'studentId') user!: Query<UserModel>;
   @relation('classrooms', 'classroomId') classroom!: Query<ClassroomModel>;
   @relation('courses', 'courseId') course!: Query<CourseModel>;
+  @relation('tests', 'quizId') test!: Query<TestModel>;
+  @relation('tests', 'homeworkId') homework!: Query<TestModel>;
 
   @field('sid') sid!: number | null;
   @text('studentId') studentId!: string;

@@ -36,7 +36,6 @@ export const HomeScreen = () => {
         return persistor.purge();
       });
     } catch (error) {
-      console.log(error);
     }
   };
 

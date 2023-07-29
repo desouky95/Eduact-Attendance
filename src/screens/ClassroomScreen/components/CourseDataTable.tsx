@@ -13,15 +13,17 @@ import {jsonToCSV} from 'react-native-csv';
 import RNFetchBlob from 'rn-fetch-blob';
 import Share from 'react-native-share';
 
-type Props = {group_id?: number};
+type Props = {group_id?: number; type: string | null};
 
-export const CourseDataTable = ({group_id}: Props) => {
+export const CourseDataTable = ({group_id, type = null}: Props) => {
   const ref = useAppSelector(s => s.course.currentReference);
+  const current = useAppSelector(s => s.course.current);
 
-  const {attendanceWithUser} = useCourseAttendance({
+  const {attendance, isLoading} = useCourseAttendance({
     center_id: ref?.center_course_id ?? null,
     online_id: ref?.online_course_id ?? null,
     group_id: group_id ?? null,
+    type,
   });
 
   const [isOpen, setIsOpen] = React.useState(false);
@@ -51,17 +53,18 @@ export const CourseDataTable = ({group_id}: Props) => {
   };
 
   const handleExport = () => {
-    const data = attendanceWithUser.map(_ => ({
+    const data = attendance.map(_ => ({
+      username: _.user.username,
       name: `${_.user.first_name} ${_.user.last_name}`,
+      phone: _.user.phone_number,
+      status: _.attendance.type,
+      parent: _.student.parent_phone,
     }));
     const csv = jsonToCSV(data);
-    console.log('csv', csv);
     const pathToWrite = `${RNFetchBlob.fs.dirs.DownloadDir}/data.csv`;
-    console.log('pathToWrite', pathToWrite);
     RNFetchBlob.fs
       .writeFile(pathToWrite, csv, 'utf8')
       .then(() => {
-        console.log(`wrote file ${pathToWrite}`);
         Share.open({
           message: 'Attendance Data',
           url: `file:/${pathToWrite}`,
@@ -74,7 +77,6 @@ export const CourseDataTable = ({group_id}: Props) => {
       })
       .catch(error => console.error(error));
   };
-
 
   return (
     <>
@@ -106,12 +108,13 @@ export const CourseDataTable = ({group_id}: Props) => {
           </Modal.Footer>
         </Modal.Content>
       </Modal>
-      {attendanceWithUser.length > 0 && (
+
+      {attendance.length > 0 && (
         <Table
           withExport
           onExport={handleExport}
           columns={['head 1', 'head 2', 'head 3', 'head 4', 'head 5', 'head 6']}
-          data={attendanceWithUser}>
+          data={attendance}>
           {({TableCell, TableRow, item, index}) => {
             return (
               <TableRow

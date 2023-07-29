@@ -10,11 +10,14 @@ import UnitModel from '../models/UnitModel';
 import {getGroups} from 'src/api/classroom/group.api';
 import GroupModel from '../models/GroupModel';
 import {sanitizedRaw} from '@nozbe/watermelondb/RawRecord';
+import {getTestAttempts} from 'src/api/classroom/attempts.api';
+import TestAttemptModel from '../models/TestAttemptModel';
 
 export const setupClassrooms = async (withProgress?: WithProgressArgs) => {
   try {
     const {data} = await getClassrooms(withProgress);
     const groupsResponse = await getGroups(withProgress);
+    const testAttemptsResponse = await getTestAttempts(withProgress);
     const classrooms = data.data;
     const courses = classrooms.map(c => c.courses).flat(1);
     const units = courses.map(c => c.units).flat(1);
@@ -24,6 +27,9 @@ export const setupClassrooms = async (withProgress?: WithProgressArgs) => {
     const unitsQuery = database.collections.get<UnitModel>('units');
     const testsQuery = database.collections.get<TestModel>('tests');
     const groupsQuery = database.collections.get<GroupModel>(GroupModel.table);
+    const attemptQuery = database.collections.get<TestAttemptModel>(
+      TestAttemptModel.table,
+    );
 
     const batchActions: boolean | void | Model | Model[] | null = [];
     for (let index = 0; index < classrooms.length; index++) {
@@ -116,6 +122,30 @@ export const setupClassrooms = async (withProgress?: WithProgressArgs) => {
               classroom_id: group.classroom_id.toString(),
             },
             groupsQuery.schema,
+          );
+        }),
+      );
+    }
+
+    for (
+      let index = 0;
+      index < testAttemptsResponse.data.testAttempts.data.length;
+      index++
+    ) {
+      const attempt = testAttemptsResponse.data.testAttempts.data[index];
+      batchActions.push(
+        attemptQuery.prepareCreate(builder => {
+          builder._raw = sanitizedRaw(
+            {
+              student_id: attempt.student_id?.toString(),
+              s_student_id: attempt.student_id,
+              test_id: attempt.test_id?.toString(),
+              s_test_id: attempt.test_id,
+              active: attempt.active,
+              grade: attempt.grade,
+              score: attempt.score,
+            },
+            attemptQuery.schema,
           );
         }),
       );

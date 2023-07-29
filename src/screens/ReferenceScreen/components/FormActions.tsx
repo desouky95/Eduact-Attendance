@@ -16,7 +16,6 @@ export const FormActions = ({reference}: {reference: CourseReferenceModel}) => {
   const handleSubmitForm = handleSubmit(async (formData: ReferenceFormData) => {
     try {
       const updated = await reference.save(formData);
-      console.log(`reference saved`, updated);
       reset({
         center_course_id: updated.center_course_id,
         homework_id: updated.homework_id,

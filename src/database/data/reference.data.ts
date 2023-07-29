@@ -23,7 +23,6 @@ export const saveReference = async (formData: ReferenceFormData) => {
     .fetch();
   const record = _query[0];
 
-  console.log(database._workQueue._queue);
 
   const reference = await database.write(
     async ({}) =>

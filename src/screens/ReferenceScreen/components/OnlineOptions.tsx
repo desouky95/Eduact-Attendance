@@ -138,7 +138,6 @@ export const OnlineOptions = () => {
                 control={control}
                 name="online_homework_id"
                 render={({field: {value, onChange}}) => {
-                  console.log(value);
                   return (
                     <Select
                       defaultValue={value?.toString() ?? ''}

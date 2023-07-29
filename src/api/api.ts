@@ -19,13 +19,10 @@ export const apiConfig = {
   baseUrl: BASE_URL,
   // should end with a slash
   onUploadProgress: function (ev: any) {
-    console.log(ev);
     // do your thing here
   },
   onDownloadProgress: (event: AxiosProgressEvent) => {
-    // console.log(event.loaded); // loaded
     const total = event.event.target.responseHeaders['content-length']; // total
-    // console.log(event.event); // total
     const current = event.event.target.response.length;
     let percentCompleted = Math.floor((current / total) * 100);
     return {percentCompleted, total, current};

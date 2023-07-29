@@ -89,5 +89,8 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "overrides": {
+    "metro-file-map": "0.76.0"
   }
 }

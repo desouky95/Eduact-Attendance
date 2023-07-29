@@ -18,12 +18,10 @@ import {differenceBy} from 'lodash';
 
 const findByKeys = (obj: Array<any>, keys: Array<string>) => {
   return (toCompare: any) => {
-    console.log({toCompare});
     return obj.find(_ => {
       let flag = true;
       for (let index = 0; index < keys.length; index++) {
         const key = keys[index];
-        console.log(_[key], toCompare[key]);
         if (_[key] !== toCompare[key]) {
           flag = false;
           return false;

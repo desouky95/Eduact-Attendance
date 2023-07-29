@@ -24,7 +24,6 @@ export const AttendanceActions = ({student, onCancel}: Props) => {
     try {
       await enrollStudent(current.sid, student.sid);
     } catch (error: any) {
-      console.log(error['message']);
       openSnackbar({
         message: error['message'],
         variant: 'error',
@@ -37,7 +36,6 @@ export const AttendanceActions = ({student, onCancel}: Props) => {
     try {
       await unenrollStudent(current.sid, student.sid);
     } catch (error: any) {
-      console.log(error['message']);
       openSnackbar({
         message: error['message'],
         variant: 'error',

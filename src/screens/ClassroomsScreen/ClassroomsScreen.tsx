@@ -1,6 +1,6 @@
 import {useDatabase} from '@nozbe/watermelondb/hooks';
 import {useNavigation} from '@react-navigation/native';
-import {logo} from 'assets/index';
+// import {logo} from 'assets/index';
 import {Accordion} from 'components/Accordion/Accordion';
 import {AccordionSummary} from 'components/Accordion/AccordionSummary';
 import {Spacer} from 'components/Spacer/Spacer';

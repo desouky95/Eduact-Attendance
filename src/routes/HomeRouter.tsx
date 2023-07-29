@@ -11,6 +11,10 @@ import {ClassroomScreen} from 'src/screens/ClassroomScreen/ClassroomScreen';
 import {AttendanceScreen} from 'src/screens/AttendanceScreen/AttendanceScreen';
 import {ReferenceScreen} from 'src/screens/ReferenceScreen/ReferenceScreen';
 import {DownloadingScreen} from 'src/screens/DownloadingScreen/DownloadingScreen';
+import {useAppDispatch, useAppSelector} from 'src/store';
+import {useFocusEffect, useIsFocused} from '@react-navigation/native';
+import {getReference} from 'src/database/data/reference.data';
+import {flushCurrent, setCurrentReference} from 'src/store/courseReducer/courseReducer';
 
 const Tab = createBottomTabNavigator<ClassroomRootTabParamList>();
 const Stack = createNativeStackNavigator<HomeRootStackParamList>();
@@ -31,14 +35,29 @@ export const HomeRoot = () => {
   );
 };
 
-const ClassroomRoot = () => (
-  <Tab.Navigator
-    screenOptions={{headerShown: false}}
-    // tabBar={props => <TabBar {...props} />}
-    tabBar={props => <TabBar {...props} />}
-    initialRouteName="Classroom">
-    <Tab.Screen name="Classroom" component={ClassroomScreen} />
-    <Tab.Screen name="Attendance" component={AttendanceScreen} />
-    <Tab.Screen name="Reference" component={ReferenceScreen} />
-  </Tab.Navigator>
-);
+const ClassroomRoot = () => {
+  const current = useAppSelector(s => s.course.current);
+
+  const dispatch = useAppDispatch();
+
+  useFocusEffect(() => {
+    const subscription = getReference(current?.sid).subscribe(value => {
+      dispatch(setCurrentReference(value));
+    });
+    return () => {
+      subscription.unsubscribe();
+      dispatch(flushCurrent())
+    };
+  });
+  return (
+    <Tab.Navigator
+      screenOptions={{headerShown: false}}
+      // tabBar={props => <TabBar {...props} />}
+      tabBar={props => <TabBar {...props} />}
+      initialRouteName="Classroom">
+      <Tab.Screen name="Classroom" component={ClassroomScreen} />
+      <Tab.Screen name="Attendance" component={AttendanceScreen} />
+      <Tab.Screen name="Reference" component={ReferenceScreen} />
+    </Tab.Navigator>
+  );
+};

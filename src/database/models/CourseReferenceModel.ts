@@ -15,7 +15,6 @@ export default class CourseReferenceModel extends Model {
   @field('group_id') group_id?: number | null;
 
   @writer async save(formData: ReferenceFormData) {
-    console.log('DATA', formData);
     return await this.update(builder => {
       builder.center_course_id = formData.center_course_id;
       builder.quiz_id = formData.quiz_id;

@@ -76,20 +76,32 @@ declare type EnrolledCourse = {
 declare type EnrolledClassroom = {
   user_id: number;
   classroom_id: number;
-  active : boolean
-  completed_courses : number
-  status : string
- 
+  active: boolean;
+  completed_courses: number;
+  status: string;
 };
 
 declare type EnrolledClassroomResponse = {
   enrolledClassrooms: ApiResponse<EnrolledClassroom[]>;
 };
 
-
 declare type Group = {
-  id : number
-  classroom_id : number
-  name : string
-  code : string
-}
+  id: number;
+  classroom_id: number;
+  name: string;
+  code: string;
+};
+
+declare type TestAttempt = {
+  id: number;
+  active: boolean;
+  grade: string | null;
+  status: string | null;
+  score: number | null;
+  test_id: number;
+  student_id: number;
+};
+
+declare type TestAttemptsResponse = {
+  testAttempts: ApiResponse<TestAttempt[]>;
+};

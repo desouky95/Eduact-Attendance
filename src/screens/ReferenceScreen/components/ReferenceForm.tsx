@@ -41,7 +41,6 @@ export const ReferenceForm = ({
       group_id : reference.group_id
     },
   });
-  console.log('VALUES', form.getValues());
   return (
     <Box flex={1}>
       <FormProvider {...form}>

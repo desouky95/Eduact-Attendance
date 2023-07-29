@@ -16,6 +16,7 @@ import CourseReferenceModel from './models/CourseReferenceModel';
 import EnrolledCourseModel from './models/EnrolledCourseModel';
 import EnrolledClassroomModel from './models/EnrolledClassroomModel';
 import GroupModel from './models/GroupModel';
+import TestAttemptModel from './models/TestAttemptModel';
 
 // import Post from './model/Post' // ⬅️ You'll import your Models here
 
@@ -61,5 +62,6 @@ export const database = new Database({
     EnrolledCourseModel,
     EnrolledClassroomModel,
     GroupModel,
+    TestAttemptModel,
   ],
 });

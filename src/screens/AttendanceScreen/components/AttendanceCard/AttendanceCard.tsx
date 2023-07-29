@@ -1,5 +1,14 @@
 import {Typography} from 'components/Typography/Typography';
-import {Badge, Box, Center, Flex, Skeleton, VStack, View} from 'native-base';
+import {
+  Badge,
+  Box,
+  Center,
+  Flex,
+  HStack,
+  Skeleton,
+  VStack,
+  View,
+} from 'native-base';
 import React from 'react';
 import CenterAttendanceModel from 'src/database/models/CenterAttendanceModel';
 import {useAttendancePerformance} from 'src/hooks/useAttendancePerformance';
@@ -13,13 +22,8 @@ export const AttendanceCard = ({
   const {quiz, homework, isLoading, course} =
     useAttendancePerformance(attendance);
 
-  console.log(quiz, homework, course, isLoading);
   const colorSchema: ColorSchemaVariant =
-    attendance.type === 'online'
-      ? 'red'
-      : attendance.type == 'center'
-      ? 'green'
-      : 'yellow';
+    attendance.type === 'absent' || !quiz || !homework ? 'red' : 'green';
   return (
     <View w="100%">
       {isLoading && (
@@ -69,6 +73,60 @@ export const AttendanceCard = ({
               </Typography>
             </Badge>
           </Flex>
+
+          {attendance.type !== 'absent' && (
+            <>
+              <HStack py="8px">
+                <Box flex={1}></Box>
+                <HStack justifyContent={'space-between'} flex={1}>
+                  <Box flex={1}>
+                    <Typography textAlign={'center'}>Score</Typography>
+                  </Box>
+                  <Box flex={1}>
+                    <Typography textAlign={'center'}>Status</Typography>
+                  </Box>
+                </HStack>
+              </HStack>
+              <HStack py="8px">
+                <Box flex={1}>
+                  <Typography fontSize={'12px'} fontWeight="600">
+                    Quiz
+                  </Typography>
+                </Box>
+                <HStack justifyContent={'space-between'} flex={1}>
+                  <Box flex={1}>
+                    <Typography textAlign={'center'}>
+                      {quiz?.score ?? '-'}
+                    </Typography>
+                  </Box>
+                  <Box flex={1}>
+                    <Typography textAlign={'center'}>
+                      {quiz?.status ?? '-'}
+                    </Typography>
+                  </Box>
+                </HStack>
+              </HStack>
+              <HStack py="8px">
+                <Box flex={1}>
+                  <Typography fontSize={'12px'} fontWeight="600">
+                    H.W
+                  </Typography>
+                </Box>
+                <HStack justifyContent={'space-between'} flex={1}>
+                  <Box flex={1}>
+                    <Typography textAlign={'center'}>
+                      {homework?.score ?? '-'}
+                    </Typography>
+                  </Box>
+                  <Box flex={1}>
+                    <Typography textAlign={'center'}>
+                      {homework?.status ?? '-'}
+                    </Typography>
+                  </Box>
+                </HStack>
+              </HStack>
+            </>
+          )}
         </Box>
       )}
     </View>

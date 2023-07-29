@@ -156,7 +156,7 @@ export const checkStudentHasAttendance = async (
   }
 };
 
-export const getStudentAttendance = (
+export const getStudentAttendanceSync = (
   classroom_id: number,
   student_id: number,
 ) => {
@@ -171,12 +171,35 @@ export const getStudentAttendance = (
   return query.observe();
 };
 
+export const getStudentAttendance = async (
+  classroom_id: number,
+  student_id: number,
+) => {
+  const query = await database.collections
+    .get<CenterAttendanceModel>('center_attendences')
+    .query(
+      Q.and(
+        Q.where('classroomId', classroom_id.toString()),
+        Q.where('studentId', student_id.toString()),
+      ),
+    )
+    .fetch();
+  const withRelations = await Promise.all(
+    query.map(async ce => ({
+      attendance: ce,
+      test: await ce.test.fetch(),
+      homework: await ce.homework.fetch(),
+    })),
+  );
+  return withRelations;
+};
+
 export const getCourseAttendance = (
   center_id: number | null,
   online_id: number | null,
   group_id: number | null,
+  type: string | null,
 ) => {
-  console.log('group_id',group_id)
   const query = database
     .get<CenterAttendanceModel>(CenterAttendanceModel.table)
     .query(
@@ -191,6 +214,10 @@ export const getCourseAttendance = (
         Q.on('enroll_classrooms', Q.where('group_id', group_id ?? null)),
       ),
     );
+
+  if (type) {
+    return query.extend(Q.where('type', type)).observe();
+  }
   return query.observe();
 };
 

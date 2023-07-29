@@ -1,5 +1,7 @@
 import {Typography} from 'components/Typography/Typography';
 import {fromPairs} from 'lodash';
+import {Button} from 'native-base';
+import {TouchableOpacity} from 'react-native';
 import {HStack, VStack} from 'native-base';
 import {Flex} from 'native-base';
 import {View} from 'native-base';
@@ -10,42 +12,55 @@ import {useAppSelector} from 'src/store';
 import {getFontSize} from 'src/theme/getFontSize';
 import {jsonReplacer} from 'src/utils/jsonReplacer';
 import styled from 'styled-components/native';
+import {useCourseAttendanceAnalytics} from 'src/hooks/useCourseAttendanceAnalytics';
 
-export const AnalyticsSection = () => {
+type Props = {
+  group_id?: number;
+  onAttendanceTypeChange?: (type: string | null) => void;
+};
+export const AnalyticsSection = ({group_id, onAttendanceTypeChange}: Props) => {
   const ref = useAppSelector(s => s.course.currentReference);
 
-  const {absent, attendance, center, online, total} = useCourseAttendance({
+  const {absent, center, online, total} = useCourseAttendanceAnalytics({
     center_id: ref?.center_course_id ?? null,
     online_id: ref?.online_course_id ?? null,
-    group_id: null,
+    group_id: group_id ?? null,
   });
 
   return (
     <View>
       <VStack space="6px" mb="32px">
-        <InfoCard backgroundColor={'primary.main'}>
-          <Flex>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => onAttendanceTypeChange?.(null)}>
+          <InfoCard backgroundColor={'primary.main'}>
+            <Flex>
+              <Typography
+                color={'#FFF'}
+                fontSize={getFontSize(12)}
+                fontWeight="600">
+                Total
+              </Typography>
+              <Typography
+                color={'#FFF'}
+                fontSize={getFontSize(12)}
+                fontWeight="600">
+                Attendance
+              </Typography>
+            </Flex>
             <Typography
               color={'#FFF'}
-              fontSize={getFontSize(12)}
+              fontSize={getFontSize(24)}
               fontWeight="600">
-              Total
+              {total}
             </Typography>
-            <Typography
-              color={'#FFF'}
-              fontSize={getFontSize(12)}
-              fontWeight="600">
-              Attendance
-            </Typography>
-          </Flex>
-          <Typography
-            color={'#FFF'}
-            fontSize={getFontSize(24)}
-            fontWeight="600">
-            {total}
-          </Typography>
-        </InfoCard>
-          <HStack space="8px">
+          </InfoCard>
+        </TouchableOpacity>
+        <HStack space="8px">
+          <TouchableOpacity
+            style={{flex: 1}}
+            activeOpacity={0.8}
+            onPress={() => onAttendanceTypeChange?.('center')}>
             <InfoCard backgroundColor="cadet.main">
               <Flex>
                 <Typography
@@ -68,6 +83,11 @@ export const AnalyticsSection = () => {
                 {center}
               </Typography>
             </InfoCard>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{flex: 1}}
+            activeOpacity={0.8}
+            onPress={() => onAttendanceTypeChange?.('online')}>
             <InfoCard backgroundColor="cadet.main">
               <Flex>
                 <Typography
@@ -90,7 +110,11 @@ export const AnalyticsSection = () => {
                 {online}
               </Typography>
             </InfoCard>
-          </HStack>
+          </TouchableOpacity>
+        </HStack>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => onAttendanceTypeChange?.('absent')}>
           <InfoCard backgroundColor="cadet.main">
             <Flex>
               <Typography
@@ -113,6 +137,7 @@ export const AnalyticsSection = () => {
               {absent}
             </Typography>
           </InfoCard>
+        </TouchableOpacity>
       </VStack>
     </View>
   );

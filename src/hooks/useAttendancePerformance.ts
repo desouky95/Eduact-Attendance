@@ -4,16 +4,21 @@ import {database} from 'src/database';
 import {getCourse} from 'src/database/data/classrooms.data';
 import CenterAttendanceModel from 'src/database/models/CenterAttendanceModel';
 import CourseModel from 'src/database/models/Course';
+import TestAttemptModel from 'src/database/models/TestAttemptModel';
 import TestModel from 'src/database/models/TestModel';
+import UnitModel from 'src/database/models/UnitModel';
 
 const observable = (id: string | null) =>
-  database.get<TestModel>(TestModel.table).query(Q.where('id', id)).observe();
+  database
+    .get<TestAttemptModel>(TestAttemptModel.table)
+    .query(Q.on('tests', Q.where('unit_id', id)))
+    .observe();
 
 export const useAttendancePerformance = (attendance: CenterAttendanceModel) => {
   const [isLoadingQuiz, setIsLoadingQuiz] = useState(true);
   const [isLoadingHomework, setIsLoadingHomework] = useState(true);
-  const [quiz, setQuiz] = useState<TestModel | undefined>();
-  const [homework, setHomework] = useState<TestModel | undefined>();
+  const [quiz, setQuiz] = useState<TestAttemptModel | undefined>();
+  const [homework, setHomework] = useState<TestAttemptModel | undefined>();
   const [course, setCourse] = useState<CourseModel | undefined>();
 
   useEffect(() => {
