@@ -3,17 +3,24 @@ import {Typography} from 'components/Typography/Typography';
 import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {getCourse} from 'src/database/data/classrooms.data';
+import ClassroomModel from 'src/database/models/Classroom';
 import CourseModel from 'src/database/models/Course';
 import {useAppDispatch} from 'src/store';
 import {setCurrent} from 'src/store/courseReducer/courseReducer';
 
-export const CoursePanel = ({course}: {course: CourseModel}) => {
+export const CoursePanel = ({
+  course,
+  classroom
+}: {
+  course: CourseModel;
+  classroom: ClassroomModel;
+}) => {
   const navigation = useNavigation<ClassroomRootProps>();
   const dispatch = useAppDispatch();
   return (
     <TouchableOpacity
       onPress={async () => {
-        dispatch(setCurrent({current: course}));
+        dispatch(setCurrent({current: course, classroom}));
         navigation.navigate('ClassroomRoot', {
           params: {current: course.sid},
           screen: 'Classroom',

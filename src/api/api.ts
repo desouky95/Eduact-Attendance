@@ -10,9 +10,14 @@ export const injectStore = (_store: any) => {
   store = _store;
 };
 
+console.log('BASE_URL', BASE_URL);
 export const api = axios.create({
   baseURL: BASE_URL,
-  headers: {'User-Agent': 'Mozilla/5.0'},
+  // headers: {'User-Agent': 'Mozilla/5.0'},
+  headers: {
+    'accept': 'application/json',
+    'content-type': 'application/json',
+  },
 });
 
 export const apiConfig = {

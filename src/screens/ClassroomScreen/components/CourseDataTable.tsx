@@ -1,6 +1,6 @@
 import {Table, TableMemo} from 'components/Table/Table';
 import {Typography} from 'components/Typography/Typography';
-import React from 'react';
+import React, {PropsWithChildren} from 'react';
 import {useCourseAttendance} from 'src/hooks/useCourseAttendance';
 import {useAppSelector} from 'src/store';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -109,7 +109,7 @@ export const CourseDataTable = ({group_id, type = null}: Props) => {
         </Modal.Content>
       </Modal>
 
-      {attendance.length > 0 && (
+      {attendance.length > 0 && !isLoading && (
         <Table
           withExport
           onExport={handleExport}

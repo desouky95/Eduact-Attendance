@@ -1,7 +1,7 @@
 import {Q} from '@nozbe/watermelondb';
 import React, {useEffect, useState} from 'react';
 import {database} from 'src/database';
-import {getCourse} from 'src/database/data/classrooms.data';
+import {getCourse, getQuiz} from 'src/database/data/classrooms.data';
 import CenterAttendanceModel from 'src/database/models/CenterAttendanceModel';
 import CourseModel from 'src/database/models/Course';
 import TestAttemptModel from 'src/database/models/TestAttemptModel';

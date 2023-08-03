@@ -35,7 +35,7 @@ export const ClassroomScreen = () => {
       {!ref && (
         <Flex flex={1} justifyContent="center">
           <Center>
-            <Typography fontWeight={'bold'} fontSize={'20'}>
+            <Typography fontWeight={'bold'} fontSize={20}>
               No Reference Provided !!!
             </Typography>
           </Center>

@@ -43,7 +43,7 @@ export const AttendanceActions = ({student, onCancel}: Props) => {
     }
   };
   return (
-    <HStack py="18" px="44" space="12px">
+    <HStack py="18" px="44" space="12px" justifyContent='center'>
       {!isEnrolled && (
         <Button
           borderColor={'primary.main'}
@@ -61,7 +61,7 @@ export const AttendanceActions = ({student, onCancel}: Props) => {
           </Typography>
         </Button>
       )}
-      {isEnrolled && (
+      {/* {isEnrolled && (
         // <Button
         //   borderColor={'primary.main'}
         //   color="primary.main"
@@ -77,8 +77,7 @@ export const AttendanceActions = ({student, onCancel}: Props) => {
         //     UNENROLL
         //   </Typography>
         // </Button>
-        <></>
-      )}
+      )} */}
       <Button
         colorScheme={'orange'}
         borderColor={'orange.500'}

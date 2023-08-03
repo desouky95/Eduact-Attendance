@@ -124,8 +124,8 @@ export const getEnrollment = (course_id: number, student_id: number) => {
     .get<EnrolledCourseModel>(EnrolledCourseModel.table)
     .query(
       Q.and(
-        Q.where('user_id', student_id.toString()),
-        Q.where('course_id', course_id.toString()),
+        Q.where('user_id', student_id?.toString()),
+        Q.where('course_id', course_id?.toString()),
       ),
     );
 

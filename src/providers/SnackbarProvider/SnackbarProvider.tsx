@@ -83,7 +83,7 @@ export const SnackbarProvider = ({children}: PropsWithChildren) => {
   const openSnackbar = useCallback(
     (args: OpenSnackbarConfig) => {
       const {
-        duration = 5000,
+        duration = 2000,
         variant = 'dark',
         message = '',
         autoClose = false,

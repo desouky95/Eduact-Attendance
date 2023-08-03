@@ -89,6 +89,7 @@ export const setupClassrooms = async (withProgress?: WithProgressArgs) => {
       batchActions.push(
         unitsQuery.prepareCreate(builder => {
           builder.sid = unit.id;
+          builder.name = unit.name;
           builder._raw.id = unit.id.toString();
           builder.course_id = unit.course_id.toString();
           builder._raw._status = 'synced';
@@ -137,12 +138,14 @@ export const setupClassrooms = async (withProgress?: WithProgressArgs) => {
         attemptQuery.prepareCreate(builder => {
           builder._raw = sanitizedRaw(
             {
+              id: attempt.id.toString(),
               student_id: attempt.student_id?.toString(),
               s_student_id: attempt.student_id,
               test_id: attempt.test_id?.toString(),
               s_test_id: attempt.test_id,
               active: attempt.active,
               grade: attempt.grade,
+              status : attempt.status,
               score: attempt.score,
             },
             attemptQuery.schema,

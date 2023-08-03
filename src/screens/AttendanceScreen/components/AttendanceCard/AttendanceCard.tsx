@@ -13,6 +13,7 @@ import React from 'react';
 import CenterAttendanceModel from 'src/database/models/CenterAttendanceModel';
 import {useAttendancePerformance} from 'src/hooks/useAttendancePerformance';
 import {ColorSchemaVariant} from 'src/theme/theme';
+import {QuizDataRow} from '../QuizDataRow/QuizDataRow';
 
 export const AttendanceCard = ({
   attendance,
@@ -93,18 +94,7 @@ export const AttendanceCard = ({
                     Quiz
                   </Typography>
                 </Box>
-                <HStack justifyContent={'space-between'} flex={1}>
-                  <Box flex={1}>
-                    <Typography textAlign={'center'}>
-                      {quiz?.score ?? '-'}
-                    </Typography>
-                  </Box>
-                  <Box flex={1}>
-                    <Typography textAlign={'center'}>
-                      {quiz?.status ?? '-'}
-                    </Typography>
-                  </Box>
-                </HStack>
+                {quiz && <QuizDataRow attempt={quiz} />}
               </HStack>
               <HStack py="8px">
                 <Box flex={1}>
@@ -112,18 +102,7 @@ export const AttendanceCard = ({
                     H.W
                   </Typography>
                 </Box>
-                <HStack justifyContent={'space-between'} flex={1}>
-                  <Box flex={1}>
-                    <Typography textAlign={'center'}>
-                      {homework?.score ?? '-'}
-                    </Typography>
-                  </Box>
-                  <Box flex={1}>
-                    <Typography textAlign={'center'}>
-                      {homework?.status ?? '-'}
-                    </Typography>
-                  </Box>
-                </HStack>
+                {homework && <QuizDataRow attempt={homework}  />}
               </HStack>
             </>
           )}

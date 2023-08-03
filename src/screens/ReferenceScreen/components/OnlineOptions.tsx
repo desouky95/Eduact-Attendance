@@ -123,9 +123,9 @@ export const OnlineOptions = () => {
                     shadow={'4'}>
                     {tests?.map(test => (
                       <Select.Item
-                        key={test?.unit.id}
-                        label={test?.test.title}
-                        value={test?.unit.sid.toString()}
+                        key={test?.id}
+                        label={test?.name}
+                        value={test?.id.toString()}
                       />
                     ))}
                   </Select>
@@ -152,9 +152,9 @@ export const OnlineOptions = () => {
                       borderColor="primary.main">
                       {tests?.map(test => (
                         <Select.Item
-                          key={test?.unit.id}
-                          label={test?.test.title}
-                          value={test?.unit.sid.toString()}
+                          key={test?.id}
+                          label={test?.name}
+                          value={test?.id.toString()}
                         />
                       ))}
                     </Select>

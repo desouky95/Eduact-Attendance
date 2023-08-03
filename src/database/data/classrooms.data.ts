@@ -6,6 +6,7 @@ import {first, firstValueFrom, flatMap, mergeMap, take} from 'rxjs';
 import StudentModel from '../models/StudentModel';
 import UserModel from '../models/UserModel';
 import CenterAttendanceModel from '../models/CenterAttendanceModel';
+import TestModel from '../models/TestModel';
 
 export const classroomsQuery = database.collections
   .get<ClassroomModel>('classrooms')
@@ -23,6 +24,13 @@ export const getCourse = (id: number) =>
     .observe()
     .pipe(first());
 
+export const getQuiz = (id: number) =>
+  database.collections
+    .get<TestModel>(TestModel.table)
+    .query(Q.where('sid', id), Q.take(1))
+    .observe()
+    .pipe(first());
+
 export const searchStudents = (query: string) => {
   const _query = database.collections
     .get<UserModel>('users')
@@ -34,4 +42,3 @@ export const searchStudents = (query: string) => {
     );
   return _query;
 };
-

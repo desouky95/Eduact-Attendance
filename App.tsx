@@ -8,9 +8,8 @@ import 'react-native-reanimated';
 import 'react-native-gesture-handler';
 import DatabaseProvider from '@nozbe/watermelondb/DatabaseProvider';
 import {database} from 'src/database';
-import {useAppSelector} from 'src/store';
 import {NetworkStatus} from 'components/NetworkStatus/NetworkStatus';
-import {Text} from 'react-native';
+import ErrorBoundary from 'react-native-error-boundary'
 import {SnackbarProvider} from 'src/providers/SnackbarProvider/SnackbarProvider';
 import {SyncProvider} from 'src/providers/SyncProvider/SyncProvider';
 import {SyncStatus} from 'components/SyncStatus/SyncStatus';
@@ -31,31 +30,31 @@ const useSyncState = () => {
 };
 function App(): JSX.Element {
   const [isAppReady, setIsAppReady] = useState(false);
-  const isLogged = useAppSelector(s => s.auth.isLogged);
-  const {db_setup_finished} = useAppSelector(s => s.db);
+
   useEffect(() => {
     setIsAppReady(true);
   }, []);
 
   const syncProps = useSyncState();
 
-
   return (
-    <DatabaseProvider database={database}>
-      <WithSplashScreen isAppReady={isAppReady}>
-        <NativeBaseProvider theme={theme}>
-          <ThemeProvider theme={theme}>
-            <SnackbarProvider>
-              <SyncProvider {...syncProps}>
-                <SyncStatus />
-                <NetworkStatus />
-                <Router />
-              </SyncProvider>
-            </SnackbarProvider>
-          </ThemeProvider>
-        </NativeBaseProvider>
-      </WithSplashScreen>
-    </DatabaseProvider>
+    <ErrorBoundary>
+      <DatabaseProvider database={database}>
+        <WithSplashScreen isAppReady={isAppReady}>
+          <NativeBaseProvider theme={theme}>
+            <ThemeProvider theme={theme}>
+              <SnackbarProvider>
+                <SyncProvider {...syncProps}>
+                  <SyncStatus />
+                  <NetworkStatus />
+                  <Router />
+                </SyncProvider>
+              </SnackbarProvider>
+            </ThemeProvider>
+          </NativeBaseProvider>
+        </WithSplashScreen>
+      </DatabaseProvider>
+     </ErrorBoundary>
   );
 }
 

@@ -45,7 +45,11 @@ export const StudentSearch = ({onStudentChange}: Props) => {
 
   return (
     <>
-      <QRCodeScanner isActive={scan} onSuccess={handleOnScanSuccess} />
+      <QRCodeScanner
+        onClose={() => setScan(false)}
+        isActive={scan}
+        onSuccess={handleOnScanSuccess}
+      />
       <VStack mb="20px">
         <VStack px="38" space={'10px'} alignItems={'center'}>
           <EdTextInput

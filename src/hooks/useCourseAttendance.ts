@@ -12,14 +12,23 @@ import {
   take,
   from,
   toArray,
+  of,
   last,
   takeLast,
+  Subject,
+  takeUntil,
+  Observable,
+  forkJoin,
+  flatMap,
+  firstValueFrom,
 } from 'rxjs';
 import {finalize, mergeAll} from 'rxjs/operators';
 import StudentModel from 'src/database/models/StudentModel';
 import {database} from 'src/database';
 import EnrolledClassroomModel from 'src/database/models/EnrolledClassroomModel';
 import {Q} from '@nozbe/watermelondb';
+import {useFocusEffect} from '@react-navigation/native';
+import {jsonReplacer} from 'src/utils/jsonReplacer';
 
 const loadEnrollClassroom = (attendance: CenterAttendanceModel) => {
   return database
@@ -46,58 +55,66 @@ type AttendanceData = {
   student: StudentModel;
   enrollment: EnrolledClassroomModel;
 };
+
 export const useCourseAttendance = ({
   center_id,
   group_id,
   online_id,
   type,
 }: UseCourseAttendanceArgs) => {
-  const [data, setData] = useState<AttendanceData[]>([]);
-
+  const [data, setData] = useState<CenterAttendanceModel[]>([]);
+  const [dataWithRelations, setDataWithRelations] = useState<AttendanceData[]>(
+    [],
+  );
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (!center_id) {
-      setData([]);
-      return;
-    }
-
-    const subscription = getCourseAttendance(
-      center_id,
-      online_id,
-      group_id,
-      type,
-    )
-      .pipe(
-        // take(),
-        mergeAll(),
-        mergeMap(s =>
-          zip(
-            s.student.observe(),
-            s.user.observe(),
-            s.observe(),
-            loadEnrollClassroom(s),
-          ),
-        ),
-        map(value => ({
-          student: value[0] as any as StudentModel,
-          user: value[1] as any as UserModel,
-          attendance: value[2],
-          enrollment: value[3][0],
-        })),
-        scan((acc, v) => acc.concat(v), [] as AttendanceData[]),
-      )
-      .subscribe(value => {
-        setData(prev => value);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (!center_id) {
+        setData([]);
+        return;
+      }
+      setIsLoading(true);
+      const subscription = getCourseAttendance(
+        center_id,
+        online_id,
+        group_id,
+        type,
+      ).subscribe(async value => {
+        setData(value);
+        try {
+          getWithRelations(value).then(value => {
+            setDataWithRelations(value);
+            setIsLoading(false);
+          });
+        } catch (error) {
+          console.error(error);
+        }
       });
 
-    return () => subscription.unsubscribe();
-  }, [center_id, online_id, group_id, type]);
+      return () => subscription.unsubscribe();
+    }, [center_id, online_id, group_id, type]),
+  );
 
+  const getWithRelations = async (data: CenterAttendanceModel[]) => {
+    let withRelations = [];
+    for (let index = 0; index < data.length; index++) {
+      const attendance = data[index];
+      const user = (await attendance.user.fetch()) as any as UserModel;
+      const student = (await attendance.student.fetch()) as any as StudentModel;
+      const [enrollment] = (await firstValueFrom(
+        loadEnrollClassroom(attendance),
+      )) as any as EnrolledClassroomModel[];
+
+      withRelations.push({attendance, student, user, enrollment});
+    }
+
+    return withRelations;
+  };
 
   return {
-    attendance: data,
+    attendance: dataWithRelations,
     total: data.length,
-    isLoading,
+    isLoading
   };
 };

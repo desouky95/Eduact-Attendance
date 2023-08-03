@@ -24,7 +24,7 @@ export const ClassroomPanel = ({classroom}: {classroom: ClassroomModel}) => {
       </AccordionSummary>
       <View>
         {courses.map((lesson, index) => (
-          <CoursePanel key={`${lesson.name}-${index}`} course={lesson} />
+          <CoursePanel key={`${lesson.name}-${index}`} course={lesson} classroom={classroom} />
         ))}
       </View>
     </Accordion>

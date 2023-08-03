@@ -52,6 +52,8 @@ export const NetworkStatus = () => {
     }, 500);
   };
 
+  console.log('isConnected',isConnected)
+
   const animatedStyle = useAnimatedStyle(() => {
     const color = !isConnected
       ? theme.colors.red[100]

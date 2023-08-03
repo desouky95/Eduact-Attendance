@@ -47,7 +47,7 @@ export const useClassroomDropdown = ({
 }: UseClassroomDropdownArgs) => {
   const [classrooms, setClassrooms] = useState<ClassroomModel[]>([]);
   const [courses, setCourses] = useState<CourseModel[]>([]);
-  const [tests, setTests] = useState<{unit: UnitModel; test: TestModel}[]>([]);
+  const [tests, setTests] = useState<UnitModel[]>([]);
   const [groups, setGroups] = useState<GroupModel[]>([]);
 
   useEffect(() => {
@@ -66,17 +66,17 @@ export const useClassroomDropdown = ({
     const subscription = testsObservable(course_id)
       .pipe()
       .subscribe(async value => {
-        const data = await Promise.all(
-          value.map(async _ => {
-            const test = await database
-              .get<TestModel>(TestModel.table)
-              .query(Q.where('unit_id', _.id))
-              .fetch();
-            return {unit: _, test: test![0]};
-          }),
-        );
+        // const data = await Promise.all(
+        //   value.map(async _ => {
+        //     const test = await database
+        //       .get<TestModel>(TestModel.table)
+        //       .query(Q.where('unit_id', _.id))
+        //       .fetch();
+        //     return {unit: _, test: test![0]};
+        //   }),
+        // );
 
-        setTests(data);
+        setTests(value);
       });
     return () => subscription.unsubscribe();
   }, [course_id]);

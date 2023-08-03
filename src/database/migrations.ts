@@ -153,5 +153,14 @@ export default schemaMigrations({
         }),
       ],
     },
+    {
+      toVersion: 14,
+      steps: [
+        addColumns({
+          table: unitSchema.name,
+          columns: [{name: 'name', type: 'string'}],
+        }),
+      ],
+    },
   ],
 });

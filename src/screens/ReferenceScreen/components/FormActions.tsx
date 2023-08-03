@@ -44,7 +44,7 @@ export const FormActions = ({reference}: {reference: CourseReferenceModel}) => {
           height="10"
           borderRadius={'100px'}
           _pressed={{opacity: 0.8}}
-          width={'1/2'}
+          width={'1/3'}
           isDisabled={!isDirty}
           onPress={handleSubmitForm}>
           <Typography fontWeight={'bold'} color="#FFF">
@@ -62,10 +62,27 @@ export const FormActions = ({reference}: {reference: CourseReferenceModel}) => {
           height="10"
           borderRadius={'100px'}
           _pressed={{opacity: 0.8}}
-          width={'1/2'}
+          width={'1/3'}
           variant={'outline'}>
           <Typography fontWeight={'bold'} color={theme.colors.warning[500]}>
             Cancel
+          </Typography>
+        </Button>
+        <Button
+          onPress={() => reset()}
+          colorScheme={'muted'}
+          borderColor={'muted.500'}
+          color="muted.main"
+          outlineColor={'aqua'}
+          // isDisabled={!isDirty}
+          size="md"
+          height="10"
+          borderRadius={'100px'}
+          _pressed={{opacity: 0.8}}
+          width={'1/3'}
+          variant={'outline'}>
+          <Typography fontWeight={'bold'} color={theme.colors.muted[500]}>
+            Clear
           </Typography>
         </Button>
       </HStack>

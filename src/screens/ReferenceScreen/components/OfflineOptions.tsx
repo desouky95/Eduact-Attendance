@@ -137,9 +137,9 @@ export const OfflineOptions = () => {
                   shadow={'4'}>
                   {tests?.map(test => (
                     <Select.Item
-                      key={test?.unit.id}
-                      label={test?.test.title}
-                      value={test?.unit.sid.toString()}
+                      key={test?.id}
+                      label={test?.name}
+                      value={test?.id.toString()}
                     />
                   ))}
                 </Select>
@@ -169,9 +169,9 @@ export const OfflineOptions = () => {
                   borderColor="cadet.main">
                   {tests?.map(test => (
                     <Select.Item
-                      key={test?.unit.id}
-                      label={test?.test.title}
-                      value={test?.unit.sid.toString()}
+                      key={test?.id}
+                      label={test?.name}
+                      value={test?.id.toString()}
                     />
                   ))}
                 </Select>

@@ -166,6 +166,9 @@ dependencies {
     }
 
     debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}")
+    
+    implementation project(':lottie-react-native')
+
     if (hermesEnabled.toBoolean()) {
         implementation('com.facebook.react:hermes-android')
     } else {

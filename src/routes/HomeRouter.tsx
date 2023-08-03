@@ -14,7 +14,10 @@ import {DownloadingScreen} from 'src/screens/DownloadingScreen/DownloadingScreen
 import {useAppDispatch, useAppSelector} from 'src/store';
 import {useFocusEffect, useIsFocused} from '@react-navigation/native';
 import {getReference} from 'src/database/data/reference.data';
-import {flushCurrent, setCurrentReference} from 'src/store/courseReducer/courseReducer';
+import {
+  flushCurrent,
+  setCurrentReference,
+} from 'src/store/courseReducer/courseReducer';
 
 const Tab = createBottomTabNavigator<ClassroomRootTabParamList>();
 const Stack = createNativeStackNavigator<HomeRootStackParamList>();
@@ -40,15 +43,17 @@ const ClassroomRoot = () => {
 
   const dispatch = useAppDispatch();
 
+
   useFocusEffect(() => {
     const subscription = getReference(current?.sid).subscribe(value => {
       dispatch(setCurrentReference(value));
     });
     return () => {
       subscription.unsubscribe();
-      dispatch(flushCurrent())
+      // dispatch(flushCurrent());
     };
   });
+
   return (
     <Tab.Navigator
       screenOptions={{headerShown: false}}

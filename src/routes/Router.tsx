@@ -34,7 +34,7 @@ export const Router = () => {
         {!isLogged && <Stack.Screen name="Login" component={LoginScreen} />}
         {isLogged && !db_setup_finished && (
           <Stack.Screen name="Downloading" component={DownloadingScreen} />
-        )}
+          )}
         {isLogged && db_setup_finished && (
           <Stack.Screen
             name="HomeRoot"

@@ -1,7 +1,7 @@
 import {Q} from '@nozbe/watermelondb';
 import {Typography} from 'components/Typography/Typography';
 import {Avatar, Center, VStack, Skeleton} from 'native-base';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Text, View} from 'react-native';
 import {firstValueFrom, mergeMap} from 'rxjs';
 import {
@@ -51,22 +51,30 @@ export const StudentAttendance = ({
       user.sid,
     ).subscribe(value => {
       setAttendances(value);
-      setIsLoading(false)
+      setIsLoading(false);
     });
 
     return () => subscription.unsubscribe();
   }, [processedAttendance]);
+
+  const picture = useMemo(() => {
+    console.log('profile_picture', user.profile_photo);
+    console.log('placeholder', require('assets/account.png').default);
+    return !user.profile_photo || user.profile_photo === ''
+      ? undefined
+      : user.profile_photo;
+  }, [user.profile_photo]);
+
   return (
     <View style={{width: '100%'}}>
       {!isLoading && (
         <Center width="100%" px="2">
           <VStack alignItems="center" space={'6px'} mb="5px">
             {/* <Skeleton size="20" rounded={'full'} isLoaded={false}> */}
-            <Avatar
-              bg={'yellow.500'}
-              size="lg"
-              source={{uri: user.profile_photo}}>
-              {user.first_name[0]} {user.last_name[0]}
+            <Avatar bg={'yellow.500'} size="lg" source={{uri: picture}}>
+              <Typography>
+                {user.first_name[0]} {user.last_name[0]}
+              </Typography>
             </Avatar>
             {/* </Skeleton> */}
             {/* <Skeleton.Text /> */}

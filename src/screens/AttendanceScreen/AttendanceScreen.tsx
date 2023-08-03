@@ -23,45 +23,41 @@ export const AttendanceScreen = () => {
 
   const [currentStudent, setCurrentStudent] = useState<UserModel | undefined>();
 
-  const current = useAppSelector(s => s.course.current);
-
   const [toggleSearch, setToggleSearch] = useState(false);
 
   return (
-    <ScrollView>
-      <View
-        style={{
-          paddingHorizontal: 20,
-          flex: 1,
-          width: '100%',
-        }}>
-        <CourseHeader />
-        <StudentSearch
-          onStudentChange={studentUser => {
-            setCurrentStudent(studentUser);
-            setToggleSearch(true);
+    <View
+      style={{
+        paddingHorizontal: 20,
+        flex: 1,
+        width: '100%',
+      }}>
+      <CourseHeader />
+      <StudentSearch
+        onStudentChange={studentUser => {
+          setCurrentStudent(studentUser);
+          setToggleSearch(true);
+        }}
+      />
+      <Box minHeight="450">
+        <ScrollView style={{maxHeight: 450}}>
+          {currentStudent && (
+            <StudentAttendance
+              onSearchSuccess={() => setToggleSearch(false)}
+              toggleSearch={toggleSearch}
+              user={currentStudent}
+            />
+          )}
+        </ScrollView>
+      </Box>
+      {currentStudent && (
+        <AttendanceActions
+          student={currentStudent}
+          onCancel={() => {
+            setCurrentStudent(undefined);
           }}
         />
-        <Box minHeight="450" >
-          <ScrollView style={{maxHeight:450}}>
-            {currentStudent && (
-              <StudentAttendance
-                onSearchSuccess={() => setToggleSearch(false)}
-                toggleSearch={toggleSearch}
-                user={currentStudent}
-              />
-            )}
-          </ScrollView>
-        </Box>
-        {currentStudent && (
-          <AttendanceActions
-            student={currentStudent}
-            onCancel={() => {
-              setCurrentStudent(undefined);
-            }}
-          />
-        )}
-      </View>
-    </ScrollView>
+      )}
+    </View>
   );
 };

@@ -1,6 +1,6 @@
 import {Spacer} from 'components/Spacer/Spacer';
 import {Typography} from 'components/Typography/Typography';
-import {Button, Flex} from 'native-base';
+import {Button, Flex, HStack} from 'native-base';
 import {Center} from 'native-base';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Text, View} from 'react-native';
@@ -15,6 +15,8 @@ import {DownloadAction} from './components/DownloadAction';
 import {Spinner} from 'native-base';
 import {WithProgressArgs} from 'src/api/api';
 import {useDatabase} from '@nozbe/watermelondb/hooks';
+import LottieView from 'lottie-react-native';
+import {VStack} from 'native-base';
 const DownloadingScreenUI = () => {
   const [finishSetup, setFinishSetup] = useState(false);
   const [startSetup, setStartSetup] = useState(false);
@@ -43,6 +45,8 @@ const DownloadingScreenUI = () => {
     setStartSetup(true);
   }, []);
 
+  const successAnimation = useRef<LottieView | null>(null);
+
   useEffect(() => {
     if (!startSetup) return;
     const processActions = async () => {
@@ -62,6 +66,7 @@ const DownloadingScreenUI = () => {
     if (startSetup) {
       processActions().then(() => {
         setFinishSetup(true);
+        successAnimation.current?.play();
       });
     }
   }, [startSetup]);
@@ -78,23 +83,53 @@ const DownloadingScreenUI = () => {
 
   return (
     <View style={{flex: 1}}>
-      <Center flex="1" alignItems="center" backgroundColor={'gray.200'}>
+      <Center
+        flex="1"
+        alignItems="center"
+        backgroundColor={'gray.50'}
+        padding={4}>
         {!finishSetup && (
-          <>
-            <Spinner size={'lg'} />
-            <Text>
-              Setting up app... Almost there! We're preparing everything for
-              you. Thank you for your patience.
-            </Text>
-          </>
+        <>
+          <LottieView
+            source={require('assets/animations/downloading.json')}
+            autoPlay
+            loop
+            style={{width: 400, height: 400}}
+          />
+          <Flex>
+            <Typography fontSize={'24px'} fontWeight={'bold'}>
+              Setting up app... Almost there!
+            </Typography>
+            <Typography fontSize={'24px'} fontWeight={'bold'}>
+              We're preparing everything for you. Thank you for your patience.
+            </Typography>
+          </Flex>
+        </>
         )}
         {finishSetup && (
-          <>
-            <Text>Setup finished</Text>
-            <Flex my="10" alignItems="flex-end">
-              <Button onPress={() => handleGettingStarted()}>Start</Button>
+          <VStack width="100%" flex={1}>
+            <Flex flex={1} alignItems="center" justifyContent="center">
+              <LottieView
+                source={require('assets/animations/check.json')}
+                autoPlay
+                ref={anim => {
+                  successAnimation.current = anim;
+                }}
+                speed={0.3}
+                loop={false}
+                style={{width: 400, height: 400}}
+              />
             </Flex>
-          </>
+            <Button
+              colorScheme={'lightBlue'}
+              width={'100%'}
+              size="lg"
+              rounded={'full'}
+              _text={{fontWeight: 'bold'}}
+              onPress={() => handleGettingStarted()}>
+              Start
+            </Button>
+          </VStack>
         )}
       </Center>
     </View>

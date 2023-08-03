@@ -1,11 +1,18 @@
-export function jsonReplacer(key: any, val: any) {
-  var seen: any[] = [];
-
-  if (val != null && typeof val == 'object') {
-    if (seen.indexOf(val) >= 0) {
-      return;
+export function jsonReplacer() {
+  const ancestors = [];
+  return function (key, value) {
+    if (typeof value !== 'object' || value === null) {
+      return value;
     }
-    seen.push(val);
-  }
-  return val;
+    // `this` is the object that value is contained in,
+    // i.e., its direct parent.
+    while (ancestors.length > 0 && ancestors.at(-1) !== this) {
+      ancestors.pop();
+    }
+    if (ancestors.includes(value)) {
+      return '[Circular]';
+    }
+    ancestors.push(value);
+    return value;
+  };
 }

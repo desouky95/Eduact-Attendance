@@ -42,6 +42,7 @@ declare type Course = {
 declare type Unit = {
   id: number;
   course_id: number;
+  name : string;
   test: Test;
 };
 declare type Test = {

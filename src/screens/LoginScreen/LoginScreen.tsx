@@ -49,8 +49,14 @@ export const LoginScreen = () => {
 
         dispatch(addUser(data.data));
       } catch (error) {
-        console.error(error)
         if (isAxiosError(error)) {
+          console.error('error',error)
+          if(error.code === 'ERR_NETWORK')
+          openSnackbar({
+            variant: 'error',
+            message: 'No Internet Connection',
+          });
+          else
           openSnackbar({
             variant: 'error',
             message: error?.response?.data['message'],
