@@ -31,7 +31,6 @@ const DownloadingScreenUI = () => {
 
   const actions = useRef(actionsMap);
   function setupDatabase() {
-    debugger;
     Object.entries(actionsMap).forEach(([key, action]) => {
       if (!steps[key as Step]) {
         setActionsToProcess(prev => [...prev, {key, action}]);

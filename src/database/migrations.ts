@@ -162,5 +162,22 @@ export default schemaMigrations({
         }),
       ],
     },
+    {
+      toVersion: 15,
+      steps: [
+        addColumns({
+          table: centerAttendanceSchema.name,
+          columns: [{name: 'created_at', type: 'number'}],
+        }),
+        addColumns({
+          table: enrollClassroomSchema.name,
+          columns: [{name: 'created_at', type: 'number'}],
+        }),
+        addColumns({
+          table: enrolledCourseSchema.name,
+          columns: [{name: 'created_at', type: 'number'}],
+        }),
+      ],
+    },
   ],
 });

@@ -21,5 +21,7 @@ export const enrolledCourseSchema = tableSchema({
       type: 'number',
       isOptional: true,
     },
+    {name: 'created_at', type: 'number'},
+
   ],
 });

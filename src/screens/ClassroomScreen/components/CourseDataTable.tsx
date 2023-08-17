@@ -12,6 +12,10 @@ import {removeStudentAttendance} from 'src/database/data/attendance.data';
 import {jsonToCSV} from 'react-native-csv';
 import RNFetchBlob from 'rn-fetch-blob';
 import Share from 'react-native-share';
+import {StudentDataRow} from './StudentDataRow';
+import UserModel from 'src/database/models/UserModel';
+import StudentModel from 'src/database/models/StudentModel';
+import {PermissionsAndroid} from 'react-native';
 
 type Props = {group_id?: number; type: string | null};
 
@@ -52,8 +56,25 @@ export const CourseDataTable = ({group_id, type = null}: Props) => {
     setToBeDeleted(undefined);
   };
 
-  const handleExport = () => {
-    const data = attendance.map(_ => ({
+  const loadExportData = async () => {
+    const data = await Promise.all(
+      attendance.map(async attendance => ({
+        user: (await attendance.user.fetch()) as any as UserModel,
+        student: (await attendance.student.fetch()) as any as StudentModel,
+        attendance,
+      })),
+    );
+
+    return data;
+  };
+  const handleExport = async () => {
+    const granted = await PermissionsAndroid.requestMultiple([
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+    ]);
+    if (!granted) return;
+    const loadedData = await loadExportData();
+    const data = loadedData.map(_ => ({
       username: _.user.username,
       name: `${_.user.first_name} ${_.user.last_name}`,
       phone: _.user.phone_number,
@@ -61,19 +82,24 @@ export const CourseDataTable = ({group_id, type = null}: Props) => {
       parent: _.student.parent_phone,
     }));
     const csv = jsonToCSV(data);
-    const pathToWrite = `${RNFetchBlob.fs.dirs.DownloadDir}/data.csv`;
+    const pathToWrite = `${
+      RNFetchBlob.fs.dirs.DownloadDir
+    }/data-${Date.now()}.csv`;
+    console.log('pathToWrite', pathToWrite);
+    let filename;
+    // if(Platform)
     RNFetchBlob.fs
       .writeFile(pathToWrite, csv, 'utf8')
       .then(() => {
         Share.open({
           message: 'Attendance Data',
-          url: `file:/${pathToWrite}`,
+          url: `file://${pathToWrite}`,
           showAppsToView: true,
           filename: 'data',
           saveToFiles: true,
           type: 'text/csv',
         });
-        // wrote file /storage/emulated/0/Download/data.csv
+        // wrote file /storage/emul ated/0/Download/data.csv
       })
       .catch(error => console.error(error));
   };
@@ -115,63 +141,13 @@ export const CourseDataTable = ({group_id, type = null}: Props) => {
           onExport={handleExport}
           columns={['head 1', 'head 2', 'head 3', 'head 4', 'head 5', 'head 6']}
           data={attendance}>
-          {({TableCell, TableRow, item, index}) => {
+          {({item, index}) => {
             return (
-              <TableRow
-                key={`${item.attendance.courseId}-${item.attendance.studentId}-${index}`}>
-                <TableCell>
-                  <Typography numberOfLines={1} style={{width: '100%'}}>
-                    {item?.user?.first_name} {item?.user?.last_name}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <HStack
-                    w="100%"
-                    justifyContent="space-between"
-                    px={5}
-                    alignItems="center">
-                    <Button
-                      bgColor="transparent"
-                      _pressed={{
-                        opacity: 0.5,
-                      }}>
-                      <VStack space={0} justifyContent="center">
-                        <Icon
-                          size={24}
-                          name="eye-outline"
-                          color={theme.colors.primary.main}
-                        />
-                        <Typography
-                          fontSize={'10px'}
-                          numberOfLines={1}
-                          color={theme.colors.primary.main}>
-                          View
-                        </Typography>
-                      </VStack>
-                    </Button>
-                    <Button
-                      onPress={() => handleOnRemove(item?.user?.sid)}
-                      bgColor="transparent"
-                      _pressed={{
-                        opacity: 0.5,
-                      }}>
-                      <VStack space={0} alignItems="center">
-                        <IconMd
-                          size={24}
-                          name="highlight-remove"
-                          color={theme.colors.warning[600]}
-                        />
-                        <Typography
-                          fontSize={'10px'}
-                          numberOfLines={1}
-                          color={theme.colors.warning[600]}>
-                          Remove
-                        </Typography>
-                      </VStack>
-                    </Button>
-                  </HStack>
-                </TableCell>
-              </TableRow>
+              <StudentDataRow
+                onDelete={handleOnRemove}
+                key={`${item.courseId}-${item.studentId}-${index}`}
+                attendance={item}
+              />
             );
           }}
         </Table>

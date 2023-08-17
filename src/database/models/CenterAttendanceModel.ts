@@ -4,6 +4,7 @@ import {
   date,
   field,
   immutableRelation,
+  readonly,
   relation,
   text,
 } from '@nozbe/watermelondb/decorators';
@@ -21,7 +22,7 @@ export default class CenterAttendanceModel extends Model {
     users: {type: 'belongs_to', key: 'studentId'},
     classrooms: {type: 'belongs_to', key: 'classroomId'},
     courses: {type: 'belongs_to', key: 'courseId'},
-    enroll_classrooms: {type: 'belongs_to', key: 'classroomId'},
+    enroll_classrooms: {type: 'belongs_to', key: 'classroom_id'},
   };
 
   @relation('students', 'studentId') student!: Query<StudentModel>;
@@ -38,4 +39,6 @@ export default class CenterAttendanceModel extends Model {
   @text('homeworkId') homeworkId!: string | null;
   @text('quizId') quizId!: string | null;
   @text('type') type!: string;
+
+  @readonly @date('created_at') createdAt!: Date;
 }

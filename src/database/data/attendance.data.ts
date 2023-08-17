@@ -30,6 +30,7 @@ const createCenterAttendance = async (
   course_id: number,
   student_id: number,
   reference: CourseReferenceModel,
+  classroom_id?: number,
 ) => {
   const [course] = await database
     .get<CourseModel>(CourseModel.table)
@@ -40,33 +41,13 @@ const createCenterAttendance = async (
       await database
         .get<CenterAttendanceModel>(CenterAttendanceModel.table)
         .create(builder => {
+          builder._raw.id = `${student_id}-${course.id}-${course.classroom_id}`;
           builder.classroomId = course.classroom_id.toString();
           builder.courseId = course.id;
           builder.studentId = student_id.toString();
           builder.homeworkId = reference.homework_id?.toString() ?? null;
           builder.quizId = reference.quiz_id?.toString() ?? null;
           builder.type = 'center';
-        }),
-  );
-};
-
-const createAbsentAttendance = async (
-  course_id: number,
-  student_id: number,
-) => {
-  const [course] = await database
-    .get<CourseModel>(CourseModel.table)
-    .query(Q.and(Q.where('id', course_id.toString())))
-    .fetch();
-  await database.write(
-    async () =>
-      await database
-        .get<CenterAttendanceModel>(CenterAttendanceModel.table)
-        .create(builder => {
-          builder.classroomId = course.classroom_id.toString();
-          builder.courseId = course.id;
-          builder.studentId = student_id.toString();
-          builder.type = 'absent';
         }),
   );
 };
@@ -99,6 +80,7 @@ const createAttendanceByReference = async (
       await database
         .get<CenterAttendanceModel>(CenterAttendanceModel.table)
         .create(builder => {
+          builder._raw.id = `${student_id}-${course_id}-${course.classroom_id}`;
           builder.classroomId = course.classroom_id.toString();
           builder.courseId = course.id;
           builder.studentId = student_id.toString();
@@ -133,8 +115,8 @@ export const checkStudentHasAttendance = async (
     .get<EnrolledCourseModel>(EnrolledCourseModel.table)
     .query(
       Q.and(
-        Q.where('user_id', student_id),
-        Q.where('course_id', reference.center_course_id),
+        Q.where('user_id', student_id.toString()),
+        Q.where('course_id', reference.center_course_id.toString()),
       ),
     )
     .fetch();
@@ -167,6 +149,7 @@ export const getStudentAttendanceSync = (
         Q.where('classroomId', classroom_id.toString()),
         Q.where('studentId', student_id.toString()),
       ),
+      Q.sortBy('created_at', 'desc'),
     );
   return query.observe();
 };
@@ -203,21 +186,26 @@ export const getCourseAttendance = (
   const query = database
     .get<CenterAttendanceModel>(CenterAttendanceModel.table)
     .query(
-      Q.experimentalJoinTables(['enroll_classrooms', 'students']),
-      Q.and(
-        Q.where(
-          'courseId',
+      Q.unsafeSqlQuery(
+        `
+      select ce.* from center_attendences ce join 
+      (
+        select classroom_id as id , group_id ,user_id from enroll_classrooms 
+      )  ec
+      on ec.id = ce.classroomId and ec.user_id = ce.studentId
+      join users u on u.id = ce.studentId
+      where ce.courseId = ?  
+      ${group_id ? `and ec.group_id = '${group_id}'` : ''} 
+      ${type ? `and type  = '${type}'` : ''} 
+      `,
+        [
           center_id
             ? (center_id?.toString() as any)
             : (online_id?.toString() as any),
-        ),
-        Q.on('enroll_classrooms', Q.where('group_id', group_id ?? null)),
+        ],
       ),
     );
 
-  if (type) {
-    return query.extend(Q.where('type', type)).observe();
-  }
   return query.observe();
 };
 

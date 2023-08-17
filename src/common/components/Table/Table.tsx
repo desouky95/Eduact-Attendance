@@ -21,7 +21,7 @@ type TableRowProps = {
     | ReactElement<typeof TableCell>;
   index?: number;
 } & CssSelectors;
-const TableRow = ({children, ...props}: TableRowProps) => {
+export const TableRow = ({children, ...props}: TableRowProps) => {
   return (
     <HStack
       width="100%"
@@ -43,7 +43,7 @@ const TableRow = ({children, ...props}: TableRowProps) => {
 
 type TableCellProps = {index?: number} & CssSelectors;
 
-const TableCell = ({
+export const TableCell = ({
   children,
   isLastChild,
 }: PropsWithChildren<TableCellProps>) => {

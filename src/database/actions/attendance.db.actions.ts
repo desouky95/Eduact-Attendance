@@ -9,19 +9,19 @@ import {centerAttendanceSchema} from '../schemas/centerAttendance.schema';
 export const setupAttendance = async (withProgress?: WithProgressArgs) => {
   try {
     const {
-      data: {
-        centerAttendence: {data},
-      },
+      data: {centerAttendence},
     } = await getAttendance(withProgress);
     const query = database.get<CenterAttendanceModel>('center_attendences');
     const batchActions: boolean | void | Model | Model[] | null = [];
+
+    const {data} = centerAttendence;
 
     for (let index = 0; index < data.length; index++) {
       const attendance = data[index];
       const createdAttendance = query.prepareCreate(builder => {
         builder._raw = sanitizedRaw(
           {
-            id: attendance.id.toString(),
+            id: `${attendance.student_id}-${attendance.classroom_id}-${attendance.course_id}`,
             sid: attendance.id,
             quizId: attendance.quiz_id?.toString(),
             classroomId: attendance.classroom_id.toString(),
@@ -29,6 +29,7 @@ export const setupAttendance = async (withProgress?: WithProgressArgs) => {
             homeworkId: attendance.homework_id?.toString(),
             studentId: attendance.student_id.toString(),
             type: attendance.type,
+            created_at: Date.parse(attendance.created_at),
           },
           query.schema,
         );

@@ -7,33 +7,29 @@ import {Typography} from 'components/Typography/Typography';
 import {searchStudents} from 'src/database/data/classrooms.data';
 import {first, flatMap} from 'rxjs';
 import UserModel from 'src/database/models/UserModel';
-import {useCameraDevices, useFrameProcessor} from 'react-native-vision-camera';
-import {Camera} from 'react-native-vision-camera';
-import {
-  useScanBarcodes,
-  BarcodeFormat,
-  scanBarcodes,
-} from 'vision-camera-code-scanner';
+import withObservables from '@nozbe/with-observables';
 import 'react-native-reanimated';
-import {Text} from 'react-native';
-import {StyleSheet} from 'react-native';
 import {QRCodeScanner} from '../QRCodeScanner';
+import {compose} from 'recompose';
+import {ReferenceGroup} from './ReferenceGroup';
 
 type Props = {
   onStudentChange: (student: UserModel) => void;
+  onNotFound: () => void;
+  user?: UserModel;
 };
-export const StudentSearch = ({onStudentChange}: Props) => {
+export const StudentSearch = ({onStudentChange, user, onNotFound}: Props) => {
   const [query, setQuery] = useState('');
 
   const handleSearch = async () => {
-    const result = searchStudents(query).observe();
-    const subscribe = result
-      .pipe(flatMap(s => s))
-      .pipe(first())
-      .subscribe(value => {
-        onStudentChange(value);
-      });
-    return () => subscribe.unsubscribe();
+    try {
+      const [student] = await searchStudents(query).fetch();
+      if (student) {
+        onStudentChange(student);
+      } else {
+        onNotFound();
+      }
+    } catch (error) {}
   };
   const [scan, setScan] = React.useState(false);
 
@@ -51,6 +47,7 @@ export const StudentSearch = ({onStudentChange}: Props) => {
         onSuccess={handleOnScanSuccess}
       />
       <VStack mb="20px">
+        {user && <ReferenceGroup user={user} />}
         <VStack px="38" space={'10px'} alignItems={'center'}>
           <EdTextInput
             // px={'100px'}

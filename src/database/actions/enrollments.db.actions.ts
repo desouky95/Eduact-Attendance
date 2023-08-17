@@ -35,10 +35,13 @@ export const setupEnrollments = async (withProgress?: WithProgressArgs) => {
       const createdEnrollment = query.prepareCreate(builder => {
         builder._raw = sanitizedRaw(
           {
+            id: `${enrolled.user_id}-${enrolled.course_id}`,
             course_id: enrolled.course_id.toString(),
             classroom_id: enrolled.course.classroom_id.toString(),
             progress: enrolled.progress,
             user_id: enrolled.user_id.toString(),
+            created_at: Date.parse(enrolled.created_at),
+            group_id: enrolled.group_id?.toString() ,
           },
           query.schema,
         );
@@ -52,11 +55,14 @@ export const setupEnrollments = async (withProgress?: WithProgressArgs) => {
       const createdEnrollment = classroomQuery.prepareCreate(builder => {
         builder._raw = sanitizedRaw(
           {
+            id: `${enrolled.user_id}-${enrolled.classroom_id}`,
             classroom_id: enrolled.classroom_id.toString(),
             active: enrolled.active,
             completed_courses: enrolled.completed_courses,
             user_id: enrolled.user_id.toString(),
             status: enrolled.status,
+            created_at: Date.parse(enrolled.created_at),
+            group_id : enrolled.group_id?.toString()
           },
           classroomQuery.schema,
         );

@@ -6,11 +6,13 @@ import {theme} from 'src/theme/theme';
 import {useFormContext} from 'react-hook-form';
 import {saveReference} from 'src/database/data/reference.data';
 import CourseReferenceModel from 'src/database/models/CourseReferenceModel';
+import {database} from 'src/database';
 export const FormActions = ({reference}: {reference: CourseReferenceModel}) => {
   const {
     handleSubmit,
     formState: {isDirty},
     reset,
+    getValues,
   } = useFormContext<ReferenceFormData>();
 
   const handleSubmitForm = handleSubmit(async (formData: ReferenceFormData) => {
@@ -32,6 +34,22 @@ export const FormActions = ({reference}: {reference: CourseReferenceModel}) => {
       console.error(error);
     }
   });
+
+  const handleClearRef = async () => {
+    const updated = await reference.clear();
+    reset({
+      center_course_id: null,
+      homework_id: null,
+      group_id: null,
+      online_classroom_id: null,
+      online_course_id: null,
+      online_homework_id: null,
+      online_quiz_id: null,
+      quiz_id: null,
+      course_id: updated.course_id,
+      id: updated.id,
+    });
+  };
   return (
     <View>
       <HStack py="18" px="44" space="12px">
@@ -69,7 +87,7 @@ export const FormActions = ({reference}: {reference: CourseReferenceModel}) => {
           </Typography>
         </Button>
         <Button
-          onPress={() => reset()}
+          onPress={() => handleClearRef()}
           colorScheme={'muted'}
           borderColor={'muted.500'}
           color="muted.main"

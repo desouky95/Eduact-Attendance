@@ -11,6 +11,5 @@ export interface ISyncChangesAdapter {
   toCreatedLocal(
     key: string,
     changes: SyncTableChangeSet,
-    primaryKeys: Array<string>,
   ): Promise<SyncTableChangeSet>;
 }

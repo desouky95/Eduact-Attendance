@@ -28,6 +28,7 @@ const checkClassroomEnrollment = async (
         .create(builder => {
           builder._raw = sanitizedRaw(
             {
+              id: `${student_id}-${classroom_id}`,
               user_id: student_id.toString(),
               classroom_id: classroom_id.toString(),
               active: true,
@@ -66,6 +67,7 @@ export const enrollStudent = async (course_id: number, student_id: number) => {
       .create(builder => {
         builder._raw = sanitizedRaw(
           {
+            id : `${student_id}-${course_id}`,
             user_id: student_id.toString(),
             course_id: course_id.toString(),
             classroom_id: course.classroom_id.toString(),
@@ -80,10 +82,7 @@ export const unenrollStudent = async (
   course_id: number,
   student_id: number,
 ) => {
-  const [course] = await database
-    .get<CourseModel>(CourseModel.table)
-    .query(Q.where('id', course_id.toString()))
-    .fetch();
+  
   const [enrolledCourse] = await database
     .get<EnrolledCourseModel>(EnrolledCourseModel.table)
     .query(
@@ -93,7 +92,6 @@ export const unenrollStudent = async (
       ),
     )
     .fetch();
-
 
   if (!enrolledCourse) {
     throw new Error('User is not enrolled in this course');

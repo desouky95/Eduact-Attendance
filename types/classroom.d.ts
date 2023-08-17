@@ -42,7 +42,7 @@ declare type Course = {
 declare type Unit = {
   id: number;
   course_id: number;
-  name : string;
+  name: string;
   test: Test;
 };
 declare type Test = {
@@ -60,6 +60,8 @@ declare type EnrolledCourse = {
   user_id: number;
   course_id: number;
   progress: number;
+  created_at: string;
+  group_id: number | null;
   course: {
     name: string;
     classroom_id: number;
@@ -80,6 +82,12 @@ declare type EnrolledClassroom = {
   active: boolean;
   completed_courses: number;
   status: string;
+  group_id : number
+  created_at: string;
+};
+
+declare type EnrolledCourseResponse = {
+  enrolledCourses: ApiResponse<EnrolledCourse[]>;
 };
 
 declare type EnrolledClassroomResponse = {

@@ -2,7 +2,10 @@ import {Typography} from 'components/Typography/Typography';
 import {Button} from 'native-base';
 import {HStack} from 'native-base';
 import React from 'react';
-import {enrollStudent, unenrollStudent} from 'src/database/data/enrollment.data';
+import {
+  enrollStudent,
+  unenrollStudent,
+} from 'src/database/data/enrollment.data';
 import UserModel from 'src/database/models/UserModel';
 import {useCourseEnrollment} from 'src/hooks/useCourseEnrollment';
 import {useSnackbar} from 'src/hooks/useSnackbar';
@@ -18,6 +21,7 @@ export const AttendanceActions = ({student, onCancel}: Props) => {
 
   const current = useAppSelector(s => s.course.current);
   const {isEnrolled} = useCourseEnrollment(current?.sid!, student.sid);
+  console.log("ENROLLMENT",isEnrolled)
 
   const handleEnroll = async () => {
     if (!current) return;
@@ -43,7 +47,7 @@ export const AttendanceActions = ({student, onCancel}: Props) => {
     }
   };
   return (
-    <HStack py="18" px="44" space="12px" justifyContent='center'>
+    <HStack  flex={1}  px="44" space="12px" alignItems="center" justifyContent="center">
       {!isEnrolled && (
         <Button
           borderColor={'primary.main'}
@@ -61,23 +65,7 @@ export const AttendanceActions = ({student, onCancel}: Props) => {
           </Typography>
         </Button>
       )}
-      {/* {isEnrolled && (
-        // <Button
-        //   borderColor={'primary.main'}
-        //   color="primary.main"
-        //   outlineColor={'aqua'}
-        //   backgroundColor={'primary.main'}
-        //   size="md"
-        //   height="10"
-        //   borderRadius={'100px'}
-        //   _pressed={{opacity: 0.8}}
-        //   width={'1/2'}
-        //   onPress={handleUnEnroll}>
-        //   <Typography fontWeight={'bold'} color="#FFF">
-        //     UNENROLL
-        //   </Typography>
-        // </Button>
-      )} */}
+
       <Button
         colorScheme={'orange'}
         borderColor={'orange.500'}

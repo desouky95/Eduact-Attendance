@@ -35,7 +35,8 @@ export const StudentAttendance = ({
     if (!toggleSearch) return;
     setIsLoading(true);
     setProcessedAttendance(false);
-    checkStudentHasAttendance(user.sid, course.sid).then(() => {
+    console.log('user',user)
+    checkStudentHasAttendance(user.sid, Number(course.id)).then(() => {
       setProcessedAttendance(true);
       onSearchSuccess();
     });
@@ -70,20 +71,17 @@ export const StudentAttendance = ({
       {!isLoading && (
         <Center width="100%" px="2">
           <VStack alignItems="center" space={'6px'} mb="5px">
-            {/* <Skeleton size="20" rounded={'full'} isLoaded={false}> */}
             <Avatar bg={'yellow.500'} size="lg" source={{uri: picture}}>
               <Typography>
                 {user.first_name[0]} {user.last_name[0]}
               </Typography>
             </Avatar>
-            {/* </Skeleton> */}
-            {/* <Skeleton.Text /> */}
-            {/* <Skeleton h="40" w='lg'  /> */}
-            <Typography fontSize={'14px'} fontWeight={'bold'}>
-              {user.username}
-            </Typography>
-            <Typography fontSize="12px" fontWeight="600">
+
+            <Typography fontSize="14px" fontWeight="bold">
               {user.first_name} {user.last_name}
+            </Typography>
+            <Typography fontSize={'12px'} fontWeight={'600'}>
+              {user.username}
             </Typography>
           </VStack>
           {attendances.map(attendance => (

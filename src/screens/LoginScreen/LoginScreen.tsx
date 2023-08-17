@@ -45,26 +45,29 @@ export const LoginScreen = () => {
   const handle = handleSubmit(
     async formData => {
       try {
+        
         const {data} = await login(formData);
 
         dispatch(addUser(data.data));
       } catch (error) {
         if (isAxiosError(error)) {
-          console.error('error',error)
-          if(error.code === 'ERR_NETWORK')
-          openSnackbar({
-            variant: 'error',
-            message: 'No Internet Connection',
-          });
+          console.error('error', error);
+          if (error.code === 'ERR_NETWORK')
+            openSnackbar({
+              variant: 'error',
+              message: 'No Internet Connection',
+            });
           else
-          openSnackbar({
-            variant: 'error',
-            message: error?.response?.data['message'],
-          });
+            openSnackbar({
+              variant: 'error',
+              message: error?.response?.data['message'],
+            });
         }
       }
     },
     e => {
+      console.log(e);
+      throw new Error(e);
     },
   );
 
@@ -84,10 +87,10 @@ export const LoginScreen = () => {
               // w="xs"
             >
               <EdTextInput
-                autoComplete="email"
                 placeholder="Username or email"
                 inputMode="email"
                 value={value}
+                autoCorrect
                 onChangeText={text => onChange(text)}
                 isInvalid={!!errors.identifier}
               />

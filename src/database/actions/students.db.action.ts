@@ -10,7 +10,7 @@ import StudentModel from '../models/StudentModel';
 
 export const setupStudents = async (withProgress?: WithProgressArgs) => {
   try {
-    const {data} = await getStudents(withProgress);
+    const {data:{instructorStudentsPayload : {data}}} = await getStudents(withProgress);
     const query = database.collections.get<InstructorCodeModel>(
       InstructorCodeModel.table,
     );
@@ -18,9 +18,9 @@ export const setupStudents = async (withProgress?: WithProgressArgs) => {
     const studentQuery = database.get<StudentModel>('students');
     let batchActions: Model | Model[] = [];
 
-    const codes = data.data;
-    const students = data.data.map(_ => _.student).flat(1);
-    const users = data.data.map(_ => _.student.user).flat(1);
+    const codes = data;
+    const students = data.filter(_ => _.student !== null)
+    const users = data.map(_ => _.student?.user).flat(1).filter(_ => _ !== undefined);
 
     for (let index = 0; index < users.length; index++) {
       const toBeCreatedUser = users[index];
@@ -38,7 +38,6 @@ export const setupStudents = async (withProgress?: WithProgressArgs) => {
         builder.gender = toBeCreatedUser.gender;
         builder.birth_date = toBeCreatedUser.birth_date;
         builder._raw._status = 'synced';
-
       });
       batchActions.push(user);
     }
@@ -48,17 +47,16 @@ export const setupStudents = async (withProgress?: WithProgressArgs) => {
     batchActions = [];
 
     for (let index = 0; index < students.length; index++) {
-      const student = students[index];
+      const student = students[index].student;
 
       const createdStudent = studentQuery.prepareCreate(builder => {
         builder._raw.id = student.user_id.toString();
         builder.sid = student.user_id;
-        builder.user_id = student.user_id;
+        builder.user_id = student.user_id.toString();
         builder.parent_phone = student.parent_phone;
         builder.parent_relation = student.parent_relation;
         builder.ssn = student.ssn!;
         builder._raw._status = 'synced';
-
       });
       batchActions.push(createdStudent);
     }
@@ -70,7 +68,7 @@ export const setupStudents = async (withProgress?: WithProgressArgs) => {
       const toBeCreatedCode = {...codes[index]};
       const code = query.prepareCreate(builder => {
         builder._raw.id = toBeCreatedCode.id.toString();
-        builder._setRaw('student_id', toBeCreatedCode.student.user_id);
+        builder._setRaw('student_id', toBeCreatedCode.student?.user_id ?? null);
         builder.sid = toBeCreatedCode.id;
         builder.code = toBeCreatedCode.code;
         builder.group_name = toBeCreatedCode.group_name;

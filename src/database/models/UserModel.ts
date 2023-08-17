@@ -6,14 +6,26 @@ import {
   immutableRelation,
   text,
   lazy,
-  relation
+  relation,
 } from '@nozbe/watermelondb/decorators';
 import StudentModel from './StudentModel';
+import EnrolledClassroomModel from './EnrolledClassroomModel';
+import CenterAttendanceModel from './CenterAttendanceModel';
 
 export default class UserModel extends Model {
   static table: string = 'users';
 
+  static associations: Associations = {
+    enroll_classrooms: {type: 'has_many', foreignKey: 'user_id'},
+    center_attendances: {type: 'has_many', foreignKey: 'studentId'},
+
+  };
+
   @relation('students', 'user_id') student!: Query<StudentModel>;
+  @relation('center_attendances', 'studentId')
+  attendance!: Query<CenterAttendanceModel>;
+  @relation('enroll_classrooms', 'user_id')
+  enroll_classroom!: Query<EnrolledClassroomModel>;
 
   @field('sid') sid!: number;
   @text('uuid') uuid!: string;
@@ -28,6 +40,4 @@ export default class UserModel extends Model {
   @date('birth_date') birth_date!: Date;
   @field('phone_verified') phone_verified!: boolean;
   @field('email_verified') email_verified!: boolean;
-
-
 }
