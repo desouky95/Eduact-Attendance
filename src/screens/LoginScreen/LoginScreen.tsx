@@ -7,7 +7,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {Image, StyleSheet, View} from 'react-native';
 import {object, string} from 'yup';
 import {login} from 'src/api/auth/auth.api';
-import {useAppDispatch} from 'src/store';
+import {store, useAppDispatch} from 'src/store';
 import {addUser} from 'src/store/authReducer/authReducer';
 import {LoginSchema} from './login.schema';
 import {Button, FormControl} from 'native-base';
@@ -70,6 +70,7 @@ export const LoginScreen = () => {
       throw new Error(e);
     },
   );
+
 
   return (
     <View style={Styles.container}>

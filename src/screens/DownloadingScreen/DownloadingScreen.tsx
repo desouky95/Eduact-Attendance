@@ -17,6 +17,7 @@ import {WithProgressArgs} from 'src/api/api';
 import {useDatabase} from '@nozbe/watermelondb/hooks';
 import LottieView from 'lottie-react-native';
 import {VStack} from 'native-base';
+import {getServerTimestampAction} from 'src/database/actions/server.timestamp.action';
 const DownloadingScreenUI = () => {
   const [finishSetup, setFinishSetup] = useState(false);
   const [startSetup, setStartSetup] = useState(false);
@@ -30,14 +31,6 @@ const DownloadingScreenUI = () => {
   const database = useDatabase();
 
   const actions = useRef(actionsMap);
-  function setupDatabase() {
-    Object.entries(actionsMap).forEach(([key, action]) => {
-      if (!steps[key as Step]) {
-        setActionsToProcess(prev => [...prev, {key, action}]);
-      }
-    });
-    setStartSetup(true);
-  }
 
   useEffect(() => {
     // setupDatabase();
@@ -65,6 +58,7 @@ const DownloadingScreenUI = () => {
     if (startSetup) {
       processActions().then(() => {
         setFinishSetup(true);
+        getServerTimestampAction();
         successAnimation.current?.play();
       });
     }
@@ -88,22 +82,22 @@ const DownloadingScreenUI = () => {
         backgroundColor={'gray.50'}
         padding={4}>
         {!finishSetup && (
-        <>
-          <LottieView
-            source={require('assets/animations/downloading.json')}
-            autoPlay
-            loop
-            style={{width: 400, height: 400}}
-          />
-          <Flex>
-            <Typography fontSize={'24px'} fontWeight={'bold'}>
-              Setting up app... Almost there!
-            </Typography>
-            <Typography fontSize={'24px'} fontWeight={'bold'}>
-              We're preparing everything for you. Thank you for your patience.
-            </Typography>
-          </Flex>
-        </>
+          <>
+            <LottieView
+              source={require('assets/animations/downloading.json')}
+              autoPlay
+              loop
+              style={{width: 400, height: 400}}
+            />
+            <Flex>
+              <Typography fontSize={'24px'} fontWeight={'bold'}>
+                Setting up app... Almost there!
+              </Typography>
+              <Typography fontSize={'24px'} fontWeight={'bold'}>
+                We're preparing everything for you. Thank you for your patience.
+              </Typography>
+            </Flex>
+          </>
         )}
         {finishSetup && (
           <VStack width="100%" flex={1}>

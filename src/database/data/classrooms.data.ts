@@ -15,7 +15,7 @@ export const classroomsQuery = database.collections
 export const coursesQuery = (id: number) =>
   database.collections
     .get<CourseModel>('courses')
-    .query(Q.where('classroom_id', id));
+    .query(Q.where('classroom_id', id),Q.sortBy('order','asc'));
 
 export const getCourse = (id: number) =>
   database.collections

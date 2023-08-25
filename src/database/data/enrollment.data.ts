@@ -43,6 +43,7 @@ const checkClassroomEnrollment = async (
 };
 
 export const enrollStudent = async (course_id: number, student_id: number) => {
+  debugger
   const [course] = await database
     .get<CourseModel>(CourseModel.table)
     .query(Q.where('id', course_id.toString()))

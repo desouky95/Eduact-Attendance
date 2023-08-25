@@ -16,12 +16,13 @@ import {StudentDataRow} from './StudentDataRow';
 import UserModel from 'src/database/models/UserModel';
 import StudentModel from 'src/database/models/StudentModel';
 import {PermissionsAndroid} from 'react-native';
+import {Box} from 'native-base';
+import {Skeleton} from 'native-base';
 
 type Props = {group_id?: number; type: string | null};
 
 export const CourseDataTable = ({group_id, type = null}: Props) => {
   const ref = useAppSelector(s => s.course.currentReference);
-  const current = useAppSelector(s => s.course.current);
 
   const {attendance, isLoading} = useCourseAttendance({
     center_id: ref?.center_course_id ?? null,
@@ -152,6 +153,7 @@ export const CourseDataTable = ({group_id, type = null}: Props) => {
           }}
         </Table>
       )}
+      {isLoading && <Skeleton width="100%" borderRadius={'5'} h="40" />}
     </>
   );
 };

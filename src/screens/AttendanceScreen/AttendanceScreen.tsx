@@ -1,7 +1,7 @@
 import {useRoute} from '@react-navigation/native';
 import {CourseHeader} from 'components/CourseHeader/CourseHeader';
 import {EdTextInput} from 'components/EdTextInput';
-import {Box, Button, VStack, useTheme} from 'native-base';
+import {Box, Button, Skeleton, VStack, useTheme} from 'native-base';
 import React, {useEffect, useState} from 'react';
 import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
 import {useAppSelector} from 'src/store';
@@ -47,6 +47,7 @@ export const AttendanceScreen = () => {
         }}
       />
       <Box minHeight="380">
+        {toggleSearch && !notFound && <Skeleton h="40" />}
         <ScrollView style={{maxHeight: 380}}>
           {currentStudent && !notFound && (
             <StudentAttendance

@@ -21,7 +21,6 @@ export const AttendanceActions = ({student, onCancel}: Props) => {
 
   const current = useAppSelector(s => s.course.current);
   const {isEnrolled} = useCourseEnrollment(current?.sid!, student.sid);
-  console.log("ENROLLMENT",isEnrolled)
 
   const handleEnroll = async () => {
     if (!current) return;

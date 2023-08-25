@@ -18,6 +18,7 @@ export default async function sync(database: Database) {
       try {
         const firstDownloadTimeStamp =
           store.getState().db.db_first_download_timestamp;
+        console.log(store.getState().db.db_first_download_timestamp);
         const last_pulled_at = lastPulledAt ?? firstDownloadTimeStamp;
         const urlParams = `last_pulled_at=${last_pulled_at}&schema_version=${schemaVersion}&migration=${encodeURIComponent(
           JSON.stringify(migration),
@@ -70,8 +71,9 @@ export default async function sync(database: Database) {
             test_attempts,
             instructor_codes,
             groups,
-            // center_attendences,
+            center_attendences,
             enroll_courses,
+            enroll_classrooms,
             // enroll_classrooms,
           },
           timestamp,

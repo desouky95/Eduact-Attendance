@@ -33,8 +33,6 @@ export const ReferenceGroup = ({user}: ReferenceGroupUIProps) => {
       .get<EnrolledClassroomModel>(EnrolledClassroomModel.table)
       .findAndObserve(`${user.id}-${currentClassroom?.id}`)
       .subscribe(value => {
-        console.log('enroll_c', value.group_id)
-        console.log('ref', currentReference.group_id?.toString())
         setIsSameGroup(
           value.group_id === currentReference.group_id?.toString(),
         );

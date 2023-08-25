@@ -14,6 +14,7 @@ import UserModel from 'src/database/models/UserModel';
 import {useAppSelector} from 'src/store';
 import {AttendanceCard} from '../AttendanceCard/AttendanceCard';
 import TestModel from 'src/database/models/TestModel';
+import {StudentGroup} from '../StudentGroup/StudentGroup';
 
 type Props = {
   toggleSearch: boolean;
@@ -35,7 +36,6 @@ export const StudentAttendance = ({
     if (!toggleSearch) return;
     setIsLoading(true);
     setProcessedAttendance(false);
-    console.log('user',user)
     checkStudentHasAttendance(user.sid, Number(course.id)).then(() => {
       setProcessedAttendance(true);
       onSearchSuccess();
@@ -59,8 +59,6 @@ export const StudentAttendance = ({
   }, [processedAttendance]);
 
   const picture = useMemo(() => {
-    console.log('profile_picture', user.profile_photo);
-    console.log('placeholder', require('assets/account.png').default);
     return !user.profile_photo || user.profile_photo === ''
       ? undefined
       : user.profile_photo;
@@ -83,6 +81,7 @@ export const StudentAttendance = ({
             <Typography fontSize={'12px'} fontWeight={'600'}>
               {user.username}
             </Typography>
+            <StudentGroup user={user} />
           </VStack>
           {attendances.map(attendance => (
             <AttendanceCard key={attendance.id} attendance={attendance} />

@@ -8,12 +8,14 @@ import {
   writer,
 } from '@nozbe/watermelondb/decorators';
 import ClassroomModel from './Classroom';
+import EnrolledClassroomModel from './EnrolledClassroomModel';
 
 export default class GroupModel extends Model {
   static table = 'groups';
 
   static associations: Associations = {
     classrooms: {type: 'belongs_to', key: 'classroom_id'},
+    enroll_classrooms: {type: 'has_many', foreignKey: 'group_id'},
   };
 
   @text('sid') sid!: number;
@@ -22,4 +24,6 @@ export default class GroupModel extends Model {
   @field('name') name!: string;
 
   @relation('classrooms', 'classroom_id') classroom!: Query<ClassroomModel>;
+  @relation('enroll_classrooms', 'group_id')
+  enrollment!: Query<EnrolledClassroomModel>;
 }

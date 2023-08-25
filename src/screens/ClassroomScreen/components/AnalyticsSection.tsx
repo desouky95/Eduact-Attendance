@@ -13,6 +13,7 @@ import {getFontSize} from 'src/theme/getFontSize';
 import {jsonReplacer} from 'src/utils/jsonReplacer';
 import styled from 'styled-components/native';
 import {useCourseAttendanceAnalytics} from 'src/hooks/useCourseAttendanceAnalytics';
+import {Skeleton} from 'native-base';
 
 type Props = {
   group_id?: number;
@@ -21,124 +22,128 @@ type Props = {
 export const AnalyticsSection = ({group_id, onAttendanceTypeChange}: Props) => {
   const ref = useAppSelector(s => s.course.currentReference);
 
-  const {absent, center, online, total} = useCourseAttendanceAnalytics({
-    center_id: ref?.center_course_id ?? null,
-    online_id: ref?.online_course_id ?? null,
-    group_id: group_id ?? null,
-  });
+  const {absent, center, online, total, isLoading} =
+    useCourseAttendanceAnalytics({
+      center_id: ref?.center_course_id ?? null,
+      online_id: ref?.online_course_id ?? null,
+      group_id: group_id ?? null,
+    });
 
   return (
     <View>
-      <VStack space="6px" mb="32px">
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => onAttendanceTypeChange?.(null)}>
-          <InfoCard backgroundColor={'primary.main'}>
-            <Flex>
-              <Typography
-                color={'#FFF'}
-                fontSize={getFontSize(12)}
-                fontWeight="600">
-                Total
-              </Typography>
-              <Typography
-                color={'#FFF'}
-                fontSize={getFontSize(12)}
-                fontWeight="600">
-                Attendance
-              </Typography>
-            </Flex>
-            <Typography
-              color={'#FFF'}
-              fontSize={getFontSize(24)}
-              fontWeight="600">
-              {total}
-            </Typography>
-          </InfoCard>
-        </TouchableOpacity>
-        <HStack space="8px">
+      {!isLoading && (
+        <VStack space="6px" mb="32px">
           <TouchableOpacity
-            style={{flex: 1}}
             activeOpacity={0.8}
-            onPress={() => onAttendanceTypeChange?.('center')}>
+            onPress={() => onAttendanceTypeChange?.(null)}>
+            <InfoCard backgroundColor={'primary.main'}>
+              <Flex>
+                <Typography
+                  color={'#FFF'}
+                  fontSize={getFontSize(12)}
+                  fontWeight="600">
+                  Total
+                </Typography>
+                <Typography
+                  color={'#FFF'}
+                  fontSize={getFontSize(12)}
+                  fontWeight="600">
+                  Attendance
+                </Typography>
+              </Flex>
+              <Typography
+                color={'#FFF'}
+                fontSize={getFontSize(24)}
+                fontWeight="600">
+                {total}
+              </Typography>
+            </InfoCard>
+          </TouchableOpacity>
+          <HStack space="8px">
+            <TouchableOpacity
+              style={{flex: 1}}
+              activeOpacity={0.8}
+              onPress={() => onAttendanceTypeChange?.('center')}>
+              <InfoCard backgroundColor="cadet.main">
+                <Flex>
+                  <Typography
+                    fontSize={getFontSize(10)}
+                    fontWeight={'500'}
+                    color="#FFF">
+                    Center
+                  </Typography>
+                  <Typography
+                    fontSize={getFontSize(10)}
+                    fontWeight={'500'}
+                    color="#FFF">
+                    Attendance
+                  </Typography>
+                </Flex>
+                <Typography
+                  fontWeight={'600'}
+                  fontSize={getFontSize(14)}
+                  color="#FFF">
+                  {center}
+                </Typography>
+              </InfoCard>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{flex: 1}}
+              activeOpacity={0.8}
+              onPress={() => onAttendanceTypeChange?.('online')}>
+              <InfoCard backgroundColor="cadet.main">
+                <Flex>
+                  <Typography
+                    fontSize={getFontSize(10)}
+                    fontWeight={'500'}
+                    color="#FFF">
+                    Online
+                  </Typography>
+                  <Typography
+                    fontSize={getFontSize(10)}
+                    fontWeight={'500'}
+                    color="#FFF">
+                    Attendance
+                  </Typography>
+                </Flex>
+                <Typography
+                  fontWeight={'600'}
+                  fontSize={getFontSize(14)}
+                  color="#FFF">
+                  {online}
+                </Typography>
+              </InfoCard>
+            </TouchableOpacity>
+          </HStack>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => onAttendanceTypeChange?.('absent')}>
             <InfoCard backgroundColor="cadet.main">
               <Flex>
                 <Typography
                   fontSize={getFontSize(10)}
                   fontWeight={'500'}
                   color="#FFF">
-                  Center
+                  Absent
                 </Typography>
-                <Typography
-                  fontSize={getFontSize(10)}
-                  fontWeight={'500'}
-                  color="#FFF">
-                  Attendance
-                </Typography>
-              </Flex>
-              <Typography
-                fontWeight={'600'}
-                fontSize={getFontSize(14)}
-                color="#FFF">
-                {center}
-              </Typography>
-            </InfoCard>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{flex: 1}}
-            activeOpacity={0.8}
-            onPress={() => onAttendanceTypeChange?.('online')}>
-            <InfoCard backgroundColor="cadet.main">
-              <Flex>
-                <Typography
-                  fontSize={getFontSize(10)}
-                  fontWeight={'500'}
-                  color="#FFF">
-                  Online
-                </Typography>
-                <Typography
-                  fontSize={getFontSize(10)}
-                  fontWeight={'500'}
-                  color="#FFF">
-                  Attendance
-                </Typography>
-              </Flex>
-              <Typography
-                fontWeight={'600'}
-                fontSize={getFontSize(14)}
-                color="#FFF">
-                {online}
-              </Typography>
-            </InfoCard>
-          </TouchableOpacity>
-        </HStack>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => onAttendanceTypeChange?.('absent')}>
-          <InfoCard backgroundColor="cadet.main">
-            <Flex>
-              <Typography
-                fontSize={getFontSize(10)}
-                fontWeight={'500'}
-                color="#FFF">
-                Absent
-              </Typography>
-              {/* <Typography
+                {/* <Typography
               fontSize={getFontSize(10)}
               fontWeight={'500'}
               color="#FFF">
               Attendance
             </Typography> */}
-            </Flex>
-            <Typography
-              fontWeight={'600'}
-              fontSize={getFontSize(14)}
-              color="#FFF">
-              {absent}
-            </Typography>
-          </InfoCard>
-        </TouchableOpacity>
-      </VStack>
+              </Flex>
+              <Typography
+                fontWeight={'600'}
+                fontSize={getFontSize(14)}
+                color="#FFF">
+                {absent}
+              </Typography>
+            </InfoCard>
+          </TouchableOpacity>
+        </VStack>
+      )}
+      {isLoading && <Skeleton width="100%" mb="4" borderRadius={'5'} h="40" />}
     </View>
   );
 };

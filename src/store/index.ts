@@ -1,14 +1,26 @@
-import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import {
+  combineReducers,
+  configureStore,
+  getDefaultMiddleware,
+} from '@reduxjs/toolkit';
 import authReducer from './authReducer/authReducer';
 import {persistStore} from 'redux-persist';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import {persistedReducer} from './persistor/persistor';
 import courseReducer from './courseReducer/courseReducer';
 
+const middlewares = getDefaultMiddleware({
+  serializableCheck: false,
+});
+
+// if (__DEV__) {
+//   const createDebugger = require('redux-flipper').default;
+//   middlewares.push(createDebugger());
+// }
+
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({serializableCheck: false}),
+  middleware: middlewares,
 });
 
 export type Store = typeof store;

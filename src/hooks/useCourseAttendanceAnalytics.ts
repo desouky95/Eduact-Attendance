@@ -1,7 +1,7 @@
-import React, {useEffect, useState, useMemo} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import React, {useEffect, useState, useMemo, useCallback} from 'react';
 import {getCourseAttendance} from 'src/database/data/attendance.data';
 import CenterAttendanceModel from 'src/database/models/CenterAttendanceModel';
-
 
 type UseCourseAttendanceAnalyticsArgs = {
   center_id: number | null;
@@ -18,28 +18,30 @@ export const useCourseAttendanceAnalytics = ({
 
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    if (!center_id) {
-      setData([]);
-      setIsLoading(false);
-      return;
-    }
+  useFocusEffect(
+    useCallback(() => {
+      if (!center_id) {
+        setData([]);
+        setIsLoading(false);
+        return;
+      }
 
-    setIsLoading(true);
-    const subscription = getCourseAttendance(
-      center_id,
-      online_id,
-      group_id,
-      null,
-    ).subscribe(value => {
-      setData(prev => value);
-      setIsLoading(false);
-    });
+      setIsLoading(true);
+      const subscription = getCourseAttendance(
+        center_id,
+        online_id,
+        group_id,
+        null,
+      ).subscribe(value => {
+        setData(prev => value);
+        setIsLoading(false);
+      });
 
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [center_id, online_id, group_id]);
+      return () => {
+        subscription.unsubscribe();
+      };
+    }, [center_id, online_id, group_id]),
+  );
 
   const center = useMemo(() => {
     return data.filter(_ => _.type === 'center').length;
