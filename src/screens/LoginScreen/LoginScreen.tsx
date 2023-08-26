@@ -46,8 +46,9 @@ export const LoginScreen = () => {
     async formData => {
       try {
         
-        const {data} = await login(formData);
 
+        const {data} = await login(formData);
+        
         dispatch(addUser(data.data));
       } catch (error) {
         if (isAxiosError(error)) {

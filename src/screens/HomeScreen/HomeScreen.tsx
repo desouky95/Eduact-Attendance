@@ -40,7 +40,7 @@ export const HomeScreen = () => {
     }
   };
 
-  const handleClassrooms = (route: 'Classrooms' | 'Students') => {
+  const handleClassrooms = (route: 'Classrooms' | 'StudentsRoot') => {
     navigation.navigate(route as any, {});
   };
   const {user} = useAppSelector(s => s.auth);
@@ -80,7 +80,7 @@ export const HomeScreen = () => {
                 </Typography>
               </PaperButton>
               <PaperButton
-                onPress={() => handleClassrooms('Students')}
+                onPress={() => handleClassrooms('StudentsRoot')}
                 activeOpacity={0.9}
                 style={{
                   elevation: 10,

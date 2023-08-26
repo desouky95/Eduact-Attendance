@@ -10,7 +10,12 @@ import StudentModel from '../models/StudentModel';
 
 export const setupStudents = async (withProgress?: WithProgressArgs) => {
   try {
-    const {data:{instructorStudentsPayload : {data}}} = await getStudents(withProgress);
+
+    const {
+      data: {
+        instructorStudentsPayload: {data, meta},
+      },
+    } = await getStudents(withProgress);
     const query = database.collections.get<InstructorCodeModel>(
       InstructorCodeModel.table,
     );
@@ -19,8 +24,21 @@ export const setupStudents = async (withProgress?: WithProgressArgs) => {
     let batchActions: Model | Model[] = [];
 
     const codes = data;
-    const students = data.filter(_ => _.student !== null)
-    const users = data.map(_ => _.student?.user).flat(1).filter(_ => _ !== undefined);
+
+    for (let page = 2; page <= meta?.last_page!; page++) {
+      const {
+        data: {
+          instructorStudentsPayload: {data},
+        },
+      } = await getStudents(withProgress, page);
+      codes.push(...data);
+    }
+
+    const students = data.filter(_ => _.student !== null);
+    const users = data
+      .map(_ => _.student?.user)
+      .flat(1)
+      .filter(_ => _ !== undefined);
 
     for (let index = 0; index < users.length; index++) {
       const toBeCreatedUser = users[index];

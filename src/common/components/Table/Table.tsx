@@ -7,10 +7,18 @@ import React, {
   ReactNode,
   cloneElement,
 } from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {TextInputChangeEventData} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  NativeSyntheticEvent,
+} from 'react-native';
 import {getFontSize} from 'src/theme/getFontSize';
 import styled from 'styled-components/native';
 import {v4 as uuid} from 'uuid';
+import {debounce} from 'lodash';
 type CssSelectors = {
   isLastChild?: boolean;
   isFirstChild?: boolean;
@@ -25,6 +33,7 @@ export const TableRow = ({children, ...props}: TableRowProps) => {
   return (
     <HStack
       width="100%"
+      bgColor={'white'}
       borderBottomWidth={!props.isLastChild ? '1px' : '0px'}
       borderBottomColor={!props.isLastChild ? 'gray.300' : 'transparent'}
       // maxHeight="32px"
@@ -75,6 +84,10 @@ type TableProps<T> = {
   headerTitle?: string;
   withExport?: boolean;
   onExport?: () => void;
+  withHeader?: boolean;
+  withSearch?: boolean;
+  onSearchChange?: (text: string) => void;
+  searchValue?: string;
 };
 export const Table = <T,>({
   columns,
@@ -83,7 +96,12 @@ export const Table = <T,>({
   headerTitle = 'Data',
   withExport = false,
   onExport,
+  withHeader = false,
+  withSearch = true,
+  onSearchChange,
+  searchValue = '',
 }: TableProps<T>) => {
+
   return (
     <View style={TableStyles.tableContainer}>
       <HStack
@@ -110,25 +128,45 @@ export const Table = <T,>({
             {headerTitle}
           </Typography>
         )}
-        <EdTextInput borderRadius={200} flex={1} padding={'0px'} py="0" />
+        {withSearch && (
+          <EdTextInput
+            value={searchValue}
+            onChangeText={onSearchChange}
+            borderRadius={200}
+            flex={1}
+            padding={'0px'}
+            py="0"
+          />
+        )}
       </HStack>
       <VStack>
-        {data.map((item, index) => (
-          <React.Fragment key={`table-${index}`}>
-            {React.Children.map<
-              ReactElement<TableRowProps>,
-              ReactElement<TableRowProps>
-            >(
-              children({item, TableRow, TableCell, index}),
-              (child: React.ReactElement<TableRowProps>) =>
-                cloneElement(child, {
-                  ...child.props,
-                  index,
-                  isLastChild: index === data.length - 1,
-                }),
-            )}
-          </React.Fragment>
-        ))}
+        <ScrollView stickyHeaderIndices={[0]}>
+          {withHeader && columns && (
+            <TableRow>
+              {columns?.map((column, index) => {
+                return (
+                  <TableCell key={`${column}-${index}`}>{column}</TableCell>
+                );
+              })}
+            </TableRow>
+          )}
+          {data.map((item, index) => (
+            <React.Fragment key={`table-${index}`}>
+              {React.Children.map<
+                ReactElement<TableRowProps>,
+                ReactElement<TableRowProps>
+              >(
+                children({item, TableRow, TableCell, index}),
+                (child: React.ReactElement<TableRowProps>) =>
+                  cloneElement(child, {
+                    ...child.props,
+                    index,
+                    isLastChild: index === data.length - 1,
+                  }),
+              )}
+            </React.Fragment>
+          ))}
+        </ScrollView>
       </VStack>
     </View>
   );
@@ -181,4 +219,8 @@ const TableHeader = styled(Flex)<{lastChild: boolean; index: number}>`
   /* min-width: 20%; */
 `;
 
-export const TableMemo = React.memo(Table)
+// const TableHeader = styled(TableRow)`
+//   /* position: ; */
+// `;
+
+export const TableMemo = React.memo(Table);

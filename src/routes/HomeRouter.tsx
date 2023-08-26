@@ -20,6 +20,7 @@ import {
 } from 'src/store/courseReducer/courseReducer';
 
 const Tab = createBottomTabNavigator<ClassroomRootTabParamList>();
+const StudentsTab = createBottomTabNavigator<StudentsRootTabParamList>();
 const Stack = createNativeStackNavigator<HomeRootStackParamList>();
 
 export const HomeRoot = () => {
@@ -32,8 +33,9 @@ export const HomeRoot = () => {
       {/* <Stack.Screen name="Downloading" component={DownloadingScreen} /> */}
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Classrooms" component={ClassroomsScreen} />
-      <Stack.Screen name="Students" component={StudentsScreen} />
+      {/* <Stack.Screen name="Students" component={StudentsScreen} /> */}
       <Stack.Screen name="ClassroomRoot" component={ClassroomRoot} />
+      <Stack.Screen name="StudentsRoot" component={StudentsRoot} />
     </Stack.Navigator>
   );
 };
@@ -42,7 +44,6 @@ const ClassroomRoot = () => {
   const current = useAppSelector(s => s.course.current);
 
   const dispatch = useAppDispatch();
-
 
   useFocusEffect(() => {
     const subscription = getReference(current?.sid).subscribe(value => {
@@ -64,5 +65,18 @@ const ClassroomRoot = () => {
       <Tab.Screen name="Attendance" component={AttendanceScreen} />
       <Tab.Screen name="Reference" component={ReferenceScreen} />
     </Tab.Navigator>
+  );
+};
+
+const StudentsRoot = () => {
+  return (
+    <StudentsTab.Navigator
+      screenOptions={{headerShown: false}}
+      // tabBar={props => <TabBar {...props} />}
+      
+      tabBar={props => <></>}
+      initialRouteName="Students">
+      <StudentsTab.Screen name="Students" component={StudentsScreen} />
+    </StudentsTab.Navigator>
   );
 };
