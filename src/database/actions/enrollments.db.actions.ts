@@ -16,7 +16,7 @@ export const setupEnrollments = async (withProgress?: WithProgressArgs) => {
   try {
     const {
       data: {
-        enrolledCourses: {data},
+        enrolledCourses: {data, meta},
       },
     } = await getEnrollments();
     const {
@@ -28,10 +28,22 @@ export const setupEnrollments = async (withProgress?: WithProgressArgs) => {
     const classroomQuery = database.collections.get<EnrolledClassroomModel>(
       EnrolledClassroomModel.table,
     );
+
+    const enrolledClassroomsData = enrolledClassrooms.data;
+    const enrolledCourses = data;
     const batchActions: boolean | void | Model | Model[] | null = [];
 
-    for (let index = 0; index < data.length; index++) {
-      const enrolled = data[index];
+    for (let page = 2; page <= meta?.last_page!; page++) {
+      const {
+        data: {
+          enrolledCourses: {data},
+        },
+      } = await getEnrollments(page);
+      enrolledCourses.push(...data);
+    }
+
+    for (let index = 0; index < enrolledCourses.length; index++) {
+      const enrolled = enrolledCourses[index];
       const createdEnrollment = query.prepareCreate(builder => {
         builder._raw = sanitizedRaw(
           {
@@ -41,7 +53,7 @@ export const setupEnrollments = async (withProgress?: WithProgressArgs) => {
             progress: enrolled.progress,
             user_id: enrolled.user_id.toString(),
             created_at: Date.parse(enrolled.created_at),
-            group_id: enrolled.group_id?.toString() ,
+            group_id: enrolled.group_id?.toString(),
           },
           query.schema,
         );
@@ -50,8 +62,15 @@ export const setupEnrollments = async (withProgress?: WithProgressArgs) => {
       batchActions.push(createdEnrollment);
     }
 
-    for (let index = 0; index < enrolledClassrooms.data.length; index++) {
-      const enrolled = enrolledClassrooms.data[index];
+    for (let page = 2; page <= enrolledClassrooms.meta?.last_page!; page++) {
+      const {
+        data: {enrolledClassrooms},
+      } = await getClassroomEnrollments(page);
+      enrolledClassroomsData.push(...enrolledClassrooms.data);
+    }
+
+    for (let index = 0; index < enrolledClassroomsData.length; index++) {
+      const enrolled = enrolledClassroomsData[index];
       const createdEnrollment = classroomQuery.prepareCreate(builder => {
         builder._raw = sanitizedRaw(
           {
@@ -62,7 +81,7 @@ export const setupEnrollments = async (withProgress?: WithProgressArgs) => {
             user_id: enrolled.user_id.toString(),
             status: enrolled.status,
             created_at: Date.parse(enrolled.created_at),
-            group_id : enrolled.group_id?.toString()
+            group_id: enrolled.group_id?.toString(),
           },
           classroomQuery.schema,
         );

@@ -3,7 +3,7 @@ import {getReference} from './reference.data';
 import {database} from '..';
 import CourseReferenceModel from '../models/CourseReferenceModel';
 import CourseModel from '../models/Course';
-import {Q} from '@nozbe/watermelondb';
+import {Model, Q} from '@nozbe/watermelondb';
 import CenterAttendanceModel from '../models/CenterAttendanceModel';
 import TestModel from '../models/TestModel';
 import EnrolledCourseModel from '../models/EnrolledCourseModel';
@@ -194,7 +194,7 @@ export const getCourseAttendance = (
       )  ec
       on ec.id = ce.classroomId and ec.user_id = ce.studentId
       join users u on u.id = ce.studentId
-      where ce.courseId = ?  
+      where ce.courseId = ?  and ce._status != 'deleted' 
       ${group_id ? `and ec.group_id = '${group_id}'` : ''} 
       ${type ? `and type  = '${type}'` : ''} 
       `,
@@ -213,16 +213,29 @@ export const removeStudentAttendance = async (
   student_id: number,
   course_id: number,
 ) => {
-  const [record] = await database
-    .get<CenterAttendanceModel>(CenterAttendanceModel.table)
-    .query(
-      Q.and(
-        Q.where('courseId', course_id.toString()),
-        Q.where('studentId', student_id.toString()),
-      ),
-    )
-    .fetch();
-  await database.write(async () => {
-    record.markAsDeleted();
-  });
+  try {
+    const [record] = await database
+      .get<CenterAttendanceModel>(CenterAttendanceModel.table)
+      .query(
+        Q.and(
+          Q.where('courseId', course_id.toString()),
+          Q.where('studentId', student_id.toString()),
+        ),
+      )
+      .fetch();
+    if (!record) return;
+    let batch :Model[] = [];
+    if (record.syncStatus === 'created') {
+      batch.push(record.prepareDestroyPermanently());
+    } else {
+      batch.push(record.prepareMarkAsDeleted());
+    }
+    await database.write(async () => {
+      await database.batch(batch);
+    });
+
+    return record;
+  } catch (error) {
+    throw new Error(error['message']);
+  }
 };

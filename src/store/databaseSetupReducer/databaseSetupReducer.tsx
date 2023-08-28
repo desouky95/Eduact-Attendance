@@ -4,6 +4,7 @@ type DBSetupState = {
   db_setup_finished: boolean;
   db_first_download_timestamp: number;
   steps: {
+    attempts: boolean;
     classrooms: boolean;
     students: boolean;
     attendance: boolean;
@@ -21,6 +22,7 @@ const initialState = {
     students: false,
     attendance: false,
     enrollments: false,
+    attempts: false,
   },
 } as DBSetupState;
 
@@ -42,6 +44,7 @@ const authSlice = createSlice({
       state.steps.students = false;
       state.steps.attendance = false;
       state.steps.enrollments = false;
+      state.steps.attempts = false;
       state.db_setup_finished = false;
     },
   },

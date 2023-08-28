@@ -66,17 +66,18 @@ export class SyncChangesAdapter implements ISyncChangesAdapter {
 
   async toCreatedLocal<T extends Model>(
     key: TableName<T>,
-    changes: {created: DirtyRaw[]; updated: DirtyRaw[]; deleted: string[]},
+    changes?: {created: DirtyRaw[]; updated: DirtyRaw[]; deleted: string[]},
   ): Promise<{created: DirtyRaw[]; updated: DirtyRaw[]; deleted: string[]}> {
     const baseQuery = database.get(key);
+    if (!changes?.created) return {created: [], updated: [], deleted: []};
     let created: DirtyRaw[] = [];
-    let updated: DirtyRaw[] = changes?.updated ?? [];
-    changes?.created.forEach(async value => {
-      const [found] = await baseQuery.query(Q.where('id', value.id));
-      if (!found) created.push(value);
-      else updated.push(value);
-    });
-
+    let updated: DirtyRaw[] = [];
+    for (let index = 0; index < changes?.created.length!; index++) {
+      const item = changes.created[index];
+      const [found] = await baseQuery.query(Q.where('id', item.id));
+      if (!found) created.push(item);
+      else updated.push(item);
+    }
     return {created, updated, deleted: []};
   }
 }

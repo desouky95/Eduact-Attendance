@@ -32,12 +32,11 @@ export const HomeScreen = () => {
       database.write(async () => {
         await database.unsafeResetDatabase();
       });
-      
+
       persistor.flush().then(() => {
         return persistor.purge();
       });
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const handleClassrooms = (route: 'Classrooms' | 'StudentsRoot') => {
@@ -45,7 +44,8 @@ export const HomeScreen = () => {
   };
   const {user} = useAppSelector(s => s.auth);
 
-  console.log(store.getState().db.db_first_download_timestamp)
+  const {steps} = useAppSelector(s => s.db);
+  console.log('STEPS => HOME', steps);
 
   return (
     <>
