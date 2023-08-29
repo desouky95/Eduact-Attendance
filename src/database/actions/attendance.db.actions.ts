@@ -14,10 +14,17 @@ export const setupAttendance = async (withProgress?: WithProgressArgs) => {
     const query = database.get<CenterAttendanceModel>('center_attendences');
     const batchActions: boolean | void | Model | Model[] | null = [];
 
-    const {data} = centerAttendence;
+    const attendances = centerAttendence.data;
 
-    for (let index = 0; index < data.length; index++) {
-      const attendance = data[index];
+    for (let page = 2; page <= centerAttendence.meta?.last_page!; page++) {
+      const {
+        data: {centerAttendence},
+      } = await getAttendance(withProgress);
+      attendances.push(...centerAttendence.data);
+    }
+
+    for (let index = 0; index < attendances.length; index++) {
+      const attendance = attendances[index];
       const createdAttendance = query.prepareCreate(builder => {
         builder._raw = sanitizedRaw(
           {

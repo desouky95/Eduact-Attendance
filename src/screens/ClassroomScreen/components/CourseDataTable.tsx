@@ -43,13 +43,15 @@ export const CourseDataTable = ({group_id, type = null}: Props) => {
     if (!ref || !toBeDeleted) return;
     if (!ref.center_course_id && !ref.online_course_id) return;
     try {
-      await removeStudentAttendance(
+      const record = await removeStudentAttendance(
         toBeDeleted,
         (ref.center_course_id ?? ref.online_course_id) as any,
       );
       setIsOpen(false);
       setToBeDeleted(undefined);
-    } catch (error) {}
+    } catch (error) {
+      throw new Error(error['message'])
+    }
   };
 
   const handleCancelDelete = () => {

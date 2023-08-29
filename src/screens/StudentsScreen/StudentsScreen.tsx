@@ -28,8 +28,8 @@ export const StudentsScreen = () => {
   };
   const updateData = debounce((value, dispatch) => {
     console.log('VALUE', value);
-    dispatch({search: value});
-  }, 1000);
+    dispatch({search: value, page: 1});
+  }, 500);
   useEffect(() => {
     updateData(search, dispatch);
   }, [search]);
