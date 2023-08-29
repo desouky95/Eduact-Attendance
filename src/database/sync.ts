@@ -18,6 +18,7 @@ export default async function sync(database: Database) {
       try {
         const firstDownloadTimeStamp =
           store.getState().db.db_first_download_timestamp;
+        console.log(store.getState().db.db_first_download_timestamp);
         const last_pulled_at = lastPulledAt ?? firstDownloadTimeStamp;
         const urlParams = `last_pulled_at=${last_pulled_at}&schema_version=${schemaVersion}&migration=${encodeURIComponent(
           JSON.stringify(migration),
@@ -34,26 +35,26 @@ export default async function sync(database: Database) {
           users,
           students,
           test_attempts,
+          instructor_codes,
+          groups,
         } = await syncAdapter.toLocal(changes);
-        // const center_attendences =
-        //   await syncAdapter.toCreatedLocal<CenterAttendanceModel>(
-        //     'center_attendences',
-        //     changes.center_attendences,
-        //     ['studentId', 'classroomId', 'courseId'],
-        //   );
 
-        // const enroll_courses =
-        //   await syncAdapter.toCreatedLocal<EnrolledCourseModel>(
-        //     'enroll_courses',
-        //     changes.enroll_courses,
-        //     ['user_id', 'course_id'],
-        //   );
-        // const enroll_classrooms =
-        //   await syncAdapter.toCreatedLocal<EnrolledClassroomModel>(
-        //     'enroll_classrooms',
-        //     changes.enroll_courses,
-        //     ['user_id', 'classroom_id'],
-        //   );
+        const center_attendences =
+          await syncAdapter.toCreatedLocal<CenterAttendanceModel>(
+            'center_attendences',
+            changes.center_attendences,
+          );
+
+        const enroll_courses =
+          await syncAdapter.toCreatedLocal<EnrolledCourseModel>(
+            'enroll_courses',
+            changes.enroll_courses,
+          );
+        const enroll_classrooms =
+          await syncAdapter.toCreatedLocal<EnrolledClassroomModel>(
+            'enroll_classrooms',
+            changes.enroll_classrooms,
+          );
 
         // require('@nozbe/watermelondb/sync/debugPrintChanges').default(
         //   changes,
@@ -68,8 +69,11 @@ export default async function sync(database: Database) {
             users,
             students,
             test_attempts,
-            // center_attendences,
-            // enroll_courses,
+            instructor_codes,
+            groups,
+            center_attendences,
+            enroll_courses,
+            enroll_classrooms,
             // enroll_classrooms,
           },
           timestamp,

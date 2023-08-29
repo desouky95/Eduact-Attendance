@@ -26,4 +26,17 @@ export default class CourseReferenceModel extends Model {
       builder.group_id = formData.group_id;
     });
   }
+
+  @writer async clear() {
+    return await this.update(builder => {
+      builder.center_course_id = null;
+      builder.quiz_id = null;
+      builder.homework_id = null;
+      builder.online_classroom_id = null;
+      builder.online_course_id = null;
+      builder.online_quiz_id = null;
+      builder.online_homework_id = null;
+      builder.group_id = null;
+    });
+  }
 }

@@ -16,21 +16,6 @@ import WorkQueue, {
 } from '@nozbe/watermelondb/Database/WorkQueue';
 import {differenceBy} from 'lodash';
 
-const findByKeys = (obj: Array<any>, keys: Array<string>) => {
-  return (toCompare: any) => {
-    return obj.find(_ => {
-      let flag = true;
-      for (let index = 0; index < keys.length; index++) {
-        const key = keys[index];
-        if (_[key] !== toCompare[key]) {
-          flag = false;
-          return false;
-        }
-      }
-      return flag;
-    });
-  };
-};
 export class SyncChangesAdapter implements ISyncChangesAdapter {
   toLocal(changes: SyncDatabaseChangeSet): Promise<SyncDatabaseChangeSet> {
     Object.keys(changes).forEach(key => {
@@ -82,17 +67,16 @@ export class SyncChangesAdapter implements ISyncChangesAdapter {
   async toCreatedLocal<T extends Model>(
     key: TableName<T>,
     changes: {created: DirtyRaw[]; updated: DirtyRaw[]; deleted: string[]},
-    primaryKeys: Array<keyof T>,
   ): Promise<{created: DirtyRaw[]; updated: DirtyRaw[]; deleted: string[]}> {
     const baseQuery = database.get(key);
-    const toBeAltered = await baseQuery.query(Q.where('sid', null)).fetch();
-    debugger
-    if (toBeAltered.length === 0 || changes?.created?.length === 0)
-      return {...changes, created: []};
+    let created: DirtyRaw[] = [];
+    let updated: DirtyRaw[] = changes?.updated ?? [];
+    changes?.created.forEach(async value => {
+      const [found] = await baseQuery.query(Q.where('id', value.id));
+      if (!found) created.push(value);
+      else updated.push(value);
+    });
 
-    const search = findByKeys(changes?.created, primaryKeys as any);
-    changes = {...changes, created: changes?.created.filter(_ => search(_))};
-
-    return changes;
+    return {created, updated, deleted: []};
   }
 }

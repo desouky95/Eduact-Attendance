@@ -14,7 +14,7 @@ import { groupSchema } from './schemas/groups.schema';
 import { testAttemptSchema } from './schemas/testAttempt.schema';
 
 export default appSchema({
-  version: 14,
+  version: 15,
   tables: [
     classroomSchema,
     courseSchema,

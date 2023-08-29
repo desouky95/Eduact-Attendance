@@ -18,7 +18,7 @@ declare type HomeRootStackParamList = {
     };
     screen: keyof ClassroomRootTabParamList;
   };
-  Students: {};
+  StudentsRoot: {};
 };
 
 // Classroom Root
@@ -27,6 +27,10 @@ declare type ClassroomRootTabParamList = {
   Classroom: {current: number};
   Attendance: {};
   Reference: {};
+};
+
+declare type StudentsRootTabParamList = {
+  Students: {};
 };
 
 declare type ClassroomRootProps =

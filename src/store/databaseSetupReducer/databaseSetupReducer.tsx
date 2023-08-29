@@ -31,9 +31,11 @@ const authSlice = createSlice({
     completeStep: (state, action: PayloadAction<Step>) => {
       state.steps[action.payload] = true;
     },
+    setInitialTimestamp: (state, action: PayloadAction<number>) => {
+      state.db_first_download_timestamp = action.payload;
+    },
     completeDBSetup: state => {
       state.db_setup_finished = true;
-      state.db_first_download_timestamp = Date.now();
     },
     wipeSetup: state => {
       state.steps.classrooms = false;
@@ -47,4 +49,5 @@ const authSlice = createSlice({
 
 export default authSlice.reducer;
 
-export const {completeDBSetup, completeStep, wipeSetup} = authSlice.actions;
+export const {completeDBSetup, completeStep, wipeSetup, setInitialTimestamp} =
+  authSlice.actions;

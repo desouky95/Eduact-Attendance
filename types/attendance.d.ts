@@ -6,6 +6,7 @@ type CenterAttendance = {
   quiz_id: number;
   homework_id: number;
   type: string;
+  created_at : string
   course: {
     name: string;
   };

@@ -24,7 +24,13 @@ export const AttendanceCard = ({
     useAttendancePerformance(attendance);
 
   const colorSchema: ColorSchemaVariant =
-    attendance.type === 'absent' || !quiz || !homework ? 'red' : 'green';
+    attendance.type === 'absent' ||
+    !quiz ||
+    quiz?.status === 'failed' ||
+    !homework ||
+    homework?.status === 'failed'
+      ? 'red'
+      : 'green';
   return (
     <View w="100%">
       {isLoading && (
@@ -102,7 +108,7 @@ export const AttendanceCard = ({
                     H.W
                   </Typography>
                 </Box>
-                {homework && <QuizDataRow attempt={homework}  />}
+                {homework && <QuizDataRow attempt={homework} />}
               </HStack>
             </>
           )}

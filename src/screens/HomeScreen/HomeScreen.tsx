@@ -15,7 +15,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {getClassrooms} from 'src/api/classroom/classroom.api';
 import {getStudents} from 'src/api/students/students.api';
 import {database} from 'src/database';
-import {persistor, useAppDispatch, useAppSelector} from 'src/store';
+import {persistor, store, useAppDispatch, useAppSelector} from 'src/store';
 import {logout} from 'src/store/authReducer/authReducer';
 import {wipeSetup} from 'src/store/databaseSetupReducer/databaseSetupReducer';
 import styled from 'styled-components/native';
@@ -32,6 +32,7 @@ export const HomeScreen = () => {
       database.write(async () => {
         await database.unsafeResetDatabase();
       });
+      
       persistor.flush().then(() => {
         return persistor.purge();
       });
@@ -39,10 +40,13 @@ export const HomeScreen = () => {
     }
   };
 
-  const handleClassrooms = (route: 'Classrooms' | 'Students') => {
+  const handleClassrooms = (route: 'Classrooms' | 'StudentsRoot') => {
     navigation.navigate(route as any, {});
   };
   const {user} = useAppSelector(s => s.auth);
+
+  console.log(store.getState().db.db_first_download_timestamp)
+
   return (
     <>
       <ImageBackground source={homeBackground} style={{flex: 1}}>
@@ -76,7 +80,7 @@ export const HomeScreen = () => {
                 </Typography>
               </PaperButton>
               <PaperButton
-                onPress={() => handleClassrooms('Students')}
+                onPress={() => handleClassrooms('StudentsRoot')}
                 activeOpacity={0.9}
                 style={{
                   elevation: 10,

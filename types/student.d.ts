@@ -21,3 +21,7 @@ type Student = {
   registration_paid: boolean;
   user: User;
 };
+
+type InstructorStudentsResponse= {
+  instructorStudentsPayload : ApiResponse<InstructorCode[]>
+}

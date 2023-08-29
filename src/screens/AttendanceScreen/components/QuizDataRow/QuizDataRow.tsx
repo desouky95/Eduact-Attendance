@@ -8,14 +8,14 @@ import {Typography} from 'components/Typography/Typography';
 
 type Props = {
   attempt: TestAttemptModel;
-  test: TestModel;
+  test?: TestModel;
 };
 const QuizDataRowWithObs = ({attempt, test}: Props) => {
   console.log('STATUS', attempt.status);
 
   const status = () => {
     if (!attempt?.status) return '-';
-    if (attempt.status === 'passed') return 'S';
+    if (attempt.status === 'passed') return 'P';
     return 'F';
   };
   return (
@@ -23,7 +23,7 @@ const QuizDataRowWithObs = ({attempt, test}: Props) => {
       <HStack justifyContent={'space-between'} flex={1}>
         <Box flex={1}>
           <Typography textAlign={'center'}>
-            {attempt.status ? `${attempt?.score} / ${test.overall_score}` : '-'}
+            {attempt.status ? `${attempt?.score} / ${test?.overall_score}` : '-'}
           </Typography>
         </Box>
         <Box flex={1}>

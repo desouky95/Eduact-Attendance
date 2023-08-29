@@ -10,5 +10,6 @@ export const enrollClassroomSchema = tableSchema({
     {name: 'status', type: 'string'},
     {name: 'sid', type: 'number', isOptional: true},
     {name: 'group_id', type: 'string', isOptional: true},
+    {name: 'created_at', type: 'number'},
   ],
 });

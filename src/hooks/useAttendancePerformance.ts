@@ -8,10 +8,13 @@ import TestAttemptModel from 'src/database/models/TestAttemptModel';
 import TestModel from 'src/database/models/TestModel';
 import UnitModel from 'src/database/models/UnitModel';
 
-const observable = (id: string | null) =>
+const observable = (id: string | null, student_id: string) =>
   database
     .get<TestAttemptModel>(TestAttemptModel.table)
-    .query(Q.on('tests', Q.where('unit_id', id)))
+    .query(
+      Q.on('tests', Q.where('unit_id', id)),
+      Q.where('student_id', student_id),
+    )
     .observe();
 
 export const useAttendancePerformance = (attendance: CenterAttendanceModel) => {
@@ -22,16 +25,20 @@ export const useAttendancePerformance = (attendance: CenterAttendanceModel) => {
   const [course, setCourse] = useState<CourseModel | undefined>();
 
   useEffect(() => {
-    const quizSubscription = observable(attendance.quizId).subscribe(value => {
+    const quizSubscription = observable(
+      attendance.quizId,
+      attendance.studentId,
+    ).subscribe(value => {
       setQuiz(value[0]);
       setIsLoadingQuiz(false);
     });
-    const homeworkSubscription = observable(attendance.homeworkId).subscribe(
-      value => {
-        setHomework(value[0]);
-        setIsLoadingHomework(false);
-      },
-    );
+    const homeworkSubscription = observable(
+      attendance.homeworkId,
+      attendance.studentId,
+    ).subscribe(value => {
+      setHomework(value[0]);
+      setIsLoadingHomework(false);
+    });
     const courseSubscription = getCourse(Number(attendance.courseId)).subscribe(
       value => {
         setCourse(value[0]);

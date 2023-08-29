@@ -10,7 +10,7 @@ import {setCurrent} from 'src/store/courseReducer/courseReducer';
 
 export const CoursePanel = ({
   course,
-  classroom
+  classroom,
 }: {
   course: CourseModel;
   classroom: ClassroomModel;
