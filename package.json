@@ -100,5 +100,10 @@
   },
   "overrides": {
     "metro-file-map": "0.76.0"
+  },
+  "rnpm": {
+    "assets": [
+      "assets"
+    ]
   }
 }

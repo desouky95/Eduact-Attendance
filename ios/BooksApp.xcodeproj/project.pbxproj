@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* BooksAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* BooksAppTests.m */; };
 		05612C8D2A7C355200D9F1BF /* wmelon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05612C8C2A7C355200D9F1BF /* wmelon.swift */; };
+		056370542A9E798400315696 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 056370532A9E798400315696 /* fonts */; };
+		056370572A9E79A400315696 /* MateMaterialIcons-RegularrialDesignIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 056370552A9E79A300315696 /* MateMaterialIcons-RegularrialDesignIcons.ttf */; };
+		056370582A9E79A400315696 /* MaterialDesignIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 056370562A9E79A400315696 /* MaterialDesignIcons.ttf */; };
 		05CC7A942A85800E006A8D92 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 05CC7A922A857E9E006A8D92 /* Fonts */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -34,6 +37,9 @@
 		00E356F21AD99517003FC87E /* BooksAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BooksAppTests.m; sourceTree = "<group>"; };
 		05612C8B2A7C355200D9F1BF /* BooksApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BooksApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		05612C8C2A7C355200D9F1BF /* wmelon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wmelon.swift; sourceTree = "<group>"; };
+		056370532A9E798400315696 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
+		056370552A9E79A300315696 /* MateMaterialIcons-RegularrialDesignIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "MateMaterialIcons-RegularrialDesignIcons.ttf"; path = "fonts/MateMaterialIcons-RegularrialDesignIcons.ttf"; sourceTree = "<group>"; };
+		056370562A9E79A400315696 /* MaterialDesignIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialDesignIcons.ttf; path = fonts/MaterialDesignIcons.ttf; sourceTree = "<group>"; };
 		05CC7A922A857E9E006A8D92 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "../node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* BooksApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BooksApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = BooksApp/AppDelegate.h; sourceTree = "<group>"; };
@@ -122,6 +128,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				056370552A9E79A300315696 /* MateMaterialIcons-RegularrialDesignIcons.ttf */,
+				056370562A9E79A400315696 /* MaterialDesignIcons.ttf */,
+				056370532A9E798400315696 /* fonts */,
 				05612C8C2A7C355200D9F1BF /* wmelon.swift */,
 				13B07FAE1A68108700A75B9A /* BooksApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -251,7 +260,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				05CC7A942A85800E006A8D92 /* Fonts in Resources */,
+				056370572A9E79A400315696 /* MateMaterialIcons-RegularrialDesignIcons.ttf in Resources */,
+				056370542A9E798400315696 /* fonts in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				056370582A9E79A400315696 /* MaterialDesignIcons.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
