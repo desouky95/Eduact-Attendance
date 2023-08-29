@@ -1,21 +1,23 @@
-import {Box, Center, StyledProps} from 'native-base';
-import {Select} from 'native-base';
-import React, {Dispatch} from 'react';
-import {useClassroomDropdown} from 'src/hooks/useClassroomDropdown';
-import {useAppSelector} from 'src/store';
+import { Box, Center, StyledProps } from 'native-base';
+import { Select } from 'native-base';
+import React, { Dispatch } from 'react';
+import { useClassroomDropdown } from 'src/hooks/useClassroomDropdown';
+import { useAppSelector } from 'src/store';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 type Props = {
   onChange: Dispatch<number | undefined>;
 };
-export const GroupsFilter = ({onChange}: Props) => {
+export const GroupsFilter = ({ onChange }: Props) => {
   const current = useAppSelector(s => s.course.current);
-  const {groups} = useClassroomDropdown({
+  const { groups } = useClassroomDropdown({
     classroom_id: current?.classroom_id,
   });
 
   return (
     <Select
+      // @ts-ignore-next-line
+      optimized={false}
       mb="4"
       borderColor="cadet.main"
       borderWidth={'2'}

@@ -1,28 +1,28 @@
-import {CheckIcon, SunIcon, StyledProps, HStack, VStack} from 'native-base';
-import {Center} from 'native-base';
-import {FormControl, Box} from 'native-base';
-import {Select} from 'native-base';
-import React, {useEffect} from 'react';
-import {View} from 'react-native';
-import {useClassroomDropdown} from 'src/hooks/useClassroomDropdown';
-import {useAppSelector} from 'src/store';
+import { CheckIcon, SunIcon, StyledProps, HStack, VStack } from 'native-base';
+import { Center } from 'native-base';
+import { FormControl, Box } from 'native-base';
+import { Select } from 'native-base';
+import React, { useEffect } from 'react';
+import { View } from 'react-native';
+import { useClassroomDropdown } from 'src/hooks/useClassroomDropdown';
+import { useAppSelector } from 'src/store';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {useForm} from 'react-hook-form';
-import {Typography} from 'components/Typography/Typography';
-import {Spacer} from 'components/Spacer/Spacer';
-import {useFormContext, Controller} from 'react-hook-form';
-import {useObservable} from 'src/hooks/useObservable';
-import {mergeMap, first} from 'rxjs';
-import {bind, Subscribe} from '@react-rxjs/core';
-import {useObservableState} from 'observable-hooks';
+import { useForm } from 'react-hook-form';
+import { Typography } from 'components/Typography/Typography';
+import { Spacer } from 'components/Spacer/Spacer';
+import { useFormContext, Controller } from 'react-hook-form';
+import { useObservable } from 'src/hooks/useObservable';
+import { mergeMap, first } from 'rxjs';
+import { bind, Subscribe } from '@react-rxjs/core';
+import { useObservableState } from 'observable-hooks';
 
 export const OfflineOptions = () => {
-  const {current} = useAppSelector(s => s.course);
+  const { current } = useAppSelector(s => s.course);
 
-  const {control, watch, getFieldState, setValue} =
+  const { control, watch, getFieldState, setValue } =
     useFormContext<ReferenceFormData>();
   const course_id = watch('center_course_id');
-  const {courses, tests, groups} = useClassroomDropdown({
+  const { courses, tests, groups } = useClassroomDropdown({
     classroom_id: current?.classroom_id,
     course_id: course_id ?? undefined,
   });
@@ -42,15 +42,18 @@ export const OfflineOptions = () => {
         <Controller
           control={control}
           name="group_id"
-          render={({field: {value, onChange}}) => {
+          render={({ field: { value, onChange } }) => {
             return (
               <Select
+                //@ts-ignore-next-line
+                optimized={false}
                 borderColor="cadet.main"
                 borderWidth={'2'}
                 backgroundColor={'white'}
                 shadow={'4'}
                 variant="outline"
-                defaultValue={value?.toString() ?? ''}
+                defaultValue={value?.toString() ?? ''
+                }
                 selectedValue={value?.toString() ?? ''}
                 onValueChange={value => onChange(parseInt(value))}
                 dropdownOpenIcon={
@@ -82,9 +85,11 @@ export const OfflineOptions = () => {
               <Controller
                 control={control}
                 name="center_course_id"
-                render={({field: {value, onChange}}) => {
+                render={({ field: { value, onChange } }) => {
                   return (
                     <Select
+                      //@ts-ignore-next-line
+                      optimized={false}
                       borderColor="cadet.main"
                       borderWidth={'2'}
                       backgroundColor={'white'}
@@ -119,8 +124,10 @@ export const OfflineOptions = () => {
             <Controller
               control={control}
               name="quiz_id"
-              render={({field: {value, onChange}}) => (
+              render={({ field: { value, onChange } }) => (
                 <Select
+                  //@ts-ignore-next-line
+                  optimized={false}
                   defaultValue={value?.toString() ?? ''}
                   selectedValue={value?.toString() ?? ''}
                   onValueChange={value => onChange(parseInt(value))}
@@ -151,8 +158,10 @@ export const OfflineOptions = () => {
             <Controller
               control={control}
               name="homework_id"
-              render={({field: {value, onChange}}) => (
+              render={({ field: { value, onChange } }) => (
                 <Select
+                  //@ts-ignore-next-line
+                  optimized={false}
                   defaultValue={value?.toString() ?? ''}
                   selectedValue={value?.toString() ?? ''}
                   onValueChange={value => onChange(parseInt(value))}
