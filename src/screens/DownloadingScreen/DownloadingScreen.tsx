@@ -118,4 +118,4 @@ const DownloadingScreenUI = () => {
   );
 };
 
-export const DownloadingScreen = React.memo(DownloadingScreenUI);
+export const DownloadingScreen = DownloadingScreenUI

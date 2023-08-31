@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import {Table} from 'components/Table/Table';
 import {Typography} from 'components/Typography/Typography';
 import {debounce, update} from 'lodash';
@@ -18,7 +19,7 @@ export const StudentsScreen = () => {
     {page: 1, perPage: 100, search: ''},
     args => ({page: 1, perPage: 100, search: ''}),
   );
-  const {isLoading, users, pages} = useStudents({...data});
+  const {isLoading, users, pages, totalUsers} = useStudents({...data});
 
   // console.log('DATA', data);
   const [search, setSearch] = useState('');
@@ -33,6 +34,8 @@ export const StudentsScreen = () => {
   useEffect(() => {
     updateData(search, dispatch);
   }, [search]);
+  const navigation = useNavigation<StudentHistoryProps>();
+
   return (
     <View style={{flex: 1}}>
       <Box p="3" width="100%" flex={1}>
@@ -73,6 +76,9 @@ export const StudentsScreen = () => {
 
         {!isLoading && (
           <VStack width="100%" height="100%">
+            <Box mb="4">
+              <Typography>Total students : {totalUsers}</Typography>
+            </Box>
             <Box mb="4" borderRadius={'5'} overflow="hidden" style={{flex: 1}}>
               <Table
                 onSearchChange={handleOnSearchChange}
@@ -83,7 +89,13 @@ export const StudentsScreen = () => {
                 data={users}>
                 {({item: user, index, TableRow, TableCell}) => {
                   return (
-                    <TableRow>
+                    <TableRow
+                      onPress={() => {
+                        navigation.navigate('StudentHistory', {
+                          id: user.id,
+                        });
+                      }}
+                      activeOpacity={0.5}>
                       <TableCell>
                         <Typography numberOfLines={1} style={{width: '100%'}}>
                           {user?.first_name} {user?.last_name}

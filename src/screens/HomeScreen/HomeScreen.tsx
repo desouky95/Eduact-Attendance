@@ -39,7 +39,7 @@ export const HomeScreen = () => {
     } catch (error) {}
   };
 
-  const handleClassrooms = (route: 'Classrooms' | 'StudentsRoot') => {
+  const handleClassrooms = (route: 'ClassroomRoot' | 'StudentsRoot') => {
     navigation.navigate(route as any, {});
   };
   const {user} = useAppSelector(s => s.auth);
@@ -66,7 +66,7 @@ export const HomeScreen = () => {
                 gap: 30,
               }}>
               <PaperButton
-                onPress={() => handleClassrooms('Classrooms')}
+                onPress={() => handleClassrooms('ClassroomRoot')}
                 activeOpacity={0.9}
                 style={{
                   elevation: 10,

@@ -9,11 +9,12 @@ import {
   VStack,
   View,
 } from 'native-base';
-import React from 'react';
+import React, {useMemo} from 'react';
 import CenterAttendanceModel from 'src/database/models/CenterAttendanceModel';
 import {useAttendancePerformance} from 'src/hooks/useAttendancePerformance';
 import {ColorSchemaVariant} from 'src/theme/theme';
-import {QuizDataRow} from '../QuizDataRow/QuizDataRow';
+import {EmptyQuizDataRow, QuizDataRow} from '../QuizDataRow/QuizDataRow';
+import {useAppSelector} from 'src/store';
 
 export const AttendanceCard = ({
   attendance,
@@ -23,14 +24,33 @@ export const AttendanceCard = ({
   const {quiz, homework, isLoading, course} =
     useAttendancePerformance(attendance);
 
-  const colorSchema: ColorSchemaVariant =
-    attendance.type === 'absent' ||
-    !quiz ||
-    quiz?.status === 'failed' ||
-    !homework ||
-    homework?.status === 'failed'
-      ? 'red'
-      : 'green';
+  const {currentReference} = useAppSelector(s => s.course);
+
+  const colorSchema = (): ColorSchemaVariant => {
+    if (attendance.type === 'absent') return 'red';
+    if (
+      (!quiz || quiz.status === 'failed') &&
+      (currentReference?.quiz_id || currentReference?.online_quiz_id)
+    )
+      return 'red';
+    if (
+      (!homework || homework.status === 'failed') &&
+      (currentReference?.homework_id || currentReference?.online_homework_id)
+    )
+      return 'red';
+
+    return 'green';
+  };
+
+  const hasQuiz = useMemo(() => {
+    return currentReference?.quiz_id || currentReference?.online_quiz_id;
+  }, [currentReference?.course_id]);
+
+  const hasAssignment = useMemo(() => {
+    return (
+      currentReference?.homework_id || currentReference?.online_homework_id
+    );
+  }, [currentReference?.course_id]);
   return (
     <View w="100%">
       {isLoading && (
@@ -74,7 +94,7 @@ export const AttendanceCard = ({
             <Typography fontWeight={'600'} fontSize="20px">
               {course?.name}
             </Typography>
-            <Badge rounded={'md'} backgroundColor={`${colorSchema}.500`}>
+            <Badge rounded={'md'} backgroundColor={`${colorSchema()}.500`}>
               <Typography color={'#FFF'} fontWeight={'600'} fontSize="20px">
                 {attendance.type}
               </Typography>
@@ -83,33 +103,41 @@ export const AttendanceCard = ({
 
           {attendance.type !== 'absent' && (
             <>
-              <HStack py="8px">
-                <Box flex={1}></Box>
-                <HStack justifyContent={'space-between'} flex={1}>
-                  <Box flex={1}>
-                    <Typography textAlign={'center'}>Score</Typography>
-                  </Box>
-                  <Box flex={1}>
-                    <Typography textAlign={'center'}>Status</Typography>
-                  </Box>
+              {(hasQuiz || hasAssignment) && (
+                <HStack py="8px">
+                  <Box flex={1}></Box>
+                  <HStack justifyContent={'space-between'} flex={1}>
+                    <Box flex={1}>
+                      <Typography textAlign={'center'}>Score</Typography>
+                    </Box>
+                    <Box flex={1}>
+                      <Typography textAlign={'center'}>Status</Typography>
+                    </Box>
+                  </HStack>
                 </HStack>
-              </HStack>
-              <HStack py="8px">
-                <Box flex={1}>
-                  <Typography fontSize={'12px'} fontWeight="600">
-                    Quiz
-                  </Typography>
-                </Box>
-                {quiz && <QuizDataRow attempt={quiz} />}
-              </HStack>
-              <HStack py="8px">
-                <Box flex={1}>
-                  <Typography fontSize={'12px'} fontWeight="600">
-                    H.W
-                  </Typography>
-                </Box>
-                {homework && <QuizDataRow attempt={homework} />}
-              </HStack>
+              )}
+              {hasQuiz && (
+                <HStack py="8px">
+                  <Box flex={1}>
+                    <Typography fontSize={'16px'} fontWeight="600">
+                      Quiz
+                    </Typography>
+                  </Box>
+                  {quiz && <QuizDataRow attempt={quiz} />}
+                  {!quiz && <EmptyQuizDataRow />}
+                </HStack>
+              )}
+              {hasAssignment && (
+                <HStack py="8px">
+                  <Box flex={1}>
+                    <Typography fontSize={'16px'} fontWeight="600">
+                      H.W
+                    </Typography>
+                  </Box>
+                  {homework && <QuizDataRow attempt={homework} />}
+                  {!homework && <EmptyQuizDataRow />}
+                </HStack>
+              )}
             </>
           )}
         </Box>

@@ -7,7 +7,7 @@ import React, {
   ReactNode,
   cloneElement,
 } from 'react';
-import {TextInputChangeEventData} from 'react-native';
+import {TextInputChangeEventData, TouchableOpacity} from 'react-native';
 import {
   View,
   Text,
@@ -28,25 +28,36 @@ type TableRowProps = {
     | Array<ReactElement<typeof TableCell>>
     | ReactElement<typeof TableCell>;
   index?: number;
-} & CssSelectors;
-export const TableRow = ({children, ...props}: TableRowProps) => {
+} & CssSelectors &
+  Pick<
+    React.ComponentProps<typeof TouchableOpacity>,
+    'onPress' | 'activeOpacity'
+  >;
+export const TableRow = ({
+  children,
+  onPress,
+  activeOpacity,
+  ...props
+}: TableRowProps) => {
   return (
-    <HStack
-      width="100%"
-      bgColor={'white'}
-      borderBottomWidth={!props.isLastChild ? '1px' : '0px'}
-      borderBottomColor={!props.isLastChild ? 'gray.300' : 'transparent'}
-      // maxHeight="32px"
-      minHeight="50px">
-      {React.Children.map(children, (child, index) =>
-        cloneElement(child as any, {
-          ...child.props,
-          isLastChild: index === React.Children.count(children) - 1,
-          isFirstChild: index === 0,
-          index,
-        }),
-      )}
-    </HStack>
+    <TouchableOpacity onPress={onPress} activeOpacity={activeOpacity}>
+      <HStack
+        width="100%"
+        bgColor={'white'}
+        borderBottomWidth={!props.isLastChild ? '1px' : '0px'}
+        borderBottomColor={!props.isLastChild ? 'gray.300' : 'transparent'}
+        // maxHeight="32px"
+        minHeight="50px">
+        {React.Children.map(children, (child, index) =>
+          cloneElement(child as any, {
+            ...child.props,
+            isLastChild: index === React.Children.count(children) - 1,
+            isFirstChild: index === 0,
+            index,
+          }),
+        )}
+      </HStack>
+    </TouchableOpacity>
   );
 };
 
@@ -101,7 +112,6 @@ export const Table = <T,>({
   onSearchChange,
   searchValue = '',
 }: TableProps<T>) => {
-
   return (
     <View style={TableStyles.tableContainer}>
       <HStack

@@ -12,16 +12,21 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useSyncProvider} from 'src/providers/SyncProvider/SyncProvider';
 import Animated from 'react-native-reanimated';
 import {useSync} from 'src/hooks/useSync';
-import { useNetInfo } from '@react-native-community/netinfo';
+import {useNetInfo} from '@react-native-community/netinfo';
 
 export const HomeHeader = ({
   back,
   navigation,
   route,
+  options,
 }: NativeStackHeaderProps) => {
   const {isSyncing} = useSyncProvider();
 
-  const {isConnected} = useNetInfo()
+  console.log('back', back);
+  console.log('route', route);
+  console.log('navigation', navigation);
+
+  const {isConnected} = useNetInfo();
   const syncStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -82,11 +87,11 @@ export const HomeHeader = ({
         ]}>
         <Icon
           onPress={() => {
-            if(!isConnected)return
+            if (!isConnected) return;
             runSync();
           }}
           disabled={!isConnected}
-          style={{opacity : isConnected ? 1 : 0.5}}
+          style={{opacity: isConnected ? 1 : 0.5}}
           name="sync"
           size={22}
           color={'#5AC0FC'}

@@ -75,7 +75,6 @@ export const useClassroomDropdown = ({
     const subscription = groupsObservable(classroom_id)
       .pipe()
       .subscribe(value => {
-        console.log('GROUPS', value);
         setGroups(value);
       });
     return () => subscription.unsubscribe();
