@@ -18,24 +18,26 @@ import {
   flushCurrent,
   setCurrentReference,
 } from 'src/store/courseReducer/courseReducer';
+import {StudentHistoryScreen} from 'src/screens/StudentHistoryScreen/StudentHistoryScreen';
 
 const Tab = createBottomTabNavigator<ClassroomRootTabParamList>();
-const StudentsTab = createBottomTabNavigator<StudentsRootTabParamList>();
+const StudentsStack = createNativeStackNavigator<StudentsRootTabParamList>();
 const Stack = createNativeStackNavigator<HomeRootStackParamList>();
 
 export const HomeRoot = () => {
   return (
     <Stack.Navigator
-      screenOptions={{
-        header: HomeHeader,
+      screenOptions={({navigation, route}) => ({
         animation: 'slide_from_left',
-      }}>
-      {/* <Stack.Screen name="Downloading" component={DownloadingScreen} /> */}
+        header: props => <HomeHeader {...props} />,
+      })}>
       <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Classrooms" component={ClassroomsScreen} />
-      {/* <Stack.Screen name="Students" component={StudentsScreen} /> */}
       <Stack.Screen name="ClassroomRoot" component={ClassroomRoot} />
-      <Stack.Screen name="StudentsRoot" component={StudentsRoot} />
+      <Stack.Screen
+        name="StudentsRoot"
+        component={StudentsRoot}
+        // options={({}) => ({headerShown: false})}
+      />
     </Stack.Navigator>
   );
 };
@@ -57,7 +59,7 @@ const ClassroomRoot = () => {
 
   return (
     <Tab.Navigator
-      screenOptions={{headerShown: false}}
+      // screenOptions={{headerShown: false}}
       // tabBar={props => <TabBar {...props} />}
       tabBar={props => <TabBar {...props} />}
       initialRouteName="Classroom">
@@ -70,13 +72,19 @@ const ClassroomRoot = () => {
 
 const StudentsRoot = () => {
   return (
-    <StudentsTab.Navigator
-      screenOptions={{headerShown: false}}
+    <StudentsStack.Navigator
+      screenOptions={({navigation}) => ({
+        headerShown: false,
+      })}
       // tabBar={props => <TabBar {...props} />}
-      
-      tabBar={props => <></>}
+
       initialRouteName="Students">
-      <StudentsTab.Screen name="Students" component={StudentsScreen} />
-    </StudentsTab.Navigator>
+      <StudentsStack.Screen name="Students" component={StudentsScreen} />
+      <StudentsStack.Screen
+        options={({navigation, route}) => ({})}
+        name="StudentHistory"
+        component={StudentHistoryScreen}
+      />
+    </StudentsStack.Navigator>
   );
 };

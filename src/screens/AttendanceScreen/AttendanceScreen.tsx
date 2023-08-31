@@ -18,6 +18,7 @@ import {StudentSearch} from './components/StudentSearch/StudentSearch';
 import {enrollStudent} from 'src/database/data/enrollment.data';
 import {useSnackbar} from 'src/hooks/useSnackbar';
 import {AttendanceActions} from './components/AttendanceActions/AttendanceActions';
+import { Group } from './components/Group/Group';
 export const AttendanceScreen = () => {
   const theme = useTheme();
 
@@ -33,6 +34,7 @@ export const AttendanceScreen = () => {
         width: '100%',
       }}>
       <CourseHeader />
+      <Group/>
       <StudentSearch
         user={currentStudent}
         onNotFound={() => {
@@ -42,13 +44,13 @@ export const AttendanceScreen = () => {
         }}
         onStudentChange={studentUser => {
           setNotFound(false);
-          setCurrentStudent(studentUser);
+          setCurrentStudent(prev =>studentUser);
           setToggleSearch(true);
         }}
       />
-      <Box minHeight="380">
+      <Box minHeight="350">
         {toggleSearch && !notFound && <Skeleton h="40" />}
-        <ScrollView style={{maxHeight: 380}}>
+        <ScrollView style={{maxHeight: 350}}>
           {currentStudent && !notFound && (
             <StudentAttendance
               onSearchSuccess={() => setToggleSearch(false)}

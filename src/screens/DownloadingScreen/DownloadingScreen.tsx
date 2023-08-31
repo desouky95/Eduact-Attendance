@@ -50,7 +50,7 @@ const DownloadingScreenUI = () => {
               dispatch(completeStep(key as Step));
             });
           });
-        // await Promise.all(promiseCallableActions);
+        await Promise.all(promiseCallableActions);
       } catch (error: any) {
         throw new Error(error['message']);
       }
@@ -129,4 +129,4 @@ const DownloadingScreenUI = () => {
   );
 };
 
-export const DownloadingScreen = React.memo(DownloadingScreenUI);
+export const DownloadingScreen = DownloadingScreenUI

@@ -21,9 +21,9 @@ type Props = {
 export const StudentSearch = ({onStudentChange, user, onNotFound}: Props) => {
   const [query, setQuery] = useState('');
 
-  const handleSearch = async () => {
+  const handleSearch = async (value: string = query) => {
     try {
-      const [student] = await searchStudents(query).fetch();
+      const [student] = await searchStudents(value).fetch();
       if (student) {
         onStudentChange(student);
       } else {
@@ -36,7 +36,7 @@ export const StudentSearch = ({onStudentChange, user, onNotFound}: Props) => {
   const handleOnScanSuccess = (value: string) => {
     setQuery(value);
     setScan(false);
-    handleSearch();
+    handleSearch(value);
   };
 
   return (

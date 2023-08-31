@@ -11,23 +11,26 @@ type Props = {
   test?: TestModel;
 };
 const QuizDataRowWithObs = ({attempt, test}: Props) => {
-  console.log('STATUS', attempt.status);
-
   const status = () => {
     if (!attempt?.status) return '-';
     if (attempt.status === 'passed') return 'P';
     return 'F';
   };
+
   return (
     <>
       <HStack justifyContent={'space-between'} flex={1}>
         <Box flex={1}>
           <Typography textAlign={'center'}>
-            {attempt.status ? `${attempt?.score} / ${test?.overall_score}` : '-'}
+            {attempt?.status
+              ? `${attempt?.score} / ${test?.overall_score}`
+              : '-'}
           </Typography>
         </Box>
         <Box flex={1}>
-          <Typography fontWeight='bold' fontSize='18px' textAlign={'center'}>{status()}</Typography>
+          <Typography fontWeight="bold" fontSize="18px" textAlign={'center'}>
+            {status()}
+          </Typography>
         </Box>
       </HStack>
     </>
@@ -46,3 +49,20 @@ const enhanced = withObservables<{attempt?: TestAttemptModel}, any>(
 );
 
 export const QuizDataRow = enhanced(QuizDataRowWithObs);
+
+export const EmptyQuizDataRow = () => {
+  return (
+    <>
+      <HStack justifyContent={'space-between'} flex={1}>
+        <Box flex={1}>
+          <Typography textAlign={'center'}>-</Typography>
+        </Box>
+        <Box flex={1}>
+          <Typography textAlign={'center'}>
+            -{/* {status()} */}
+          </Typography>
+        </Box>
+      </HStack>
+    </>
+  );
+};
