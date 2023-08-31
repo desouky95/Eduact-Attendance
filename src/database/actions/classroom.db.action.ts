@@ -17,19 +17,14 @@ export const setupClassrooms = async (withProgress?: WithProgressArgs) => {
   try {
     const {data} = await getClassrooms(withProgress);
     const groupsResponse = await getGroups(withProgress);
-    const testAttemptsResponse = await getTestAttempts(withProgress);
     const classrooms = data.data;
     const courses = classrooms.map(c => c.courses).flat(1);
     const units = courses.map(c => c.units).flat(1);
-    const tests = courses.map(c => c.units.map(u => u.test)).flat(1);
     const classroomsQuery = database.get<Classroom>('classrooms');
     const coursesQuery = database.get<CourseModel>('courses');
     const unitsQuery = database.collections.get<UnitModel>('units');
     const testsQuery = database.collections.get<TestModel>('tests');
     const groupsQuery = database.collections.get<GroupModel>(GroupModel.table);
-    const attemptQuery = database.collections.get<TestAttemptModel>(
-      TestAttemptModel.table,
-    );
 
     const batchActions: boolean | void | Model | Model[] | null = [];
     for (let index = 0; index < classrooms.length; index++) {
@@ -123,32 +118,6 @@ export const setupClassrooms = async (withProgress?: WithProgressArgs) => {
               classroom_id: group.classroom_id.toString(),
             },
             groupsQuery.schema,
-          );
-        }),
-      );
-    }
-
-    for (
-      let index = 0;
-      index < testAttemptsResponse.data.testAttempts.data.length;
-      index++
-    ) {
-      const attempt = testAttemptsResponse.data.testAttempts.data[index];
-      batchActions.push(
-        attemptQuery.prepareCreate(builder => {
-          builder._raw = sanitizedRaw(
-            {
-              id: attempt.id.toString(),
-              student_id: attempt.student_id?.toString(),
-              s_student_id: attempt.student_id,
-              test_id: attempt.test_id?.toString(),
-              s_test_id: attempt.test_id,
-              active: attempt.active,
-              grade: attempt.grade,
-              status : attempt.status,
-              score: attempt.score,
-            },
-            attemptQuery.schema,
           );
         }),
       );

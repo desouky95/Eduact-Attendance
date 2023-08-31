@@ -39,7 +39,7 @@ export const ReferenceGroup = ({user}: ReferenceGroupUIProps) => {
         setLoaded(true);
       });
       return () => subscription.unsubscribe()
-  }, [user]);
+  }, [user?.id , currentReference?.group_id]);
 
   return (
     <Center>

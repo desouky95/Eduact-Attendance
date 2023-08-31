@@ -24,55 +24,44 @@ const DownloadingScreenUI = () => {
   const dispatch = useAppDispatch();
   const {steps} = useAppSelector(s => s.db);
 
-  const [actionsToProcess, setActionsToProcess] = useState<
-    {key: string; action: (args?: WithProgressArgs) => Promise<any>}[]
-  >([]);
-
   const database = useDatabase();
 
   const actions = useRef(actionsMap);
 
-  useEffect(() => {
-    // setupDatabase();
-    setStartSetup(true);
-  }, []);
+  // useEffect(() => {
+  //   // setupDatabase();
+  //   setStartSetup(true);
+  // }, []);
 
   const successAnimation = useRef<LottieView | null>(null);
+  const [current, setCurrent] = useState('');
 
   useEffect(() => {
-    if (!startSetup) return;
     const processActions = async () => {
       try {
-        const promiseCallableActions = Object.entries(actions.current)
-          .filter(([key]) => !steps[key as any as Step])
-          .map(async ([key, action]) => {
-            return action().then(() => {
-              dispatch(completeStep(key as Step));
-            });
-          });
-        await Promise.all(promiseCallableActions);
+        const toProceededActions = Object.entries(actions.current).filter(
+          ([key]) => !steps[key as any as Step],
+        );
+        for (let index = 0; index < toProceededActions.length; index++) {
+          const [key, action] = toProceededActions[index];
+          setCurrent(key);
+          await action();
+          dispatch(completeStep(key as any));
+        }
       } catch (error: any) {
-        throw new Error(error['message']);
+        throw new Error(error);
       }
     };
-    if (startSetup) {
-      processActions().then(() => {
-        setFinishSetup(true);
-        getServerTimestampAction();
-        successAnimation.current?.play();
-      });
-    }
-  }, [startSetup]);
+    processActions().then(() => {
+      setFinishSetup(true);
+      getServerTimestampAction();
+      successAnimation.current?.play();
+    });
+  }, []);
 
   const handleGettingStarted = () => {
     dispatch(completeDBSetup());
   };
-
-  useEffect(() => {
-    if (Object.values(steps).some(_ => _ === false)) return;
-
-    setFinishSetup(true);
-  }, [steps]);
 
   return (
     <View style={{flex: 1}}>
@@ -91,7 +80,7 @@ const DownloadingScreenUI = () => {
             />
             <Flex>
               <Typography fontSize={'24px'} fontWeight={'bold'}>
-                Setting up app... Almost there!
+                Setting up {current}... Almost there!
               </Typography>
               <Typography fontSize={'24px'} fontWeight={'bold'}>
                 We're preparing everything for you. Thank you for your patience.

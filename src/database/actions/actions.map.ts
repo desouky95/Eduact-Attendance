@@ -4,6 +4,7 @@ import {setupClassrooms} from './classroom.db.action';
 import {setupStudents} from './students.db.action';
 import {setupAttendance} from './attendance.db.actions';
 import {setupEnrollments} from './enrollments.db.actions';
+import {setupTestAttempts} from './testAttempts.db.actions';
 
 type ActionsMap = {
   [key in Step]: (args?: WithProgressArgs) => Promise<any>;
@@ -14,4 +15,5 @@ export const actionsMap: ActionsMap = {
   students: setupStudents,
   attendance: setupAttendance,
   enrollments: setupEnrollments,
+  attempts: setupTestAttempts,
 };
