@@ -2,7 +2,9 @@ import {Link, useNavigation} from '@react-navigation/native';
 import {homeBackground} from 'assets/index';
 import {Spacer} from 'components/Spacer/Spacer';
 import {Typography} from 'components/Typography/Typography';
+import {ZStack} from 'native-base';
 import React from 'react';
+import {Button} from 'react-native';
 import {
   ImageBackground,
   TouchableHighlight,
@@ -19,7 +21,9 @@ import {persistor, store, useAppDispatch, useAppSelector} from 'src/store';
 import {logout} from 'src/store/authReducer/authReducer';
 import {wipeSetup} from 'src/store/databaseSetupReducer/databaseSetupReducer';
 import styled from 'styled-components/native';
-
+import MdIcon from 'react-native-vector-icons/MaterialIcons';
+import {theme} from 'src/theme/theme';
+import {padding} from 'styled-system';
 export const HomeScreen = () => {
   const navigation = useNavigation<RootProps>();
   const dispatch = useAppDispatch();
@@ -39,20 +43,18 @@ export const HomeScreen = () => {
     } catch (error) {}
   };
 
-  const handleClassrooms = (route: 'ClassroomRoot' | 'StudentsRoot') => {
+  const handleClassrooms = (route: 'Classrooms' | 'StudentsRoot') => {
     navigation.navigate(route as any, {});
   };
   const {user} = useAppSelector(s => s.auth);
 
   const {steps} = useAppSelector(s => s.db);
-  console.log('STEPS => HOME', steps);
 
   return (
     <>
       <ImageBackground source={homeBackground} style={{flex: 1}}>
         <LinearGradient colors={['#FFF', 'transparent']} style={{flex: 1}}>
           <HomeView>
-            <TouchableOpacity></TouchableOpacity>
             <Typography fontWeight={'bold'}>
               {user.first_name} {user.last_name}
             </Typography>
@@ -66,7 +68,7 @@ export const HomeScreen = () => {
                 gap: 30,
               }}>
               <PaperButton
-                onPress={() => handleClassrooms('ClassroomRoot')}
+                onPress={() => handleClassrooms('Classrooms')}
                 activeOpacity={0.9}
                 style={{
                   elevation: 10,
@@ -102,6 +104,23 @@ export const HomeScreen = () => {
               </TouchableOpacity>
             </Spacer>
           </HomeView>
+          <ZStack position={'absolute'} bottom="0" right="0" p="4">
+            <TouchableOpacity
+              style={{
+                padding: 20,
+                borderRadius: 100,
+              }}
+              activeOpacity={0.6}
+              onPress={() => {
+                navigation.navigate('Settings' as any,{});
+              }}>
+              <MdIcon
+                size={34}
+                color={theme.colors.primary.main}
+                name="settings"
+              />
+            </TouchableOpacity>
+          </ZStack>
         </LinearGradient>
       </ImageBackground>
     </>

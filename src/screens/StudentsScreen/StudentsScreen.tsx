@@ -1,4 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
+import {EdButton} from 'components/EdButton/EdButton';
 import {Table} from 'components/Table/Table';
 import {Typography} from 'components/Typography/Typography';
 import {debounce, update} from 'lodash';
@@ -25,12 +26,10 @@ export const StudentsScreen = () => {
   const [search, setSearch] = useState('');
   const handleOnSearchChange = (text: string) => {
     setSearch(text);
-    console.log('text', text);
   };
   const updateData = debounce((value, dispatch) => {
-    console.log('VALUE', value);
     dispatch({search: value, page: 1});
-  }, 500);
+  }, 300);
   useEffect(() => {
     updateData(search, dispatch);
   }, [search]);
@@ -116,21 +115,21 @@ export const StudentsScreen = () => {
               width="100%"
               justifyContent={'space-between'}
               alignItems="center">
-              <Button
+              <EdButton
                 disabled={data.page === 1}
                 isDisabled={data.page === 1}
                 onPress={() => dispatch({page: data.page! - 1})}>
                 Prev
-              </Button>
+              </EdButton>
               <Typography>
-                Page {data.page} of {pages}
+                {data.page} of {pages}
               </Typography>
 
-              <Button
+              <EdButton
                 isDisabled={data.page == pages}
                 onPress={() => dispatch({page: data.page! + 1})}>
                 Next
-              </Button>
+              </EdButton>
             </HStack>
           </VStack>
         )}

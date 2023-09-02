@@ -20,7 +20,6 @@ export const setupTestAttempts = async (withProgress?: WithProgressArgs) => {
     );
     const batchActions: boolean | void | Model | Model[] | null = [];
     let testAttemptsData = testAttemptsResponse.data.testAttempts.data;
-    console.log(testAttemptsData);
     for (
       let page = 2;
       page <= testAttemptsResponse.data.testAttempts.meta?.last_page!;
@@ -29,7 +28,6 @@ export const setupTestAttempts = async (withProgress?: WithProgressArgs) => {
       const {
         data: {testAttempts},
       } = await getTestAttempts(withProgress, page);
-      console.log(testAttempts.data)
       testAttemptsData = [...testAttemptsData,...testAttempts.data]
     }
 
@@ -55,7 +53,6 @@ export const setupTestAttempts = async (withProgress?: WithProgressArgs) => {
       );
     }
 
-    console.log(batchActions.map(_ => ({id: _.id})));
     await database.write(async () => {
       await database.batch(batchActions);
     });

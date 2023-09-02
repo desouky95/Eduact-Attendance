@@ -45,10 +45,7 @@ export const LoginScreen = () => {
   const handle = handleSubmit(
     async formData => {
       try {
-        
-
         const {data} = await login(formData);
-        
         dispatch(addUser(data.data));
       } catch (error) {
         if (isAxiosError(error)) {
@@ -71,7 +68,6 @@ export const LoginScreen = () => {
       throw new Error(e);
     },
   );
-
 
   return (
     <View style={Styles.container}>

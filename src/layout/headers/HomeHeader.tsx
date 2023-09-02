@@ -22,9 +22,6 @@ export const HomeHeader = ({
 }: NativeStackHeaderProps) => {
   const {isSyncing} = useSyncProvider();
 
-  console.log('back', back);
-  console.log('route', route);
-  console.log('navigation', navigation);
 
   const {isConnected} = useNetInfo();
   const syncStyle = useAnimatedStyle(() => {

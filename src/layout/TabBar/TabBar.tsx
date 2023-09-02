@@ -15,18 +15,21 @@ const ClassroomsScreens = [
   {
     name: 'Course',
     icon: 'book',
-    route: 'Classroom' as keyof ClassroomRootTabParamList,
+    route: 'ClassroomStack' as keyof ClassroomRootTabParamList,
+    screenName: 'Classroom',
   },
 
   {
     name: 'Attendance',
     icon: 'clipboard-edit',
-    route: 'Attendance' as keyof ClassroomRootTabParamList,
+    route: 'AttendanceStack' as keyof ClassroomRootTabParamList,
+    screenName: 'Attendance',
   },
   {
     name: 'Reference',
     icon: 'folder-multiple',
-    route: 'Reference' as keyof ClassroomRootTabParamList,
+    route: 'ReferenceStack' as keyof ClassroomRootTabParamList,
+    screenName: 'Reference',
   },
 ];
 
@@ -63,25 +66,27 @@ export const TabBar = (props: BottomTabBarProps) => {
         columnGap: 60,
         paddingHorizontal: 58,
       }}>
-      {ClassroomsScreens.map(_ => (
-        <TouchableOpacity
-          key={_.name}
-          onPress={() => handleClick(_.route)}
-          activeOpacity={screenName !== _.route ? 0.6 : 1}
-          // disabled={screenName === _.name}
-          style={{alignItems: 'center', display: 'flex'}}>
-          <MdIcon
-            color={screenName === _.route ? '#5AC0FC' : 'grey'}
-            name={_.icon}
-            size={25}
-          />
-          <Typography
-            fontSize={8}
-            color={screenName === _.route ? '#5AC0FC' : 'grey'}>
-            {_.name}
-          </Typography>
-        </TouchableOpacity>
-      ))}
+      {ClassroomsScreens.map(_ => {
+        return (
+          <TouchableOpacity
+            key={_.name}
+            onPress={() => handleClick(_.route)}
+            activeOpacity={screenName !== _.screenName ? 0.6 : 1}
+            // disabled={screenName === _.name}
+            style={{alignItems: 'center', display: 'flex'}}>
+            <MdIcon
+              color={screenName === _.screenName ? '#5AC0FC' : 'grey'}
+              name={_.icon}
+              size={25}
+            />
+            <Typography
+              fontSize={8}
+              color={screenName === _.screenName ? '#5AC0FC' : 'grey'}>
+              {_.name}
+            </Typography>
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 };

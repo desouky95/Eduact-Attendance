@@ -3,6 +3,7 @@ declare type RootStackParamList = {
   Login: {};
   HomeRoot: {};
   Downloading: {};
+  Settings :{}
 };
 
 declare type RootProps =
@@ -19,14 +20,15 @@ declare type HomeRootStackParamList = {
     screen: keyof ClassroomRootTabParamList;
   };
   StudentsRoot: {};
+  Settings:{}
 };
 
 // Classroom Root
 
 declare type ClassroomRootTabParamList = {
-  Classroom: {current: number};
-  Attendance: {};
-  Reference: {};
+  ClassroomStack: {current: number};
+  AttendanceStack: {};
+  ReferenceStack: {};
 };
 
 declare type StudentsRootTabParamList = {

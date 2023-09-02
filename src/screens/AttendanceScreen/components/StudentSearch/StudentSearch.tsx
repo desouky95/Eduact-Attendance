@@ -35,8 +35,8 @@ export const StudentSearch = ({onStudentChange, user, onNotFound}: Props) => {
 
   const handleOnScanSuccess = (value: string) => {
     setQuery(value);
-    setScan(false);
     handleSearch(value);
+    setScan(false);
   };
 
   return (

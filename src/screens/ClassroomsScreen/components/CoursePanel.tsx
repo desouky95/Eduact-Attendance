@@ -23,7 +23,7 @@ export const CoursePanel = ({
         dispatch(setCurrent({current: course, classroom}));
         navigation.navigate('ClassroomRoot', {
           params: {current: course.sid},
-          screen: 'Classroom',
+          screen: 'ClassroomStack',
         });
       }}
       activeOpacity={0.5}

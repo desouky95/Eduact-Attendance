@@ -19,7 +19,7 @@ export const setupAttendance = async (withProgress?: WithProgressArgs) => {
     for (let page = 2; page <= centerAttendence.meta?.last_page!; page++) {
       const {
         data: {centerAttendence},
-      } = await getAttendance(withProgress);
+      } = await getAttendance(withProgress,page);
       attendances.push(...centerAttendence.data);
     }
 

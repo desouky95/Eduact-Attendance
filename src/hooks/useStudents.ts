@@ -93,7 +93,6 @@ UseStudentsArgs) => {
 
   useFocusEffect(React.useCallback(() => {
     setIsLoading(true);
-    console.log('page:', page);
     const newQuery = query(page, perPage, search);
     const observable = newQuery.observe();
     const subscription = observable.subscribe(value => {
