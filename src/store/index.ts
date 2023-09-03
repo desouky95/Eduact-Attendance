@@ -1,4 +1,5 @@
 import {
+  ThunkDispatch,
   combineReducers,
   configureStore,
   getDefaultMiddleware,
@@ -8,6 +9,7 @@ import {persistStore} from 'redux-persist';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import {persistedReducer} from './persistor/persistor';
 import courseReducer from './courseReducer/courseReducer';
+import { Action } from 'rxjs/internal/scheduler/Action';
 
 const middlewares = getDefaultMiddleware({
   serializableCheck: false,
@@ -33,3 +35,7 @@ export type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+export type ThunkAppDispatch = ThunkDispatch<RootState, void, Action>;
+
+export const useAppThunkDispatch = () => useDispatch<ThunkAppDispatch>();

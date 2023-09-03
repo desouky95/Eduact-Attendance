@@ -19,7 +19,8 @@ export default class EnrolledClassroomModel extends Model {
   static associations: Associations = {
     // classrooms: {type: 'belongs_to', key: 'classroom_id'},
     // users: {type: 'belongs_to', key: 'user_id'},
-    groups : {type : 'belongs_to',key : 'group_id'}
+    groups : {type : 'belongs_to',key : 'group_id'},
+    center_attendences : {type :'belongs_to',key : 'classroom_id'}
   };
 
   @relation('classrooms', 'classroom_id') classroom!: Relation<ClassroomModel>;

@@ -3,7 +3,7 @@ declare type RootStackParamList = {
   Login: {};
   HomeRoot: {};
   Downloading: {};
-  Settings :{}
+  Settings: {};
 };
 
 declare type RootProps =
@@ -20,7 +20,7 @@ declare type HomeRootStackParamList = {
     screen: keyof ClassroomRootTabParamList;
   };
   StudentsRoot: {};
-  Settings:{}
+  Settings: {};
 };
 
 // Classroom Root
@@ -56,9 +56,14 @@ declare type StudentHistoryProps =
     import('@react-navigation/bottom-tabs').BottomTabNavigationProp<ClassroomRootTabParamList>
   >;
 
+declare type ClassroomScreenProps =
+  import('@react-navigation/native-stack').NativeStackScreenProps<
+    ClassroomRootTabParamList,
+    'ClassroomStack'
+  >;
 declare type ClassroomScreenProp = RouteProp<
   ClassroomRootTabParamList,
-  'Classroom'
+  'ClassroomStack'
 >;
 
 declare type StudentHistoryScreenProp = RouteProp<

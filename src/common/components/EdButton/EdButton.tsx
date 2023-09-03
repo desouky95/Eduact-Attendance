@@ -38,6 +38,7 @@ export const EdButton = ({
 const StyledButton = styled(Button)`
   border-radius: 25px;
   min-width: 136px;
+  min-width: 33%;
   padding: 11px 0;
   background-color: #5ac0fc;
   elevation: 4;

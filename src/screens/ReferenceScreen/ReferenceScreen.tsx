@@ -16,7 +16,7 @@ import {ReferenceForm} from './components/ReferenceForm';
 export const ReferenceScreen = () => {
   const {current} = useAppSelector(s => s.course);
 
-  const data = useObservable(getReference(current?.sid));
+  const data = useObservable(getReference(current?.sid).observable);
 
   useEffect(() => {
     if (data || !current) return;

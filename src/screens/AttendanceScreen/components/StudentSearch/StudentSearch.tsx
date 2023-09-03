@@ -46,7 +46,7 @@ export const StudentSearch = ({onStudentChange, user, onNotFound}: Props) => {
         isActive={scan}
         onSuccess={handleOnScanSuccess}
       />
-      <VStack mb="20px">
+      <VStack width="100%" mb="20px">
         {user && <ReferenceGroup user={user} />}
         <VStack px="38" space={'10px'} alignItems={'center'}>
           <EdTextInput
@@ -70,7 +70,7 @@ export const StudentSearch = ({onStudentChange, user, onNotFound}: Props) => {
             }
           />
           <Button
-            onPress={handleSearch}
+            onPress={() => handleSearch()}
             colorScheme={'primary'}
             borderColor={'primary.main'}
             color="primary.main"

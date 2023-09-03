@@ -1,5 +1,5 @@
 import {useDatabase} from '@nozbe/watermelondb/hooks';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 // import {logo} from 'assets/index';
 import {Accordion} from 'components/Accordion/Accordion';
 import {AccordionSummary} from 'components/Accordion/AccordionSummary';
@@ -29,6 +29,8 @@ import {
 import {Observable} from '@nozbe/watermelondb/utils/rx';
 import {classroomsQuery} from 'src/database/data/classrooms.data';
 import {ClassroomPanel} from './components/ClassroomPanel';
+import {setCurrentReference} from 'src/store/courseReducer/courseReducer';
+import {useAppDispatch} from 'src/store';
 
 export const ClassroomsScreen = (props: {}) => {
   const database = useDatabase();
@@ -48,6 +50,7 @@ export const ClassroomsScreen = (props: {}) => {
       subscription.unsubscribe();
     };
   }, []);
+  const dispatch = useAppDispatch();
 
   return (
     <ScrollView style={{paddingHorizontal: 20}}>

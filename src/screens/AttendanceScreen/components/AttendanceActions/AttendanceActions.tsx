@@ -46,7 +46,7 @@ export const AttendanceActions = ({student, onCancel}: Props) => {
     }
   };
   return (
-    <HStack  flex={1}  px="44" space="12px" alignItems="center" justifyContent="center">
+    <HStack  flex={1}  px="44" space="12px" alignItems="center" justifyContent="center" mb="2">
       {!isEnrolled && (
         <Button
           borderColor={'primary.main'}

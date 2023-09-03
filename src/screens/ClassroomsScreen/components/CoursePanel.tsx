@@ -3,10 +3,15 @@ import {Typography} from 'components/Typography/Typography';
 import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {getCourse} from 'src/database/data/classrooms.data';
+import {getReference} from 'src/database/data/reference.data';
 import ClassroomModel from 'src/database/models/Classroom';
 import CourseModel from 'src/database/models/Course';
-import {useAppDispatch} from 'src/store';
-import {setCurrent} from 'src/store/courseReducer/courseReducer';
+import {useAppDispatch, useAppThunkDispatch} from 'src/store';
+import {
+  setCurrent,
+  setCurrentReference,
+} from 'src/store/courseReducer/courseReducer';
+import { ref } from 'yup';
 
 export const CoursePanel = ({
   course,
@@ -16,15 +21,21 @@ export const CoursePanel = ({
   classroom: ClassroomModel;
 }) => {
   const navigation = useNavigation<ClassroomRootProps>();
-  const dispatch = useAppDispatch();
+  const dispatch = useAppThunkDispatch();
+
   return (
     <TouchableOpacity
       onPress={async () => {
         dispatch(setCurrent({current: course, classroom}));
-        navigation.navigate('ClassroomRoot', {
-          params: {current: course.sid},
-          screen: 'ClassroomStack',
-        });
+        console.log("COURSE",course.sid)
+        const [reference] = await getReference(course.sid).query.fetch();
+        await dispatch(setCurrentReference(reference)).then(() => {
+          // console.log('TEST',reference)
+          navigation.navigate('ClassroomRoot', {
+              params: {current: course.sid},
+              screen: 'ClassroomStack',
+            });
+          });
       }}
       activeOpacity={0.5}
       style={{display: 'flex'}}>

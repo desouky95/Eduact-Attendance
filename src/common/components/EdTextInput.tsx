@@ -2,10 +2,12 @@ import {IInputProps, Input} from 'native-base';
 import React, {useState} from 'react';
 import {
   NativeSyntheticEvent,
+  ScaledSize,
   StyleSheet,
   TextInput,
   TextInputFocusEventData,
   TextInputProps,
+  useWindowDimensions,
 } from 'react-native';
 import styled from 'styled-components/native';
 
@@ -29,6 +31,8 @@ export const EdTextInput = ({
     onBlur?.(e);
   };
 
+  const size = useWindowDimensions();
+
   return (
     <>
       <StyledEdTextInput
@@ -40,6 +44,7 @@ export const EdTextInput = ({
         _invalid={{borderWidth: '1'}}
         // _input={{w: '1/2', flex: 0}}
         // _input={{w: '1/2', flex: 0}}
+        window={size}
         isFocused={focused}
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}
@@ -51,9 +56,13 @@ export const EdTextInput = ({
   );
 };
 
-const StyledEdTextInput = styled(Input)<{isFocused: boolean}>`
+const StyledEdTextInput = styled(Input)<{
+  isFocused: boolean;
+  window?: ScaledSize;
+}>`
   border-radius: 4px;
   /* padding: 11px 16px; */
   min-width: 260px;
+  min-width: ${p => (p.window ? `${p.window.width! * 0.32}px` : '260px')};
   color: #000;
 `;

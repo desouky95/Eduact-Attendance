@@ -1,6 +1,12 @@
 import {Table, TableMemo} from 'components/Table/Table';
 import {Typography} from 'components/Typography/Typography';
-import React, {PropsWithChildren} from 'react';
+import React, {
+  PropsWithChildren,
+  Reducer,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react';
 import {useCourseAttendance} from 'src/hooks/useCourseAttendance';
 import {useAppSelector} from 'src/store';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -18,17 +24,55 @@ import StudentModel from 'src/database/models/StudentModel';
 import {PermissionsAndroid} from 'react-native';
 import {Box} from 'native-base';
 import {Skeleton} from 'native-base';
+import {EdButton} from 'components/EdButton/EdButton';
+import {useAttendanceExport} from 'src/hooks/useAttendanceExport';
+import {debounce} from 'lodash';
+import {useFocusEffect} from '@react-navigation/native';
 
 type Props = {group_id?: number; type: string | null};
+type ReducerArgs = {page?: number; perPage?: number; search?: string};
 
 export const CourseDataTable = ({group_id, type = null}: Props) => {
   const ref = useAppSelector(s => s.course.currentReference);
 
-  const {attendance, isLoading} = useCourseAttendance({
+  const [search, setSearch] = useState('');
+
+  const [data, dispatch] = useReducer<Reducer<ReducerArgs, ReducerArgs>, any>(
+    (state, action) => ({...state, ...action}),
+    {page: 1, perPage: 20, search: ''},
+    args => ({page: 1, perPage: 20, search: ''}),
+  );
+
+  const handleOnSearchChange = (text: string) => {
+    setSearch(text);
+  };
+  const updateData = debounce((value, dispatch) => {
+    dispatch({search: value, page: 1});
+  }, 400);
+
+  useEffect(() => {
+    updateData(search, dispatch);
+  }, [search]);
+
+  useEffect(() => {
+    dispatch({page: 1});
+  }, [type]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch({page: 1, search: ''});
+      setSearch('');
+    }, []),
+  );
+
+  const {attendance, isLoading, pages} = useCourseAttendance({
     center_id: ref?.center_course_id ?? null,
     online_id: ref?.online_course_id ?? null,
     group_id: group_id ?? null,
     type,
+    page: data.page,
+    perPage: data.perPage,
+    search: data.search,
   });
 
   const [isOpen, setIsOpen] = React.useState(false);
@@ -50,61 +94,21 @@ export const CourseDataTable = ({group_id, type = null}: Props) => {
       setIsOpen(false);
       setToBeDeleted(undefined);
     } catch (error) {
-      throw new Error(error['message'])
+      throw new Error(error['message']);
     }
   };
+
+  const {exportData} = useAttendanceExport({
+    attendance,
+  });
 
   const handleCancelDelete = () => {
     setIsOpen(false);
     setToBeDeleted(undefined);
   };
 
-  const loadExportData = async () => {
-    const data = await Promise.all(
-      attendance.map(async attendance => ({
-        user: (await attendance.user.fetch()) as any as UserModel,
-        student: (await attendance.student.fetch()) as any as StudentModel,
-        attendance,
-      })),
-    );
-
-    return data;
-  };
   const handleExport = async () => {
-    const granted = await PermissionsAndroid.requestMultiple([
-      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-    ]);
-    if (!granted) return;
-    const loadedData = await loadExportData();
-    const data = loadedData.map(_ => ({
-      username: _.user.username,
-      name: `${_.user.first_name} ${_.user.last_name}`,
-      phone: _.user.phone_number,
-      status: _.attendance.type,
-      parent: _.student.parent_phone,
-    }));
-    const csv = jsonToCSV(data);
-    const pathToWrite = `${
-      RNFetchBlob.fs.dirs.DownloadDir
-    }/data-${Date.now()}.csv`;
-    console.log('pathToWrite', pathToWrite);
-    let filename;
-    // if(Platform)
-    RNFetchBlob.fs
-      .writeFile(pathToWrite, csv, 'utf8')
-      .then(() => {
-        Share.open({
-          message: 'Attendance Data',
-          url: `file://${pathToWrite}`,
-          showAppsToView: true,
-          filename: 'data',
-          saveToFiles: true,
-          type: 'text/csv',
-        });
-        // wrote file /storage/emul ated/0/Download/data.csv
-      })
-      .catch(error => console.error(error));
+    await exportData();
   };
 
   return (
@@ -138,24 +142,63 @@ export const CourseDataTable = ({group_id, type = null}: Props) => {
         </Modal.Content>
       </Modal>
 
-      {attendance.length > 0 && !isLoading && (
+      {/* {attendance.length > 0 && !isLoading && ( */}
+      <VStack>
         <Table
+          onSearchChange={handleOnSearchChange}
+          searchValue={search}
           withExport
           onExport={handleExport}
           columns={['head 1', 'head 2', 'head 3', 'head 4', 'head 5', 'head 6']}
           data={attendance}>
           {({item, index}) => {
             return (
-              <StudentDataRow
-                onDelete={handleOnRemove}
-                key={`${item.courseId}-${item.studentId}-${index}`}
-                attendance={item}
-              />
+              <>
+                {attendance.length && !isLoading && (
+                  <StudentDataRow
+                    onDelete={handleOnRemove}
+                    key={`${item.courseId}-${item.studentId}-${index}`}
+                    attendance={item}
+                  />
+                )}
+                {isLoading && (
+                  <Box p="1">
+                    <Skeleton width="100%" borderRadius={'5'} h="10" mb="0.5" />
+                  </Box>
+                )}
+              </>
             );
           }}
         </Table>
-      )}
-      {isLoading && <Skeleton width="100%" borderRadius={'5'} h="40" />}
+        {!isLoading && attendance.length > 0 && (
+          <HStack
+            width="100%"
+            justifyContent={'space-between'}
+            mt="2"
+            mb="2"
+            alignItems="center">
+            <EdButton
+              disabled={data.page === 1}
+              isDisabled={data.page === 1}
+              onPress={() => dispatch({page: data.page! - 1})}>
+              Prev
+            </EdButton>
+            <Typography>
+              {data.page} of {pages}
+            </Typography>
+
+            <EdButton
+              isDisabled={data.page == pages}
+              onPress={() => dispatch({page: data.page! + 1})}>
+              Next
+            </EdButton>
+          </HStack>
+        )}
+        {isLoading && (
+          <Skeleton width="100%" borderRadius={'5'} h="12" mb="2" mt="2" />
+        )}
+      </VStack>
+      {/* )} */}
     </>
   );
 };

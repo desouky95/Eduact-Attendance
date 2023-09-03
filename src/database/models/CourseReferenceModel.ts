@@ -1,5 +1,5 @@
 import {Model} from '@nozbe/watermelondb';
-import {field, writer, action} from '@nozbe/watermelondb/decorators';
+import {field, writer, action, reader} from '@nozbe/watermelondb/decorators';
 
 export default class CourseReferenceModel extends Model {
   static table = 'references';
@@ -38,5 +38,10 @@ export default class CourseReferenceModel extends Model {
       builder.online_homework_id = null;
       builder.group_id = null;
     });
+  }
+  @reader isEmpty() {
+    const isEmpty = !this.center_course_id && !this.online_course_id;
+    return isEmpty;
+    // ...
   }
 }

@@ -1,6 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useFocusEffect} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useState} from 'react';
 import {getReference} from 'src/database/data/reference.data';
 import {TabBar} from 'src/layout/TabBar/TabBar';
 import {HomeHeader} from 'src/layout/headers/HomeHeader';
@@ -34,7 +35,6 @@ const AttendanceNavigator = () => (
   </AttendanceStack.Navigator>
 );
 
-
 const ReferenceStack = createNativeStackNavigator();
 
 const ReferenceNavigator = () => (
@@ -47,20 +47,6 @@ const ReferenceNavigator = () => (
 );
 
 export const ClassroomRoot = () => {
-  const current = useAppSelector(s => s.course.current);
-
-  const dispatch = useAppDispatch();
-
-  useFocusEffect(() => {
-    const subscription = getReference(current?.sid).subscribe(value => {
-      dispatch(setCurrentReference(value));
-    });
-    return () => {
-      subscription.unsubscribe();
-      // dispatch(flushCurrent());
-    };
-  });
-
   return (
     <Tab.Navigator
       screenOptions={{headerShown: false}}

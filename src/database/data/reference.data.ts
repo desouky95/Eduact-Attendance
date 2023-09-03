@@ -6,12 +6,13 @@ import {first, firstValueFrom, lastValueFrom, mergeMap} from 'rxjs';
 export const getReference = (course_id?: number) => {
   const query = database.collections
     .get<CourseReferenceModel>(CourseReferenceModel.table)
-    .query()
+    .query(Q.where('course_id',course_id));
+  const observable = query
     .observe()
     .pipe(mergeMap(s => s))
     .pipe(first(_ => _.course_id == course_id));
 
-  return query;
+  return {query, observable};
 };
 
 export const saveReference = async (formData: ReferenceFormData) => {
@@ -22,7 +23,6 @@ export const saveReference = async (formData: ReferenceFormData) => {
     .query(Q.where('course_id', formData.course_id), Q.take(1))
     .fetch();
   const record = _query[0];
-
 
   const reference = await database.write(
     async ({}) =>

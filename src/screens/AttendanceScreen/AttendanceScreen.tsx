@@ -3,7 +3,7 @@ import {CourseHeader} from 'components/CourseHeader/CourseHeader';
 import {EdTextInput} from 'components/EdTextInput';
 import {Box, Button, Skeleton, VStack, useTheme} from 'native-base';
 import React, {useEffect, useState} from 'react';
-import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity, useWindowDimensions} from 'react-native';
 import {useAppSelector} from 'src/store';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Center} from 'native-base';
@@ -26,8 +26,9 @@ export const AttendanceScreen = () => {
   const [notFound, setNotFound] = useState(false);
   const [toggleSearch, setToggleSearch] = useState(false);
 
+  const {height} = useWindowDimensions()
   return (
-    <View
+    <ScrollView
       style={{
         paddingHorizontal: 20,
         flex: 1,
@@ -48,9 +49,9 @@ export const AttendanceScreen = () => {
           setToggleSearch(true);
         }}
       />
-      <Box minHeight="350">
+      <Box minHeight={0.43 * height}>
         {toggleSearch && !notFound && <Skeleton h="40" />}
-        <ScrollView style={{maxHeight: 350}}>
+        <ScrollView style={{maxHeight: 0.43 * height}} nestedScrollEnabled>
           {currentStudent && !notFound && (
             <StudentAttendance
               onSearchSuccess={() => setToggleSearch(false)}
@@ -77,6 +78,6 @@ export const AttendanceScreen = () => {
           }}
         />
       )}
-    </View>
+    </ScrollView>
   );
 };

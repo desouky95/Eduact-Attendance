@@ -182,21 +182,74 @@ export const getCourseAttendance = (
   online_id: number | null,
   group_id: number | null,
   type: string | null,
+  search: string = '',
+  page: number = 1,
+  perPage?: number,
 ) => {
+  const groupStatement = group_id ? `and ec.group_id = '${group_id}'` : '';
+  const typeStatement = type ? `and type = '${type}'` : '';
+  const paginationStatement =
+    page && perPage ? `limit ${perPage} offset ${(page - 1) * perPage}` : '';
+  const searchStatement = `
+    and (
+      u.first_name like '%${Q.sanitizeLikeString(search)}%' or 
+      u.last_name like '%${Q.sanitizeLikeString(search)}%' or 
+      u.phone_number like '%${Q.sanitizeLikeString(search)}%' or 
+      u.username like '%${Q.sanitizeLikeString(search)}%' 
+      )
+
+    `;
+
+  const queryString = `
+    select ce.* from center_attendences ce join
+    (
+      select classroom_id as id , group_id ,user_id from enroll_classrooms
+    )  ec
+    on ec.id = ce.classroomId and ec.user_id = ce.studentId
+    join users u on u.id = ce.studentId
+    where ce.courseId = ?  and ce._status != 'deleted' 
+    ${groupStatement}
+    ${typeStatement}
+    ${searchStatement}
+    ${paginationStatement}
+    `;
+
+  const query = database
+    .get<CenterAttendanceModel>(CenterAttendanceModel.table)
+    .query(
+      Q.unsafeSqlQuery(queryString, [
+        center_id
+          ? (center_id?.toString() as any)
+          : (online_id?.toString() as any),
+      ]),
+    );
+
+  return query.observe();
+};
+
+export const getCourseAttendanceOverall = (
+  center_id: number | null,
+  online_id: number | null,
+  group_id: number | null,
+  type: string | null,
+) => {
+  const groupStatement = group_id ? `and ec.group_id = '${group_id}'` : '';
+  const typeStatement = type ? `and type = '${type}'` : '';
+
   const query = database
     .get<CenterAttendanceModel>(CenterAttendanceModel.table)
     .query(
       Q.unsafeSqlQuery(
         `
-      select ce.* from center_attendences ce join 
+      select ce.* from center_attendences ce join
       (
-        select classroom_id as id , group_id ,user_id from enroll_classrooms 
+        select classroom_id as id , group_id ,user_id from enroll_classrooms
       )  ec
       on ec.id = ce.classroomId and ec.user_id = ce.studentId
       join users u on u.id = ce.studentId
       where ce.courseId = ?  and ce._status != 'deleted' 
-      ${group_id ? `and ec.group_id = '${group_id}'` : ''} 
-      ${type ? `and type  = '${type}'` : ''} 
+      ${groupStatement}
+      ${typeStatement}
       `,
         [
           center_id
@@ -224,7 +277,7 @@ export const removeStudentAttendance = async (
       )
       .fetch();
     if (!record) return;
-    let batch :Model[] = [];
+    let batch: Model[] = [];
     if (record.syncStatus === 'created') {
       batch.push(record.prepareDestroyPermanently());
     } else {
