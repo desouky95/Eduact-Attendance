@@ -46,7 +46,7 @@
     "react-native-csv": "^0.2.0",
     "react-native-dotenv": "^3.4.9",
     "react-native-error-boundary": "^1.2.3",
-    "react-native-flipper": "^0.206.0",
+    "react-native-flipper": "0.163.0",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.12.0",
     "react-native-linear-gradient": "^2.7.2",
@@ -100,5 +100,10 @@
   },
   "overrides": {
     "metro-file-map": "0.76.0"
+  },
+  "rnpm": {
+    "assets": [
+      "assets"
+    ]
   }
 }

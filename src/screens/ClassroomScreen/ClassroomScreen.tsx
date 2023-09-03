@@ -2,7 +2,7 @@ import {CourseHeader} from 'components/CourseHeader/CourseHeader';
 import {Typography} from 'components/Typography/Typography';
 import {Flex, Center, HStack} from 'native-base';
 import React, {useEffect, useRef, useState} from 'react';
-import {View, ScrollView} from 'react-native';
+import {View, ScrollView, SafeAreaView} from 'react-native';
 import {GroupsFilter} from './components/GroupFilter';
 import {AnalyticsSection} from './components/AnalyticsSection';
 import {useAppSelector} from 'src/store';
@@ -23,7 +23,11 @@ export const ClassroomScreen = () => {
       <CourseHeader />
       {ref && (ref.online_course_id || ref?.center_course_id) && (
         <ScrollView style={{flex: 1}}>
-          {ref && <GroupsFilter onChange={setGroupId} />}
+          {ref && (
+            <SafeAreaView>
+              <GroupsFilter onChange={setGroupId} />
+            </SafeAreaView>
+          )}
           {ref && (
             <AnalyticsSection
               group_id={groupId}

@@ -1,6 +1,10 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
+source 'https://github.com/CocoaPods/Specs.git'
+# source 'https://cdn.cocoapods.org/'
+
+
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 
@@ -13,7 +17,9 @@ prepare_react_native_project!
 #   dependencies: {
 #     ...(process.env.NO_FLIPPER ? { 'react-native-flipper': { platforms: { ios: null } } } : {}),
 # ```
-flipper_config = ENV['NO_FLIPPER'] == "1" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled
+#flipper_config = ENV['NO_FLIPPER'] == "0" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled
+flipper_config = FlipperConfiguration.enabled
+#flipper_config = FlipperConfiguration.enabled(["Debug"], { 'Flipper' => '0.182.0' })
 
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
@@ -24,6 +30,7 @@ end
 target 'BooksApp' do
   config = use_native_modules!
 
+  pod 'simdjson', path: '../node_modules/@nozbe/simdjson', modular_headers: true
   # Flags change depending on the env values.
   flags = get_default_flags()
 
