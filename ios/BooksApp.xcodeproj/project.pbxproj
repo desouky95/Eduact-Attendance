@@ -12,7 +12,6 @@
 		056370542A9E798400315696 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 056370532A9E798400315696 /* fonts */; };
 		056370572A9E79A400315696 /* MateMaterialIcons-RegularrialDesignIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 056370552A9E79A300315696 /* MateMaterialIcons-RegularrialDesignIcons.ttf */; };
 		056370582A9E79A400315696 /* MaterialDesignIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 056370562A9E79A400315696 /* MaterialDesignIcons.ttf */; };
-		05CC7A942A85800E006A8D92 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 05CC7A922A857E9E006A8D92 /* Fonts */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -40,7 +39,6 @@
 		056370532A9E798400315696 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		056370552A9E79A300315696 /* MateMaterialIcons-RegularrialDesignIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "MateMaterialIcons-RegularrialDesignIcons.ttf"; path = "fonts/MateMaterialIcons-RegularrialDesignIcons.ttf"; sourceTree = "<group>"; };
 		056370562A9E79A400315696 /* MaterialDesignIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialDesignIcons.ttf; path = fonts/MaterialDesignIcons.ttf; sourceTree = "<group>"; };
-		05CC7A922A857E9E006A8D92 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "../node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* BooksApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BooksApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = BooksApp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = BooksApp/AppDelegate.mm; sourceTree = "<group>"; };
@@ -97,7 +95,6 @@
 		13B07FAE1A68108700A75B9A /* BooksApp */ = {
 			isa = PBXGroup;
 			children = (
-				05CC7A922A857E9E006A8D92 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -259,7 +256,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05CC7A942A85800E006A8D92 /* Fonts in Resources */,
 				056370572A9E79A400315696 /* MateMaterialIcons-RegularrialDesignIcons.ttf in Resources */,
 				056370542A9E798400315696 /* fonts in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
@@ -509,20 +505,23 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = J7F65D5T5X;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = BooksApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Eduact Attendance";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = me.eduact.instructor;
 				PRODUCT_NAME = BooksApp;
 				SWIFT_OBJC_BRIDGING_HEADER = "BooksApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -537,19 +536,22 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = J7F65D5T5X;
 				INFOPLIST_FILE = BooksApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Eduact Attendance";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = me.eduact.instructor;
 				PRODUCT_NAME = BooksApp;
 				SWIFT_OBJC_BRIDGING_HEADER = "BooksApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -690,7 +692,7 @@
 				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
+				VALIDATE_PRODUCT = NO;
 			};
 			name = Release;
 		};

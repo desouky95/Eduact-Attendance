@@ -389,7 +389,7 @@ PODS:
   - React-jsinspector (0.71.8)
   - React-logger (0.71.8):
     - glog
-  - react-native-flipper (0.206.0):
+  - react-native-flipper (0.163.0):
     - React-Core
   - react-native-netinfo (9.4.1):
     - React-Core
@@ -811,7 +811,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 747911ab5921641b4ed7e4900065896597142125
   React-jsinspector: c712f9e3bb9ba4122d6b82b4f906448b8a281580
   React-logger: 342f358b8decfbf8f272367f4eacf4b6154061be
-  react-native-flipper: 59f45fba4a42d4c38272bfcd3429f9b9c4443af8
+  react-native-flipper: 2d552a8178d839ef378220101fb7f0cd5b2a8003
   react-native-netinfo: fefd4e98d75cbdd6e85fc530f7111a8afdf2b0c5
   react-native-safe-area-context: 9e40fb181dac02619414ba1294d6c2a807056ab9
   react-native-skia: e2cb3443442bf7680e3276dc82cd87c97f96b6f9
@@ -845,6 +845,6 @@ SPEC CHECKSUMS:
   Yoga: 065f0b74dba4832d6e328238de46eb72c5de9556
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 96ca9471dfcbd57c4bf806031df19faa7d6fd053
+PODFILE CHECKSUM: ab7df1817165bcdfcd367c8e129028d81614162d
 
 COCOAPODS: 1.12.1
