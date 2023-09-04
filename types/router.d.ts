@@ -47,6 +47,8 @@ declare type ClassroomRootProps =
     import('@react-navigation/bottom-tabs').BottomTabNavigationProp<ClassroomRootTabParamList>
   >;
 
+declare type ClassroomRootScreenProps = import('@react-navigation/native-stack').NativeStackScreenProps<HomeRootStackParamList , 'ClassroomRoot'>
+
 declare type StudentHistoryProps =
   import('@react-navigation/native').CompositeNavigationProp<
     import('@react-navigation/native-stack').NativeStackNavigationProp<

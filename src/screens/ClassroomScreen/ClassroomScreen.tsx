@@ -21,33 +21,16 @@ export const ClassroomScreen = () => {
         paddingHorizontal: 20,
       }}>
       <CourseHeader />
-      {ref && (ref.online_course_id || ref?.center_course_id) && (
-        <ScrollView style={{flex: 1}}>
-          {ref && (
-            <SafeAreaView>
-              <GroupsFilter onChange={setGroupId} />
-            </SafeAreaView>
-          )}
-          {ref && (
-            <AnalyticsSection
-              group_id={groupId}
-              onAttendanceTypeChange={setType}
-            />
-          )}
-          {ref && <CourseDataTable group_id={groupId} type={type} />}
-        </ScrollView>
-      )}
 
-      {!ref ||
-        (ref && !ref?.online_course_id && !ref?.center_course_id && (
-          <Flex flex={1} justifyContent="center">
-            <Center>
-              <Typography fontWeight={'bold'} fontSize={20}>
-                No Reference Provided !!!
-              </Typography>
-            </Center>
-          </Flex>
-        ))}
+      <ScrollView style={{flex: 1}}>
+        <SafeAreaView>
+          <GroupsFilter onChange={setGroupId} />
+        </SafeAreaView>
+
+        <AnalyticsSection group_id={groupId} onAttendanceTypeChange={setType} />
+
+        <CourseDataTable group_id={groupId} type={type} />
+      </ScrollView>
     </View>
   );
 };

@@ -11,7 +11,7 @@ import {
   setCurrent,
   setCurrentReference,
 } from 'src/store/courseReducer/courseReducer';
-import { ref } from 'yup';
+import {ref} from 'yup';
 
 export const CoursePanel = ({
   course,
@@ -25,17 +25,12 @@ export const CoursePanel = ({
 
   return (
     <TouchableOpacity
-      onPress={async () => {
+      onPress={() => {
         dispatch(setCurrent({current: course, classroom}));
-        console.log("COURSE",course.sid)
-        const [reference] = await getReference(course.sid).query.fetch();
-        await dispatch(setCurrentReference(reference)).then(() => {
-          // console.log('TEST',reference)
-          navigation.navigate('ClassroomRoot', {
-              params: {current: course.sid},
-              screen: 'ClassroomStack',
-            });
-          });
+        navigation.navigate('ClassroomRoot', {
+          params: {current: course.sid},
+          screen: 'ClassroomStack',
+        });
       }}
       activeOpacity={0.5}
       style={{display: 'flex'}}>
