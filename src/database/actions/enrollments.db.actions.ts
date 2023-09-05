@@ -93,6 +93,6 @@ export const setupEnrollments = async (withProgress?: WithProgressArgs) => {
       await database.batch(batchActions);
     });
   } catch (error) {
-    console.error(error);
+    throw new Error(error['message']);
   }
 };

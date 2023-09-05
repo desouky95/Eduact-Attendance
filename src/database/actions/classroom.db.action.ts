@@ -55,6 +55,8 @@ export const setupClassrooms = async (withProgress?: WithProgressArgs) => {
       );
     }
 
+ 
+
     for (let index = 0; index < courses.length; index++) {
       const course = courses[index];
       batchActions.push(
@@ -127,7 +129,7 @@ export const setupClassrooms = async (withProgress?: WithProgressArgs) => {
       await database.batch(batchActions);
     });
   } catch (error) {
-    console.error(error);
+    throw new Error(error['message']);
   }
   // store.dispatch(completeStep('classrooms'));
 };

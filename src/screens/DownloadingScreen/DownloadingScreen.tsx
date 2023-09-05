@@ -3,7 +3,7 @@ import {Typography} from 'components/Typography/Typography';
 import {Button, Flex, HStack} from 'native-base';
 import {Center} from 'native-base';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, useWindowDimensions} from 'react-native';
 import {useAppDispatch, useAppSelector} from 'src/store';
 import {actionsMap} from 'src/database/actions/actions.map';
 import {
@@ -18,6 +18,7 @@ import {useDatabase} from '@nozbe/watermelondb/hooks';
 import LottieView from 'lottie-react-native';
 import {VStack} from 'native-base';
 import {getServerTimestampAction} from 'src/database/actions/server.timestamp.action';
+import {useSnackbar} from 'src/hooks/useSnackbar';
 const DownloadingScreenUI = () => {
   const [finishSetup, setFinishSetup] = useState(false);
   const [startSetup, setStartSetup] = useState(false);
@@ -27,6 +28,7 @@ const DownloadingScreenUI = () => {
   const database = useDatabase();
 
   const actions = useRef(actionsMap);
+  const {openSnackbar} = useSnackbar();
 
   // useEffect(() => {
   //   // setupDatabase();
@@ -38,18 +40,23 @@ const DownloadingScreenUI = () => {
 
   useEffect(() => {
     const processActions = async () => {
-      try {
-        const toProceededActions = Object.entries(actions.current).filter(
-          ([key]) => !steps[key as any as Step],
-        );
-        for (let index = 0; index < toProceededActions.length; index++) {
+      const toProceededActions = Object.entries(actions.current).filter(
+        ([key]) => !steps[key as any as Step],
+      );
+      for (let index = 0; index < toProceededActions.length; index++) {
+        try {
           const [key, action] = toProceededActions[index];
           setCurrent(key);
           await action();
           dispatch(completeStep(key as any));
+        } catch (error: any) {
+          console.error(error);
+          openSnackbar({
+            autoClose: false,
+            variant: 'error',
+            message: "Oops! 🙊 Technical glitch! Hang tight, we're on it! ⚙️✨",
+          });
         }
-      } catch (error: any) {
-        throw new Error(error);
       }
     };
     processActions().then(() => {
@@ -62,6 +69,8 @@ const DownloadingScreenUI = () => {
   const handleGettingStarted = () => {
     dispatch(completeDBSetup());
   };
+
+  const {width, fontScale} = useWindowDimensions();
 
   return (
     <View style={{flex: 1}}>
@@ -76,13 +85,13 @@ const DownloadingScreenUI = () => {
               source={require('assets/animations/downloading.json')}
               autoPlay
               loop
-              style={{width: 400, height: 400}}
+              style={{width: 0.9 * width, height: 0.9 * width}}
             />
             <Flex>
-              <Typography fontSize={'24px'} fontWeight={'bold'}>
+              <Typography fontSize={fontScale * 22} fontWeight={'bold'}>
                 Setting up {current}... Almost there!
               </Typography>
-              <Typography fontSize={'24px'} fontWeight={'bold'}>
+              <Typography fontSize={fontScale * 18}>
                 We're preparing everything for you. Thank you for your patience.
               </Typography>
             </Flex>
@@ -118,4 +127,4 @@ const DownloadingScreenUI = () => {
   );
 };
 
-export const DownloadingScreen = DownloadingScreenUI
+export const DownloadingScreen = DownloadingScreenUI;
