@@ -1,6 +1,6 @@
 import {EdTextInput} from 'components/EdTextInput';
 import {Typography} from 'components/Typography/Typography';
-import {Box, Button, Flex, HStack, VStack} from 'native-base';
+import {Box, Button, FlatList, Flex, HStack, VStack} from 'native-base';
 import React, {
   PropsWithChildren,
   ReactElement,
@@ -160,6 +160,7 @@ export const Table = <T,>({
               })}
             </TableRow>
           )}
+
           {data.map((item, index) => (
             <React.Fragment key={`table-${index}`}>
               {React.Children.map<

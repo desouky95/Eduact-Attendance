@@ -1,13 +1,14 @@
 import React, {useEffect, useState, useMemo} from 'react';
 import {
   getCourseAttendance,
-  getCourseAttendanceOverall,
+  
 } from 'src/database/data/attendance.data';
 import CenterAttendanceModel from 'src/database/models/CenterAttendanceModel';
 
 import {database} from 'src/database';
 import {useFocusEffect} from '@react-navigation/native';
 import {jsonReplacer} from 'src/utils/jsonReplacer';
+import {useAppSelector} from 'src/store';
 
 type UseCourseAttendanceArgs = {
   center_id: number | null;
@@ -17,6 +18,7 @@ type UseCourseAttendanceArgs = {
   page?: number;
   perPage?: number;
   search?: string;
+  enrolled?: boolean;
 };
 
 export const useCourseAttendance = ({
@@ -27,26 +29,30 @@ export const useCourseAttendance = ({
   page,
   perPage,
   search = '',
+  enrolled = false,
 }: UseCourseAttendanceArgs) => {
   const [data, setData] = useState<CenterAttendanceModel[]>([]);
   const [pages, setPages] = useState<number | undefined>();
-
+  const [total, setTotal] = useState<number | undefined>();
   const [isLoading, setIsLoading] = useState(false);
 
+  const {current} = useAppSelector(s => s.course);
 
   useFocusEffect(
     React.useCallback(() => {
-      if (!center_id) {
+      if (!center_id || !current?.id) {
         setData([]);
         return;
       }
       setIsLoading(true);
       const subscription = getCourseAttendance(
+        Number(current.id),
         center_id,
         online_id,
         group_id,
         type,
         search,
+        enrolled,
         page,
         perPage,
       ).subscribe(value => {
@@ -55,30 +61,46 @@ export const useCourseAttendance = ({
       });
 
       return () => subscription.unsubscribe();
-    }, [center_id, online_id, group_id, type, page, search]),
+    }, [
+      current?.id,
+      center_id,
+      online_id,
+      group_id,
+      type,
+      page,
+      search,
+      enrolled,
+    ]),
   );
 
   useFocusEffect(
     React.useCallback(() => {
+      if (!current || !current?.id) {
+        setPages(0);
+        return;
+      }
       setIsLoading(true);
       const subscription = getCourseAttendance(
+        Number(current.id),
         center_id,
         online_id,
         group_id,
         type,
         search,
+        enrolled,
       ).subscribe(value => {
         setPages(Math.ceil(value.length / perPage!));
+        setTotal(value.length);
         setIsLoading(false);
       });
 
       return () => subscription.unsubscribe();
-    }, [center_id, online_id, group_id, type, search]),
+    }, [current?.id, enrolled, center_id, online_id, group_id, type, search]),
   );
 
   return {
     attendance: data,
-    total: data.length,
+    total,
     isLoading,
     pages,
   };

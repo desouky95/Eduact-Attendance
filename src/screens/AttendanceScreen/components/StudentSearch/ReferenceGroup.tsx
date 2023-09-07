@@ -1,7 +1,6 @@
 import {Box, Flex} from 'native-base';
 import React from 'react';
 import UserModel from 'src/database/models/UserModel';
-import {compose} from 'recompose';
 import withObservables from '@nozbe/with-observables';
 import EnrolledClassroomModel from 'src/database/models/EnrolledClassroomModel';
 import GroupModel from 'src/database/models/GroupModel';

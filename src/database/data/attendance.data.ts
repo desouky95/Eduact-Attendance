@@ -48,6 +48,7 @@ const createCenterAttendance = async (
           builder.homeworkId = reference.homework_id?.toString() ?? null;
           builder.quizId = reference.quiz_id?.toString() ?? null;
           builder.type = 'center';
+          builder.group_id = reference.group_id?.toString() ?? null;
         }),
   );
 };
@@ -91,6 +92,7 @@ const createAttendanceByReference = async (
           builder.quizId = enrolledReferenceCourse
             ? reference.online_quiz_id?.toString() ?? null
             : null;
+          builder.group_id = reference.group_id?.toString() ?? null;
         }),
   );
 };
@@ -154,114 +156,6 @@ export const getStudentAttendanceSync = (
   return query.observe();
 };
 
-export const getStudentAttendance = async (
-  classroom_id: number,
-  student_id: number,
-) => {
-  const query = await database.collections
-    .get<CenterAttendanceModel>('center_attendences')
-    .query(
-      Q.and(
-        Q.where('classroomId', classroom_id.toString()),
-        Q.where('studentId', student_id.toString()),
-      ),
-    )
-    .fetch();
-  const withRelations = await Promise.all(
-    query.map(async ce => ({
-      attendance: ce,
-      test: await ce.test.fetch(),
-      homework: await ce.homework.fetch(),
-    })),
-  );
-  return withRelations;
-};
-
-export const getCourseAttendance = (
-  center_id: number | null,
-  online_id: number | null,
-  group_id: number | null,
-  type: string | null,
-  search: string = '',
-  page: number = 1,
-  perPage?: number,
-) => {
-  const groupStatement = group_id ? `and ec.group_id = '${group_id}'` : '';
-  const typeStatement = type ? `and type = '${type}'` : '';
-  const paginationStatement =
-    page && perPage ? `limit ${perPage} offset ${(page - 1) * perPage}` : '';
-  const searchStatement = `
-    and (
-      u.first_name like '%${Q.sanitizeLikeString(search)}%' or 
-      u.last_name like '%${Q.sanitizeLikeString(search)}%' or 
-      u.phone_number like '%${Q.sanitizeLikeString(search)}%' or 
-      u.username like '%${Q.sanitizeLikeString(search)}%' 
-      )
-
-    `;
-
-  const queryString = `
-    select ce.* from center_attendences ce join
-    (
-      select classroom_id as id , group_id ,user_id from enroll_classrooms
-    )  ec
-    on ec.id = ce.classroomId and ec.user_id = ce.studentId
-    join users u on u.id = ce.studentId
-    where ce.courseId = ?  and ce._status != 'deleted' 
-    ${groupStatement}
-    ${typeStatement}
-    ${searchStatement}
-    ${paginationStatement}
-    `;
-
-  const query = database
-    .get<CenterAttendanceModel>(CenterAttendanceModel.table)
-    .query(
-      Q.unsafeSqlQuery(queryString, [
-        center_id
-          ? (center_id?.toString() as any)
-          : (online_id?.toString() as any),
-      ]),
-    );
-
-  return query.observe();
-};
-
-export const getCourseAttendanceOverall = (
-  center_id: number | null,
-  online_id: number | null,
-  group_id: number | null,
-  type: string | null,
-) => {
-  const groupStatement = group_id ? `and ec.group_id = '${group_id}'` : '';
-  const typeStatement = type ? `and type = '${type}'` : '';
-
-  const query = database
-    .get<CenterAttendanceModel>(CenterAttendanceModel.table)
-    .query(
-      Q.unsafeSqlQuery(
-        `
-      select ce.* from center_attendences ce join
-      (
-        select classroom_id as id , group_id ,user_id from enroll_classrooms
-      )  ec
-      on ec.id = ce.classroomId and ec.user_id = ce.studentId
-      join users u on u.id = ce.studentId
-      where ce.courseId = ?  and ce._status != 'deleted' 
-      ${groupStatement}
-      ${typeStatement}
-      `,
-        [
-          center_id
-            ? (center_id?.toString() as any)
-            : (online_id?.toString() as any),
-        ],
-      ),
-    );
-
-  return query.observe();
-};
-
 export const removeStudentAttendance = async (
   student_id: number,
   course_id: number,
@@ -288,7 +182,71 @@ export const removeStudentAttendance = async (
     });
 
     return record;
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(error['message']);
   }
+};
+
+export const getCourseAttendance = (
+  current_course: number,
+  center_id: number | null,
+  online_id: number | null,
+  group_id: number | null,
+  type: string | null,
+  search: string = '',
+  enrolled?: boolean,
+  page: number = 1,
+  perPage?: number,
+) => {
+  const groupStatement = group_id ? `and group_id = '${group_id}'` : '';
+  const enrolledStatement = enrolled
+    ? `and enrollment_status is not null`
+    : '';
+  const typeStatement = type ? `and type = '${type}'` : '';
+  const paginationStatement =
+    page && perPage ? `limit ${perPage} offset ${(page - 1) * perPage}` : '';
+  const searchStatement = `
+    where (
+      u.first_name like '%${Q.sanitizeLikeString(search)}%' or 
+      u.last_name like '%${Q.sanitizeLikeString(search)}%' or 
+      u.phone_number like '%${Q.sanitizeLikeString(search)}%' or 
+      u.username like '%${Q.sanitizeLikeString(search)}%' 
+      )
+
+    `;
+
+  const newQueryString = `
+    select * from (
+      select ce.* , ec2.user_id as enrollment_status,ec.group_id from center_attendences ce 
+         left join (
+         select classroom_id as id , group_id ,user_id from enroll_classrooms) ec 
+         on ec.id = ce.classroomId and ce.studentId = ec.user_id
+         join users u 
+         on u.id = ce.studentId
+         left join (
+         select * from enroll_courses ec where ec.course_id = '${Q.sanitizeLikeString(
+           current_course.toString(),
+         )}'
+         ) ec2
+         on ec2.user_id = ce.studentId
+         ${searchStatement}
+      )
+      where courseId = ? and _status != 'deleted' 
+      ${enrolledStatement}
+      ${groupStatement}
+      ${typeStatement}
+      ${paginationStatement}
+      `;
+  // ${enrolledStatement}
+  const query = database
+    .get<CenterAttendanceModel>(CenterAttendanceModel.table)
+    .query(
+      Q.unsafeSqlQuery(newQueryString, [
+        center_id
+          ? (center_id?.toString() as any)
+          : (online_id?.toString() as any),
+      ]),
+    );
+
+  return query.observe();
 };

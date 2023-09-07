@@ -7,6 +7,7 @@ import {TabBar} from 'src/layout/TabBar/TabBar';
 import {HomeHeader} from 'src/layout/headers/HomeHeader';
 import {AttendanceScreen} from 'src/screens/AttendanceScreen/AttendanceScreen';
 import {ClassroomScreen} from 'src/screens/ClassroomScreen/ClassroomScreen';
+import {CourseAnalyticsScreen} from 'src/screens/CourseAnalyticsScreen/CourseAnalyticsScreen';
 import {ReferenceScreen} from 'src/screens/ReferenceScreen/ReferenceScreen';
 import {useAppDispatch, useAppSelector} from 'src/store';
 import {setCurrentReference} from 'src/store/courseReducer/courseReducer';
@@ -22,6 +23,20 @@ const ClassroomNavigator = () => (
     }}>
     <ClassroomStack.Screen name="Classroom" component={ClassroomScreen} />
   </ClassroomStack.Navigator>
+);
+
+const CourseAnalyticsStack = createNativeStackNavigator();
+
+const CourseAnalyticsNavigator = () => (
+  <CourseAnalyticsStack.Navigator
+    screenOptions={{
+      header: props => <HomeHeader {...props} />,
+    }}>
+    <CourseAnalyticsStack.Screen
+      name="Analytics"
+      component={CourseAnalyticsScreen}
+    />
+  </CourseAnalyticsStack.Navigator>
 );
 
 const AttendanceStack = createNativeStackNavigator();
@@ -75,6 +90,10 @@ export const ClassroomRoot = (props: ClassroomRootScreenProps) => {
       <Tab.Screen name="ClassroomStack" component={ClassroomNavigator} />
       <Tab.Screen name="AttendanceStack" component={AttendanceNavigator} />
       <Tab.Screen name="ReferenceStack" component={ReferenceNavigator} />
+      <Tab.Screen
+        name="CourseAnalyticsStack"
+        component={CourseAnalyticsNavigator}
+      />
     </Tab.Navigator>
   );
 };

@@ -29,6 +29,7 @@ declare type ClassroomRootTabParamList = {
   ClassroomStack: {current: number};
   AttendanceStack: {};
   ReferenceStack: {};
+  CourseAnalyticsStack : {}
 };
 
 declare type StudentsRootTabParamList = {

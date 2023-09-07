@@ -29,10 +29,10 @@ import {useAttendanceExport} from 'src/hooks/useAttendanceExport';
 import {debounce} from 'lodash';
 import {useFocusEffect} from '@react-navigation/native';
 
-type Props = {group_id?: number; type: string | null};
+type Props = {group_id?: number; type: string | null; enrolled: boolean};
 type ReducerArgs = {page?: number; perPage?: number; search?: string};
 
-export const CourseDataTable = ({group_id, type = null}: Props) => {
+export const CourseDataTable = ({group_id, type = null, enrolled}: Props) => {
   const ref = useAppSelector(s => s.course.currentReference);
 
   const [search, setSearch] = useState('');
@@ -56,7 +56,7 @@ export const CourseDataTable = ({group_id, type = null}: Props) => {
 
   useEffect(() => {
     dispatch({page: 1});
-  }, [type]);
+  }, [type, enrolled]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -65,7 +65,8 @@ export const CourseDataTable = ({group_id, type = null}: Props) => {
     }, []),
   );
 
-  const {attendance, isLoading, pages} = useCourseAttendance({
+
+  const {attendance, isLoading, pages, total} = useCourseAttendance({
     center_id: ref?.center_course_id ?? null,
     online_id: ref?.online_course_id ?? null,
     group_id: group_id ?? null,
@@ -73,6 +74,7 @@ export const CourseDataTable = ({group_id, type = null}: Props) => {
     page: data.page,
     perPage: data.perPage,
     search: data.search,
+    enrolled,
   });
 
   const [isOpen, setIsOpen] = React.useState(false);
@@ -147,9 +149,11 @@ export const CourseDataTable = ({group_id, type = null}: Props) => {
         <Table
           onSearchChange={handleOnSearchChange}
           searchValue={search}
-          withExport
-          onExport={handleExport}
-          columns={['head 1', 'head 2', 'head 3', 'head 4', 'head 5', 'head 6']}
+          // withExport
+          // onExport={handleExport}
+          headerTitle={`Total: ${total ?? ''}`}
+          withHeader
+          columns={['Name', 'Status', 'Group']}
           data={attendance}>
           {({item, index}) => {
             return (

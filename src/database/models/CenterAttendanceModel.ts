@@ -7,6 +7,7 @@ import {
   readonly,
   relation,
   text,
+  children,
 } from '@nozbe/watermelondb/decorators';
 import StudentModel from './StudentModel';
 import ClassroomModel from './Classroom';
@@ -14,6 +15,7 @@ import CourseModel from './Course';
 import UserModel from './UserModel';
 import TestModel from './TestModel';
 import EnrolledClassroomModel from './EnrolledClassroomModel';
+import EnrolledCourseModel from './EnrolledCourseModel';
 
 export default class CenterAttendanceModel extends Model {
   static table: string = 'center_attendences';
@@ -31,7 +33,9 @@ export default class CenterAttendanceModel extends Model {
   @relation('classrooms', 'classroomId') classroom!: Query<ClassroomModel>;
   @relation('courses', 'courseId') course!: Query<CourseModel>;
   @relation('tests', 'quizId') test!: Query<TestModel>;
-  @relation('enroll_classrooms', 'classroomId') enrollments!: Query<EnrolledClassroomModel>;
+  @relation('enroll_classrooms', 'classroomId')
+  enrollments!: Query<EnrolledClassroomModel>;
+
   @relation('tests', 'homeworkId') homework!: Query<TestModel>;
 
   @field('sid') sid!: number | null;
@@ -41,6 +45,8 @@ export default class CenterAttendanceModel extends Model {
   @text('homeworkId') homeworkId!: string | null;
   @text('quizId') quizId!: string | null;
   @text('type') type!: string;
+  @text('enrollment_status') enrollment_status!: string;
+  @field('group_id') group_id!: string | null;
 
   @readonly @date('created_at') createdAt!: Date;
 }

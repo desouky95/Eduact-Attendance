@@ -10,7 +10,6 @@ import UserModel from 'src/database/models/UserModel';
 import withObservables from '@nozbe/with-observables';
 import 'react-native-reanimated';
 import {QRCodeScanner} from '../QRCodeScanner';
-import {compose} from 'recompose';
 import {ReferenceGroup} from './ReferenceGroup';
 
 type Props = {

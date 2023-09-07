@@ -1,3 +1,5 @@
+import {Q} from '@nozbe/watermelondb';
+import {useDatabase} from '@nozbe/watermelondb/hooks';
 import {useFocusEffect} from '@react-navigation/native';
 import React, {useEffect, useState, useMemo, useCallback} from 'react';
 import {getCourseAttendance} from 'src/database/data/attendance.data';
@@ -18,6 +20,7 @@ export const useCourseAttendanceAnalytics = ({
 
   const [isLoading, setIsLoading] = useState(true);
 
+  const database = useDatabase();
   useFocusEffect(
     useCallback(() => {
       if (!center_id) {
@@ -27,13 +30,25 @@ export const useCourseAttendanceAnalytics = ({
       }
 
       setIsLoading(true);
-      const subscription = getCourseAttendance(
-        center_id,
-        online_id,
-        group_id,
-        null,
-      ).subscribe(value => {
-        setData(prev => value);
+      let baseQuery = database
+        .get<CenterAttendanceModel>(CenterAttendanceModel.table)
+        .query(
+          Q.and(
+            Q.where(
+              'courseId',
+              center_id
+                ? center_id.toString()
+                : online_id
+                ? online_id?.toString()
+                : null,
+            ),
+          ),
+        );
+
+      if (group_id)
+        baseQuery = baseQuery.extend(Q.where('group_id', group_id.toString()));
+      const subscription = baseQuery.observe().subscribe(value => {
+        setData(value);
         setIsLoading(false);
       });
 

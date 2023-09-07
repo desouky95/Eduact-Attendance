@@ -13,10 +13,16 @@ import {AppContext} from 'src/AppContext';
 
 const ClassroomsScreens = [
   {
-    name: 'Course',
-    icon: 'book',
+    name: 'Students',
+    icon: 'account-group',
     route: 'ClassroomStack' as keyof ClassroomRootTabParamList,
-    screenName: 'Classroom',
+    screenName: 'Students',
+  },
+  {
+    name: 'Analytics',
+    icon: 'google-analytics',
+    route: 'CourseAnalyticsStack' as keyof ClassroomRootTabParamList,
+    screenName: 'Analytics',
   },
 
   {

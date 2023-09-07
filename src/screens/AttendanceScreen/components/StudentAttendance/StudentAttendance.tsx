@@ -6,7 +6,6 @@ import {Text, View} from 'react-native';
 import {firstValueFrom, mergeMap} from 'rxjs';
 import {
   checkStudentHasAttendance,
-  getStudentAttendance,
   getStudentAttendanceSync,
 } from 'src/database/data/attendance.data';
 import CenterAttendanceModel from 'src/database/models/CenterAttendanceModel';

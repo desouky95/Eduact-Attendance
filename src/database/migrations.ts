@@ -179,5 +179,14 @@ export default schemaMigrations({
         }),
       ],
     },
+    {
+      toVersion: 16,
+      steps: [
+        addColumns({
+          table: centerAttendanceSchema.name,
+          columns: [{name: 'group_id', type: 'string', isOptional: true}],
+        }),
+      ],
+    },
   ],
 });

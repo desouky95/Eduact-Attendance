@@ -15,6 +15,6 @@ export const centerAttendanceSchema = tableSchema({
     {name: 'quizId', type: 'string'},
     {name: 'type', type: 'string'},
     {name: 'created_at', type: 'number'},
-
+    {name: 'group_id', type: 'string', isOptional: true},
   ],
 });

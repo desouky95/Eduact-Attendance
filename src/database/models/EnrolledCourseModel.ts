@@ -1,6 +1,12 @@
 import {Model, Query} from '@nozbe/watermelondb';
 import {Associations} from '@nozbe/watermelondb/Model';
-import {field, relation, text , date ,readonly} from '@nozbe/watermelondb/decorators';
+import {
+  field,
+  relation,
+  text,
+  date,
+  readonly,
+} from '@nozbe/watermelondb/decorators';
 import StudentModel from './StudentModel';
 import CourseModel from './Course';
 
@@ -21,5 +27,4 @@ export default class EnrolledCourseModel extends Model {
   @text('progress') progress!: number;
   @field('sid') sid!: number | null;
   @readonly @date('created_at') createdAt!: Date;
-
 }

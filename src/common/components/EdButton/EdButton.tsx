@@ -40,7 +40,7 @@ const StyledButton = styled(Button)`
   min-width: 136px;
   min-width: 33%;
   padding: 11px 0;
-  background-color: #5ac0fc;
+  /* background-color: #5ac0fc; */
   elevation: 4;
   cursor: pointer;
   font-weight: 600;
