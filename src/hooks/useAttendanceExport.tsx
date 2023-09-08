@@ -5,6 +5,7 @@ import {jsonToCSV} from 'react-native-csv';
 import RNFetchBlob from 'rn-fetch-blob';
 import UserModel from 'src/database/models/UserModel';
 import StudentModel from 'src/database/models/StudentModel';
+import Share from 'react-native-share'
 type UseAttendanceExportArgs = {
   attendance: CenterAttendanceModel[];
 };

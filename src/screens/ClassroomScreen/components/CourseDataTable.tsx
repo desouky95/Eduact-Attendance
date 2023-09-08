@@ -65,7 +65,6 @@ export const CourseDataTable = ({group_id, type = null, enrolled}: Props) => {
     }, []),
   );
 
-
   const {attendance, isLoading, pages, total} = useCourseAttendance({
     center_id: ref?.center_course_id ?? null,
     online_id: ref?.online_course_id ?? null,
@@ -100,17 +99,9 @@ export const CourseDataTable = ({group_id, type = null, enrolled}: Props) => {
     }
   };
 
-  const {exportData} = useAttendanceExport({
-    attendance,
-  });
-
   const handleCancelDelete = () => {
     setIsOpen(false);
     setToBeDeleted(undefined);
-  };
-
-  const handleExport = async () => {
-    await exportData();
   };
 
   return (

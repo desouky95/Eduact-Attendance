@@ -27,6 +27,7 @@ export const AttendanceTypeFilter = ({ onChange }: Props) => {
       onValueChange={value =>
         onChange(value === '' ? null : value.toString())
       }
+      placeholder="Attendance"
       dropdownOpenIcon={<SelectOpenIcon backgroundColor={'cadet.main'} />}
       dropdownIcon={<SelectOpenIcon backgroundColor={'cadet.main'} />}>
       <Select.Item label="None" value={''} />

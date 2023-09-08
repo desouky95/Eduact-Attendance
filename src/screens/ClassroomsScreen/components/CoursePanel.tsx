@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Typography} from 'components/Typography/Typography';
 import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
-import {getCourse} from 'src/database/data/classrooms.data';
+
 import {getReference} from 'src/database/data/reference.data';
 import ClassroomModel from 'src/database/models/Classroom';
 import CourseModel from 'src/database/models/Course';

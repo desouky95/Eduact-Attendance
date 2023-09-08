@@ -33,114 +33,98 @@ export const AnalyticsSection = ({group_id, onAttendanceTypeChange}: Props) => {
     <View>
       {!isLoading && (
         <VStack space="6px" mb="32px">
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => onAttendanceTypeChange?.(null)}>
-            <InfoCard backgroundColor={'primary.main'}>
-              <Flex>
-                <Typography
-                  color={'#FFF'}
-                  fontSize={getFontSize(12)}
-                  fontWeight="600">
-                  Total
-                </Typography>
-                <Typography
-                  color={'#FFF'}
-                  fontSize={getFontSize(12)}
-                  fontWeight="600">
-                  Attendance
-                </Typography>
-              </Flex>
+          <InfoCard backgroundColor={'primary.main'}>
+            <Flex>
               <Typography
                 color={'#FFF'}
-                fontSize={getFontSize(24)}
+                fontSize={getFontSize(12)}
                 fontWeight="600">
-                {total}
+                Total
               </Typography>
-            </InfoCard>
-          </TouchableOpacity>
+              <Typography
+                color={'#FFF'}
+                fontSize={getFontSize(12)}
+                fontWeight="600">
+                Attendance
+              </Typography>
+            </Flex>
+            <Typography
+              color={'#FFF'}
+              fontSize={getFontSize(24)}
+              fontWeight="600">
+              {total}
+            </Typography>
+          </InfoCard>
           <HStack space="8px">
-            <TouchableOpacity
-              style={{flex: 1}}
-              activeOpacity={0.8}
-              onPress={() => onAttendanceTypeChange?.('center')}>
-              <InfoCard backgroundColor="cadet.main">
-                <Flex>
-                  <Typography
-                    fontSize={getFontSize(10)}
-                    fontWeight={'500'}
-                    color="#FFF">
-                    Center
-                  </Typography>
-                  <Typography
-                    fontSize={getFontSize(10)}
-                    fontWeight={'500'}
-                    color="#FFF">
-                    Attendance
-                  </Typography>
-                </Flex>
-                <Typography
-                  fontWeight={'600'}
-                  fontSize={getFontSize(14)}
-                  color="#FFF">
-                  {center}
-                </Typography>
-              </InfoCard>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{flex: 1}}
-              activeOpacity={0.8}
-              onPress={() => onAttendanceTypeChange?.('online')}>
-              <InfoCard backgroundColor="cadet.main">
-                <Flex>
-                  <Typography
-                    fontSize={getFontSize(10)}
-                    fontWeight={'500'}
-                    color="#FFF">
-                    Online
-                  </Typography>
-                  <Typography
-                    fontSize={getFontSize(10)}
-                    fontWeight={'500'}
-                    color="#FFF">
-                    Attendance
-                  </Typography>
-                </Flex>
-                <Typography
-                  fontWeight={'600'}
-                  fontSize={getFontSize(14)}
-                  color="#FFF">
-                  {online}
-                </Typography>
-              </InfoCard>
-            </TouchableOpacity>
-          </HStack>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => onAttendanceTypeChange?.('absent')}>
             <InfoCard backgroundColor="cadet.main">
               <Flex>
                 <Typography
                   fontSize={getFontSize(10)}
                   fontWeight={'500'}
                   color="#FFF">
-                  Absent
+                  Center
                 </Typography>
-                {/* <Typography
-              fontSize={getFontSize(10)}
-              fontWeight={'500'}
-              color="#FFF">
-              Attendance
-            </Typography> */}
+                <Typography
+                  fontSize={getFontSize(10)}
+                  fontWeight={'500'}
+                  color="#FFF">
+                  Attendance
+                </Typography>
               </Flex>
               <Typography
                 fontWeight={'600'}
                 fontSize={getFontSize(14)}
                 color="#FFF">
-                {absent}
+                {center}
               </Typography>
             </InfoCard>
-          </TouchableOpacity>
+
+            <InfoCard backgroundColor="cadet.main">
+              <Flex>
+                <Typography
+                  fontSize={getFontSize(10)}
+                  fontWeight={'500'}
+                  color="#FFF">
+                  Online
+                </Typography>
+                <Typography
+                  fontSize={getFontSize(10)}
+                  fontWeight={'500'}
+                  color="#FFF">
+                  Attendance
+                </Typography>
+              </Flex>
+              <Typography
+                fontWeight={'600'}
+                fontSize={getFontSize(14)}
+                color="#FFF">
+                {online}
+              </Typography>
+            </InfoCard>
+          </HStack>
+
+          <InfoCard backgroundColor="cadet.main">
+            <Flex>
+              <Typography
+                fontSize={getFontSize(10)}
+                fontWeight={'500'}
+                color="#FFF">
+                Absent
+              </Typography>
+              {/* <Typography
+              fontSize={getFontSize(10)}
+              fontWeight={'500'}
+              color="#FFF">
+              Attendance
+            </Typography> */}
+            </Flex>
+            <Typography
+              fontWeight={'600'}
+              fontSize={getFontSize(14)}
+              color="#FFF">
+              {absent}
+            </Typography>
+          </InfoCard>
         </VStack>
       )}
       {isLoading && <Skeleton width="100%" mb="4" borderRadius={'5'} h="40" />}

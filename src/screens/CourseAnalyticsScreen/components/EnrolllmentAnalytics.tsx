@@ -11,12 +11,14 @@ import styled from 'styled-components/native';
 
 type Props = {
   group_id?: number;
+  active: boolean;
 };
-export const EnrollmentAnalytics = ({group_id}: Props) => {
+export const EnrollmentAnalytics = ({group_id, active}: Props) => {
   const {current} = useAppSelector(s => s.course);
 
   const [enrolled, setEnrolled] = useState(0);
   const [notEnrolled, setNotEnrolled] = useState(0);
+  const [total, setTotal] = useState(0);
   useFocusEffect(
     React.useCallback(() => {
       if (!current?.classroom_id || !current?.id) return;
@@ -24,6 +26,7 @@ export const EnrollmentAnalytics = ({group_id}: Props) => {
       const query = getCourseEnrollmentAnalytics(
         current.classroom_id.toString(),
         current.id,
+        active,
         group_id?.toString(),
       );
 
@@ -34,9 +37,14 @@ export const EnrollmentAnalytics = ({group_id}: Props) => {
         setEnrolled(value.length);
       });
 
+      const totalSubscription = query.total.subscribe(value => {
+        setTotal(value.length);
+      });
+
       return () => {
         enrolledSubscription.unsubscribe();
         notEnrolledSubscription.unsubscribe();
+        totalSubscription.unsubscribe();
       };
     }, [group_id, current?.id, current?.classroom_id]),
   );
@@ -46,7 +54,7 @@ export const EnrollmentAnalytics = ({group_id}: Props) => {
   return (
     <>
       <Box mb="3">
-        <HStack space="8px">
+        <VStack space="6px">
           <InfoCard backgroundColor="primary.main">
             <Flex>
               <Typography
@@ -66,33 +74,57 @@ export const EnrollmentAnalytics = ({group_id}: Props) => {
               fontWeight={'600'}
               fontSize={getFontSize(14)}
               color="#FFF">
-              {enrolled}
+              {total}
             </Typography>
           </InfoCard>
-
-          <InfoCard backgroundColor="cadet.main">
-            <Flex>
+          <HStack space="8px">
+            <InfoCard backgroundColor="cadet.main">
+              <Flex>
+                <Typography
+                  fontSize={getFontSize(10)}
+                  fontWeight={'500'}
+                  color="#FFF">
+                  Enrolled
+                </Typography>
+                {/* <Typography
+                  fontSize={getFontSize(10)}
+                  fontWeight={'500'}
+                  color="#FFF">
+                  Enrollment
+                </Typography> */}
+              </Flex>
               <Typography
-                fontSize={getFontSize(10)}
-                fontWeight={'500'}
+                fontWeight={'600'}
+                fontSize={getFontSize(14)}
                 color="#FFF">
-                Absent
+                {enrolled}
               </Typography>
-              {/* <Typography
+            </InfoCard>
+
+            <InfoCard backgroundColor="cadet.main">
+              <Flex>
+                <Typography
+                  fontSize={getFontSize(10)}
+                  fontWeight={'500'}
+                  color="#FFF">
+                  Absent
+                </Typography>
+                {/* <Typography
                   fontSize={getFontSize(10)}
                   fontWeight={'500'}
                   color="#FFF">
                   Attendance
                 </Typography> */}
-            </Flex>
-            <Typography
-              fontWeight={'600'}
-              fontSize={getFontSize(14)}
-              color="#FFF">
-              {notEnrolled}
-            </Typography>
-          </InfoCard>
-        </HStack>
+              </Flex>
+              <Typography
+                fontWeight={'600'}
+                fontSize={getFontSize(14)}
+                color="#FFF">
+                {notEnrolled}
+              </Typography>
+            </InfoCard>
+          </HStack>
+        </VStack>
       </Box>
     </>
   );

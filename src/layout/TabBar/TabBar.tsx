@@ -10,6 +10,7 @@ import {TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MdIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {AppContext} from 'src/AppContext';
+import {useWindowDimensions} from 'react-native';
 
 const ClassroomsScreens = [
   {
@@ -55,6 +56,8 @@ export const TabBar = (props: BottomTabBarProps) => {
     });
   };
 
+  const {width} = useWindowDimensions();
+
   return (
     <View
       style={{
@@ -70,7 +73,7 @@ export const TabBar = (props: BottomTabBarProps) => {
         shadowOpacity: 0.2,
         elevation: 14,
         columnGap: 60,
-        paddingHorizontal: 58,
+        paddingHorizontal: 0.058 * width,
       }}>
       {ClassroomsScreens.map(_ => {
         return (

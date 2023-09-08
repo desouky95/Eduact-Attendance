@@ -5,6 +5,7 @@ import EnrolledClassroomModel from '../models/EnrolledClassroomModel';
 export const getCourseEnrollmentAnalytics = (
   classroom_id: string,
   course_id: string,
+  active: boolean = false,
   group_id?: string,
 ) => {
   console.log('GROUP', group_id);
@@ -15,6 +16,7 @@ export const getCourseEnrollmentAnalytics = (
   const groupStatement = group_id
     ? `and group_id = '${Q.sanitizeLikeString(group_id?.toString())}'`
     : '';
+  const activeStatement = active ? `and active = 1` : '';
 
   const baseQueryString = `
     select ec.* from enroll_classrooms ec 
@@ -28,6 +30,7 @@ export const getCourseEnrollmentAnalytics = (
       `
         ${baseQueryString}
         where ec2.user_id is null
+        ${activeStatement}
          ${groupStatement}
         `,
       [course_id, classroom_id],
@@ -37,8 +40,26 @@ export const getCourseEnrollmentAnalytics = (
     Q.unsafeSqlQuery(
       `
         ${baseQueryString}
-        ${group_id ? `where group_id = '${Q.sanitizeLikeString(group_id.toString())}'`: ''}
+        where ec2.user_id is not null
+        ${activeStatement}
+        ${groupStatement}          
         `,
+      [course_id, classroom_id],
+    ),
+  );
+  const totalQuery = base.query(
+    Q.unsafeSqlQuery(
+      `
+          ${baseQueryString}
+          ${
+            group_id
+              ? `where group_id = '${Q.sanitizeLikeString(
+                  group_id.toString(),
+                )}'`
+              : ''
+          }
+          ${activeStatement}
+          `,
       [course_id, classroom_id],
     ),
   );
@@ -46,5 +67,6 @@ export const getCourseEnrollmentAnalytics = (
   return {
     enrolled: enrolledQuery.observe(),
     notEnrolled: notEnrolledQuery.observe(),
+    total: totalQuery.observe(),
   };
 };

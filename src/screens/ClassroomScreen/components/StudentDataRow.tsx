@@ -69,14 +69,7 @@ export const StudentDataRowUI = ({
   const {openSnackbar} = useSnackbar();
   return (
     <>
-      <>
-        {isLoading && (
-          <Box p="1">
-            <Skeleton width="100%" borderRadius={'5'} h="10" mb="0.5" />
-          </Box>
-        )}
-      </>
-      {!isLoading && (
+      
         <SwipeRow rightOpenValue={-60} closeOnRowPress={true} disableRightSwipe>
           <View style={styles.standaloneRowBack}>
             <Button
@@ -166,7 +159,6 @@ export const StudentDataRowUI = ({
             </TableRow>
           </View>
         </SwipeRow>
-      )}
     </>
   );
 };
