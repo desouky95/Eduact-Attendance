@@ -75,7 +75,7 @@ export const CourseAnalyticsScreen = () => {
         <Box>
           <Typography fontWeight="bold">
             Attendance Analytics
-            {/* {refCourse && `: ${refCourse?.name}`} */}
+            {refCourse && `: ${refCourse?.name}`}
           </Typography>
           <Spacer mb={3} />
           <GroupsFilter onChange={setAttendanceGroupId} />

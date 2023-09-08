@@ -198,7 +198,7 @@ export const getCourseAttendance = (
   page: number = 1,
   perPage?: number,
 ) => {
-  const groupStatement = group_id ? `and group_id = '${group_id}'` : '';
+  const groupStatement = group_id ? `and groupId = '${group_id}'` : '';
   const enrolledStatement = enrolled
     ? `and enrollment_status is not null`
     : '';
@@ -217,7 +217,7 @@ export const getCourseAttendance = (
 
   const newQueryString = `
     select * from (
-      select ce.* , ec2.user_id as enrollment_status,ec.group_id from center_attendences ce 
+      select ce.* , ec2.user_id as enrollment_status,ec.group_id as groupId from center_attendences ce 
          left join (
          select classroom_id as id , group_id ,user_id from enroll_classrooms) ec 
          on ec.id = ce.classroomId and ce.studentId = ec.user_id
