@@ -1,9 +1,9 @@
 {
-  "name": "BooksApp",
-  "displayName": "Eduact Attendance",
+  "name": "Hossam",
+  "displayName": "Hossam",
   "expo": {
-    "slug": "BooksApp",
-    "name": "BooksApp",
+    "slug": "Hossam",
+    "name": "Hossam",
     "sdkVersion": "48.0.0",
     "entryPoint": ".vscode\\exponentIndex.js"
   }

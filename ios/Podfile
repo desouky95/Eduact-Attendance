@@ -27,7 +27,7 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target 'BooksApp' do
+target 'Hossam' do
   config = use_native_modules!
 
   pod 'simdjson', path: '../node_modules/@nozbe/simdjson', modular_headers: true
@@ -50,7 +50,7 @@ target 'BooksApp' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'BooksAppTests' do
+  target 'HossamTests' do
     inherit! :complete
     # Pods for testing
   end

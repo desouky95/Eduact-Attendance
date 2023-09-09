@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* BooksAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* BooksAppTests.m */; };
+		00E356F31AD99517003FC87E /* HossamTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* HossamTests.m */; };
 		05612C8D2A7C355200D9F1BF /* wmelon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05612C8C2A7C355200D9F1BF /* wmelon.swift */; };
 		056370542A9E798400315696 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 056370532A9E798400315696 /* fonts */; };
 		056370572A9E79A400315696 /* MateMaterialIcons-RegularrialDesignIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 056370552A9E79A300315696 /* MateMaterialIcons-RegularrialDesignIcons.ttf */; };
@@ -15,9 +15,9 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		3C4E962A50EE693120D9A002 /* libPods-BooksApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42BE59FC3FEC7EC5FC0CD188 /* libPods-BooksApp.a */; };
+		3C4E962A50EE693120D9A002 /* libPods-Hossam.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42BE59FC3FEC7EC5FC0CD188 /* libPods-Hossam.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		987DA2E83300BB0BC662500B /* libPods-BooksApp-BooksAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA01877CBCC729E53008089A /* libPods-BooksApp-BooksAppTests.a */; };
+		987DA2E83300BB0BC662500B /* libPods-Hossam-HossamTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA01877CBCC729E53008089A /* libPods-Hossam-HossamTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,32 +26,32 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = BooksApp;
+			remoteInfo = "Hossam";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* BooksAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BooksAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* HossamTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HossamTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* BooksAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BooksAppTests.m; sourceTree = "<group>"; };
-		05612C8B2A7C355200D9F1BF /* BooksApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BooksApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* HossamTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "HossamTests.m"; sourceTree = "<group>"; };
+		05612C8B2A7C355200D9F1BF /* Hossam-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Hossam-Bridging-Header.h"; sourceTree = "<group>"; };
 		05612C8C2A7C355200D9F1BF /* wmelon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wmelon.swift; sourceTree = "<group>"; };
 		056370532A9E798400315696 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		056370552A9E79A300315696 /* MateMaterialIcons-RegularrialDesignIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "MateMaterialIcons-RegularrialDesignIcons.ttf"; path = "fonts/MateMaterialIcons-RegularrialDesignIcons.ttf"; sourceTree = "<group>"; };
 		056370562A9E79A400315696 /* MaterialDesignIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialDesignIcons.ttf; path = fonts/MaterialDesignIcons.ttf; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* BooksApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BooksApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = BooksApp/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = BooksApp/AppDelegate.mm; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = BooksApp/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = BooksApp/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = BooksApp/main.m; sourceTree = "<group>"; };
-		25A223927E812121315BF77C /* Pods-BooksApp-BooksAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BooksApp-BooksAppTests.release.xcconfig"; path = "Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests.release.xcconfig"; sourceTree = "<group>"; };
-		42BE59FC3FEC7EC5FC0CD188 /* libPods-BooksApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BooksApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4357510BD4E98B16D5160D3A /* Pods-BooksApp-BooksAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BooksApp-BooksAppTests.debug.xcconfig"; path = "Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests.debug.xcconfig"; sourceTree = "<group>"; };
-		4A53CD09E421DFC4870093F1 /* Pods-BooksApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BooksApp.debug.xcconfig"; path = "Target Support Files/Pods-BooksApp/Pods-BooksApp.debug.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = BooksApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		AA01877CBCC729E53008089A /* libPods-BooksApp-BooksAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BooksApp-BooksAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C95B583C43018ED173CB6D63 /* Pods-BooksApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BooksApp.release.xcconfig"; path = "Target Support Files/Pods-BooksApp/Pods-BooksApp.release.xcconfig"; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* Hossam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hossam.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = "Hossam/AppDelegate.h"; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = "Hossam/AppDelegate.mm"; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "Hossam/Images.xcassets"; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Hossam/Info.plist"; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "Hossam/main.m"; sourceTree = "<group>"; };
+		25A223927E812121315BF77C /* Pods-Hossam-HossamTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hossam-HossamTests.release.xcconfig"; path = "Target Support Files/Pods-Hossam-HossamTests/Pods-Hossam-HossamTests.release.xcconfig"; sourceTree = "<group>"; };
+		42BE59FC3FEC7EC5FC0CD188 /* libPods-Hossam.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hossam.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4357510BD4E98B16D5160D3A /* Pods-Hossam-HossamTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hossam-HossamTests.debug.xcconfig"; path = "Target Support Files/Pods-Hossam-HossamTests/Pods-Hossam-HossamTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4A53CD09E421DFC4870093F1 /* Pods-Hossam.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hossam.debug.xcconfig"; path = "Target Support Files/Pods-Hossam/Pods-Hossam.debug.xcconfig"; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = "Hossam/LaunchScreen.storyboard"; sourceTree = "<group>"; };
+		AA01877CBCC729E53008089A /* libPods-Hossam-HossamTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Hossam-HossamTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C95B583C43018ED173CB6D63 /* Pods-Hossam.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hossam.release.xcconfig"; path = "Target Support Files/Pods-Hossam/Pods-Hossam.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -60,7 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				987DA2E83300BB0BC662500B /* libPods-BooksApp-BooksAppTests.a in Frameworks */,
+				987DA2E83300BB0BC662500B /* libPods-Hossam-HossamTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,20 +68,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C4E962A50EE693120D9A002 /* libPods-BooksApp.a in Frameworks */,
+				3C4E962A50EE693120D9A002 /* libPods-Hossam.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* BooksAppTests */ = {
+		00E356EF1AD99517003FC87E /* HossamTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* BooksAppTests.m */,
+				00E356F21AD99517003FC87E /* HossamTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = BooksAppTests;
+			path = "HossamTests";
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -92,7 +92,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* BooksApp */ = {
+		13B07FAE1A68108700A75B9A /* Hossam */ = {
 			isa = PBXGroup;
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -102,15 +102,15 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = BooksApp;
+			name = "Hossam";
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				42BE59FC3FEC7EC5FC0CD188 /* libPods-BooksApp.a */,
-				AA01877CBCC729E53008089A /* libPods-BooksApp-BooksAppTests.a */,
+				42BE59FC3FEC7EC5FC0CD188 /* libPods-Hossam.a */,
+				AA01877CBCC729E53008089A /* libPods-Hossam-HossamTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -129,13 +129,13 @@
 				056370562A9E79A400315696 /* MaterialDesignIcons.ttf */,
 				056370532A9E798400315696 /* fonts */,
 				05612C8C2A7C355200D9F1BF /* wmelon.swift */,
-				13B07FAE1A68108700A75B9A /* BooksApp */,
+				13B07FAE1A68108700A75B9A /* Hossam */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* BooksAppTests */,
+				00E356EF1AD99517003FC87E /* HossamTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
-				05612C8B2A7C355200D9F1BF /* BooksApp-Bridging-Header.h */,
+				05612C8B2A7C355200D9F1BF /* Hossam-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -145,8 +145,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* BooksApp.app */,
-				00E356EE1AD99517003FC87E /* BooksAppTests.xctest */,
+				13B07F961A680F5B00A75B9A /* Hossam.app */,
+				00E356EE1AD99517003FC87E /* HossamTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -154,10 +154,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				4A53CD09E421DFC4870093F1 /* Pods-BooksApp.debug.xcconfig */,
-				C95B583C43018ED173CB6D63 /* Pods-BooksApp.release.xcconfig */,
-				4357510BD4E98B16D5160D3A /* Pods-BooksApp-BooksAppTests.debug.xcconfig */,
-				25A223927E812121315BF77C /* Pods-BooksApp-BooksAppTests.release.xcconfig */,
+				4A53CD09E421DFC4870093F1 /* Pods-Hossam.debug.xcconfig */,
+				C95B583C43018ED173CB6D63 /* Pods-Hossam.release.xcconfig */,
+				4357510BD4E98B16D5160D3A /* Pods-Hossam-HossamTests.debug.xcconfig */,
+				25A223927E812121315BF77C /* Pods-Hossam-HossamTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -165,9 +165,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* BooksAppTests */ = {
+		00E356ED1AD99517003FC87E /* HossamTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "BooksAppTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "HossamTests" */;
 			buildPhases = (
 				D39B01724AA758F7A6039270 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -181,14 +181,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = BooksAppTests;
-			productName = BooksAppTests;
-			productReference = 00E356EE1AD99517003FC87E /* BooksAppTests.xctest */;
+			name = "HossamTests";
+			productname = "HossamTests";
+			productReference = 00E356EE1AD99517003FC87E /* HossamTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* BooksApp */ = {
+		13B07F861A680F5B00A75B9A /* Hossam */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "BooksApp" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Hossam" */;
 			buildPhases = (
 				C20F02B194836CC503F41552 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -203,9 +203,9 @@
 			);
 			dependencies = (
 			);
-			name = BooksApp;
-			productName = BooksApp;
-			productReference = 13B07F961A680F5B00A75B9A /* BooksApp.app */;
+			name = "Hossam";
+			productName = "Hossam";
+			productReference = 13B07F961A680F5B00A75B9A /* Hossam.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -225,7 +225,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "BooksApp" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Hossam" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -238,8 +238,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* BooksApp */,
-				00E356ED1AD99517003FC87E /* BooksAppTests */,
+				13B07F861A680F5B00A75B9A /* Hossam */,
+				00E356ED1AD99517003FC87E /* HossamTests */,
 			);
 		};
 /* End PBXProject section */
@@ -289,15 +289,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Hossam-HossamTests/Pods-Hossam-HossamTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Hossam-HossamTests/Pods-Hossam-HossamTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hossam-HossamTests/Pods-Hossam-HossamTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		08CFEDF31EF25E19B78A178B /* [CP] Embed Pods Frameworks */ = {
@@ -306,15 +306,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BooksApp/Pods-BooksApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Hossam/Pods-Hossam-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BooksApp/Pods-BooksApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Hossam/Pods-Hossam-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BooksApp/Pods-BooksApp-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hossam/Pods-Hossam-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		326827DF480AB794AE61BA1C /* [CP] Embed Pods Frameworks */ = {
@@ -323,15 +323,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Hossam-HossamTests/Pods-Hossam-HossamTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Hossam-HossamTests/Pods-Hossam-HossamTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hossam-HossamTests/Pods-Hossam-HossamTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8F4C6BB64BBFCF6AD85A80C4 /* [CP] Copy Pods Resources */ = {
@@ -340,15 +340,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BooksApp/Pods-BooksApp-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Hossam/Pods-Hossam-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BooksApp/Pods-BooksApp-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-Hossam/Pods-Hossam-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BooksApp/Pods-BooksApp-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hossam/Pods-Hossam-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C20F02B194836CC503F41552 /* [CP] Check Pods Manifest.lock */ = {
@@ -366,7 +366,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BooksApp-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Hossam-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -388,7 +388,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BooksApp-BooksAppTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Hossam-HossamTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -421,7 +421,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* BooksAppTests.m in Sources */,
+				00E356F31AD99517003FC87E /* HossamTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,7 +440,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* BooksApp */;
+			target = 13B07F861A680F5B00A75B9A /* Hossam */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -448,7 +448,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4357510BD4E98B16D5160D3A /* Pods-BooksApp-BooksAppTests.debug.xcconfig */;
+			baseConfigurationReference = 4357510BD4E98B16D5160D3A /* Pods-Hossam-HossamTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -456,7 +456,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = BooksAppTests/Info.plist;
+				INFOPLIST_FILE = "HossamTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -470,18 +470,18 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BooksApp.app/BooksApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hossam.app/Hossam";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 25A223927E812121315BF77C /* Pods-BooksApp-BooksAppTests.release.xcconfig */;
+			baseConfigurationReference = 25A223927E812121315BF77C /* Pods-Hossam-HossamTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = BooksAppTests/Info.plist;
+				INFOPLIST_FILE = "HossamTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -495,21 +495,21 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BooksApp.app/BooksApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Hossam.app/Hossam";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4A53CD09E421DFC4870093F1 /* Pods-BooksApp.debug.xcconfig */;
+			baseConfigurationReference = 4A53CD09E421DFC4870093F1 /* Pods-Hossam.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = J7F65D5T5X;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = BooksApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Eduact Attendance";
+				INFOPLIST_FILE = "Hossam/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Hossam";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -522,8 +522,8 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.eduact.instructor;
-				PRODUCT_NAME = BooksApp;
-				SWIFT_OBJC_BRIDGING_HEADER = "BooksApp-Bridging-Header.h";
+				PRODUCT_NAME = "Hossam";
+				SWIFT_OBJC_BRIDGING_HEADER = "Hossam-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -532,14 +532,14 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C95B583C43018ED173CB6D63 /* Pods-BooksApp.release.xcconfig */;
+			baseConfigurationReference = C95B583C43018ED173CB6D63 /* Pods-Hossam.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = J7F65D5T5X;
-				INFOPLIST_FILE = BooksApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Eduact Attendance";
+				INFOPLIST_FILE = "Hossam/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Hossam";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -552,8 +552,8 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.eduact.instructor;
-				PRODUCT_NAME = BooksApp;
-				SWIFT_OBJC_BRIDGING_HEADER = "BooksApp-Bridging-Header.h";
+				PRODUCT_NAME = "Hossam";
+				SWIFT_OBJC_BRIDGING_HEADER = "Hossam-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -699,7 +699,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "BooksAppTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "HossamTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -708,7 +708,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "BooksApp" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Hossam" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -717,7 +717,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "BooksApp" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Hossam" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

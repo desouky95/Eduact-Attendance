@@ -94,9 +94,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'com.booksapp'
+    namespace 'com.hossam'
     defaultConfig {
-        applicationId 'com.booksapp'
+        applicationId 'com.hossam'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
