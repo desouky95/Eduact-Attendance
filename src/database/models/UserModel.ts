@@ -18,10 +18,10 @@ export default class UserModel extends Model {
   static associations: Associations = {
     enroll_classrooms: {type: 'has_many', foreignKey: 'user_id'},
     center_attendances: {type: 'has_many', foreignKey: 'studentId'},
-
+    students: {type: 'belongs_to', key: 'id'},
   };
 
-  @relation('students', 'user_id') student!: Query<StudentModel>;
+  @relation('students', 'id') student!: Query<StudentModel>;
   @relation('center_attendances', 'studentId')
   attendance!: Query<CenterAttendanceModel>;
   @relation('enroll_classrooms', 'user_id')
