@@ -10,7 +10,7 @@
     "test": "jest",
     "android:dev": "cross-env NODE_ENV=development react-native run-android --list-devices",
     "android:staging": "cross-env NODE_ENV=staging react-native run-android ",
-    "bundle": "npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/"
+    "bundle": "npx react-native bundle --platform ios --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/"
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
