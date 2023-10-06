@@ -152,6 +152,7 @@ export const getStudentAttendanceSync = (
         Q.where('studentId', student_id.toString()),
       ),
       Q.sortBy('created_at', 'desc'),
+      Q.take(3)
     );
   return query.observe();
 };
