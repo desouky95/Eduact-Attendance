@@ -15,9 +15,9 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		3C4E962A50EE693120D9A002 /* libPods-BooksApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42BE59FC3FEC7EC5FC0CD188 /* libPods-BooksApp.a */; };
+		39E78C6A6034A12DE8F92372 /* libPods-BooksApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFE3342D49A3A9D95CDE26E5 /* libPods-BooksApp.a */; };
+		7010668E5C19372C55F4DED9 /* libPods-BooksApp-BooksAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BA51355199B26C0051E199 /* libPods-BooksApp-BooksAppTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		987DA2E83300BB0BC662500B /* libPods-BooksApp-BooksAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA01877CBCC729E53008089A /* libPods-BooksApp-BooksAppTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +34,7 @@
 		00E356EE1AD99517003FC87E /* BooksAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BooksAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* BooksAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BooksAppTests.m; sourceTree = "<group>"; };
+		04776630EDC5B248309FA18A /* Pods-BooksApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BooksApp.debug.xcconfig"; path = "Target Support Files/Pods-BooksApp/Pods-BooksApp.debug.xcconfig"; sourceTree = "<group>"; };
 		05612C8B2A7C355200D9F1BF /* BooksApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BooksApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		05612C8C2A7C355200D9F1BF /* wmelon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wmelon.swift; sourceTree = "<group>"; };
 		056370532A9E798400315696 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
@@ -45,13 +46,12 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = BooksApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = BooksApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = BooksApp/main.m; sourceTree = "<group>"; };
-		25A223927E812121315BF77C /* Pods-BooksApp-BooksAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BooksApp-BooksAppTests.release.xcconfig"; path = "Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests.release.xcconfig"; sourceTree = "<group>"; };
-		42BE59FC3FEC7EC5FC0CD188 /* libPods-BooksApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BooksApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4357510BD4E98B16D5160D3A /* Pods-BooksApp-BooksAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BooksApp-BooksAppTests.debug.xcconfig"; path = "Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests.debug.xcconfig"; sourceTree = "<group>"; };
-		4A53CD09E421DFC4870093F1 /* Pods-BooksApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BooksApp.debug.xcconfig"; path = "Target Support Files/Pods-BooksApp/Pods-BooksApp.debug.xcconfig"; sourceTree = "<group>"; };
+		36BA51355199B26C0051E199 /* libPods-BooksApp-BooksAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BooksApp-BooksAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = BooksApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		AA01877CBCC729E53008089A /* libPods-BooksApp-BooksAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BooksApp-BooksAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C95B583C43018ED173CB6D63 /* Pods-BooksApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BooksApp.release.xcconfig"; path = "Target Support Files/Pods-BooksApp/Pods-BooksApp.release.xcconfig"; sourceTree = "<group>"; };
+		9824B3723753E54849EA482C /* Pods-BooksApp-BooksAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BooksApp-BooksAppTests.release.xcconfig"; path = "Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		BF3D6FF3CA859EB96A81EB1D /* Pods-BooksApp-BooksAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BooksApp-BooksAppTests.debug.xcconfig"; path = "Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		BFED24DDC7919EBBA065BFD9 /* Pods-BooksApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BooksApp.release.xcconfig"; path = "Target Support Files/Pods-BooksApp/Pods-BooksApp.release.xcconfig"; sourceTree = "<group>"; };
+		CFE3342D49A3A9D95CDE26E5 /* libPods-BooksApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BooksApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -60,7 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				987DA2E83300BB0BC662500B /* libPods-BooksApp-BooksAppTests.a in Frameworks */,
+				7010668E5C19372C55F4DED9 /* libPods-BooksApp-BooksAppTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,7 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C4E962A50EE693120D9A002 /* libPods-BooksApp.a in Frameworks */,
+				39E78C6A6034A12DE8F92372 /* libPods-BooksApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,8 +109,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				42BE59FC3FEC7EC5FC0CD188 /* libPods-BooksApp.a */,
-				AA01877CBCC729E53008089A /* libPods-BooksApp-BooksAppTests.a */,
+				CFE3342D49A3A9D95CDE26E5 /* libPods-BooksApp.a */,
+				36BA51355199B26C0051E199 /* libPods-BooksApp-BooksAppTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -154,10 +154,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				4A53CD09E421DFC4870093F1 /* Pods-BooksApp.debug.xcconfig */,
-				C95B583C43018ED173CB6D63 /* Pods-BooksApp.release.xcconfig */,
-				4357510BD4E98B16D5160D3A /* Pods-BooksApp-BooksAppTests.debug.xcconfig */,
-				25A223927E812121315BF77C /* Pods-BooksApp-BooksAppTests.release.xcconfig */,
+				04776630EDC5B248309FA18A /* Pods-BooksApp.debug.xcconfig */,
+				BFED24DDC7919EBBA065BFD9 /* Pods-BooksApp.release.xcconfig */,
+				BF3D6FF3CA859EB96A81EB1D /* Pods-BooksApp-BooksAppTests.debug.xcconfig */,
+				9824B3723753E54849EA482C /* Pods-BooksApp-BooksAppTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -169,12 +169,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "BooksAppTests" */;
 			buildPhases = (
-				D39B01724AA758F7A6039270 /* [CP] Check Pods Manifest.lock */,
+				167FBA638DE8B20C02A1A0DD /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				326827DF480AB794AE61BA1C /* [CP] Embed Pods Frameworks */,
-				07FA4D224902E45660C7AD59 /* [CP] Copy Pods Resources */,
+				8998DD5E34B404CD080755C4 /* [CP] Embed Pods Frameworks */,
+				C46A607D4AF3F5D1FFAEAE38 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -190,14 +190,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "BooksApp" */;
 			buildPhases = (
-				C20F02B194836CC503F41552 /* [CP] Check Pods Manifest.lock */,
+				7A6217768B11C84356553E44 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				08CFEDF31EF25E19B78A178B /* [CP] Embed Pods Frameworks */,
-				8F4C6BB64BBFCF6AD85A80C4 /* [CP] Copy Pods Resources */,
+				193D12F19AF816D9C97964A9 /* [CP] Embed Pods Frameworks */,
+				E1F19A7E2026A0E218C5AC79 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -283,24 +283,29 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		07FA4D224902E45660C7AD59 /* [CP] Copy Pods Resources */ = {
+		167FBA638DE8B20C02A1A0DD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BooksApp-BooksAppTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		08CFEDF31EF25E19B78A178B /* [CP] Embed Pods Frameworks */ = {
+		193D12F19AF816D9C97964A9 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -317,41 +322,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BooksApp/Pods-BooksApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		326827DF480AB794AE61BA1C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8F4C6BB64BBFCF6AD85A80C4 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BooksApp/Pods-BooksApp-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BooksApp/Pods-BooksApp-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BooksApp/Pods-BooksApp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C20F02B194836CC503F41552 /* [CP] Check Pods Manifest.lock */ = {
+		7A6217768B11C84356553E44 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -373,26 +344,55 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D39B01724AA758F7A6039270 /* [CP] Check Pods Manifest.lock */ = {
+		8998DD5E34B404CD080755C4 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BooksApp-BooksAppTests-checkManifestLockResult.txt",
+				"${PODS_ROOT}/Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C46A607D4AF3F5D1FFAEAE38 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BooksApp-BooksAppTests/Pods-BooksApp-BooksAppTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E1F19A7E2026A0E218C5AC79 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BooksApp/Pods-BooksApp-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BooksApp/Pods-BooksApp-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BooksApp/Pods-BooksApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -448,7 +448,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4357510BD4E98B16D5160D3A /* Pods-BooksApp-BooksAppTests.debug.xcconfig */;
+			baseConfigurationReference = BF3D6FF3CA859EB96A81EB1D /* Pods-BooksApp-BooksAppTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -463,6 +463,10 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/lib/swift",
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -476,17 +480,25 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 25A223927E812121315BF77C /* Pods-BooksApp-BooksAppTests.release.xcconfig */;
+			baseConfigurationReference = 9824B3723753E54849EA482C /* Pods-BooksApp-BooksAppTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION,
+				);
 				INFOPLIST_FILE = BooksAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/lib/swift",
+					"$(inherited)",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -501,19 +513,27 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4A53CD09E421DFC4870093F1 /* Pods-BooksApp.debug.xcconfig */;
+			baseConfigurationReference = 04776630EDC5B248309FA18A /* Pods-BooksApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = J7F65D5T5X;
 				ENABLE_BITCODE = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION,
+				);
 				INFOPLIST_FILE = BooksApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Eduact Attendance";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/lib/swift",
+					"$(inherited)",
 				);
 				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = (
@@ -532,18 +552,26 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C95B583C43018ED173CB6D63 /* Pods-BooksApp.release.xcconfig */;
+			baseConfigurationReference = BFED24DDC7919EBBA065BFD9 /* Pods-BooksApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = J7F65D5T5X;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION,
+				);
 				INFOPLIST_FILE = BooksApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Eduact Attendance";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/lib/swift",
+					"$(inherited)",
 				);
 				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = (
@@ -600,6 +628,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -620,11 +649,17 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-Wl",
+					"-ld_classic",
 				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
@@ -667,6 +702,10 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION,
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -684,11 +723,17 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = "$(inherited)";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-Wl",
+					"-ld_classic",
 				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
