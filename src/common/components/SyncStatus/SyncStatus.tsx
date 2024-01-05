@@ -19,6 +19,7 @@ export const SyncStatus = () => {
 
   useEffect(() => {
     if (isConnected && isLogged) {
+      console.log('RUNNING SYNC');
       runSync(true, () => {});
     }
   }, [isConnected]);
@@ -57,12 +58,14 @@ export const SyncStatus = () => {
     };
   }, [fadeOut, syncSuccess, syncFailed, isLogged]);
   return (
-    <Animated.View style={[{width: '100%'}, syncStyle]}>
-      <Flex p={2}>
-        <Center>
-          <Text>{syncText}</Text>
-        </Center>
-      </Flex>
-    </Animated.View>
+    <>
+      <Animated.View style={[{width: '100%'}, syncStyle]}>
+        <Flex p={2}>
+          <Center>
+            <Text>{syncText}</Text>
+          </Center>
+        </Flex>
+      </Animated.View>
+    </>
   );
 };

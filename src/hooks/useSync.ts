@@ -6,10 +6,7 @@ import sync from 'src/database/sync';
 import {useDatabase} from '@nozbe/watermelondb/hooks';
 
 export const useSync = () => {
-  const {isConnected} = useNetInfo();
-
-  const {isSyncing, setIsSyncing, setSyncFailed, setSyncSuccess} =
-    useSyncProvider();
+  const {setIsSyncing, setSyncFailed, setSyncSuccess} = useSyncProvider();
 
   const database = useDatabase();
 
@@ -17,28 +14,36 @@ export const useSync = () => {
     return await hasUnsyncedChanges({database});
   }
 
-  const doSync = async (onFinish: () => void) => {
+  const doSync = (onFinish: () => void) => {
+    console.log('RESET Status');
     setSyncFailed(false);
     setSyncSuccess(false);
     setIsSyncing(true);
-    try {
-      await sync(database);
-      setSyncSuccess(true);
-    } catch (error) {
-      console.error(error)
-      setSyncFailed(true);
-    }
-    setIsSyncing(false);
-    onFinish();
+    sync(database)
+      .then(() => {
+        setSyncSuccess(true);
+      })
+      .catch(error => {
+        console.error(error);
+
+        setSyncFailed(true);
+      })
+      .finally(() => {
+        setIsSyncing(false);
+        onFinish();
+      });
   };
 
   const runSync = async (withChangesCheck = false, onFinish = () => {}) => {
+    console.log('RUNNING SYNC');
     if (withChangesCheck) {
+      console.log('CHECKING CHANGES');
       const hasChanges = await checkUnsyncedChanges();
       console.log('DB HAS NO CHANGES', hasChanges);
+
       if (!hasChanges) return;
     }
-    await doSync(onFinish);
+    doSync(onFinish);
   };
 
   return {

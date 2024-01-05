@@ -22,7 +22,6 @@ export const HomeHeader = ({
 }: NativeStackHeaderProps) => {
   const {isSyncing} = useSyncProvider();
 
-
   const {isConnected} = useNetInfo();
   const syncStyle = useAnimatedStyle(() => {
     return {
@@ -85,7 +84,7 @@ export const HomeHeader = ({
         <Icon
           onPress={() => {
             if (!isConnected) return;
-            runSync();
+            runSync(true);
           }}
           disabled={!isConnected}
           style={{opacity: isConnected ? 1 : 0.5}}
