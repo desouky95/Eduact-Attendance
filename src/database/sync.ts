@@ -57,10 +57,10 @@ export default function sync(database: Database) {
               changes.enroll_classrooms,
             );
 
-          require('@nozbe/watermelondb/sync/debugPrintChanges').default(
-            changes,
-            false,
-          );
+          // require('@nozbe/watermelondb/sync/debugPrintChanges').default(
+          //   changes,
+          //   false,
+          // );
           return {
             changes: {
               classrooms,
@@ -85,11 +85,10 @@ export default function sync(database: Database) {
       },
       pushChanges: async ({changes, lastPulledAt}) => {
         try {
-          debugger;
-          require('@nozbe/watermelondb/sync/debugPrintChanges').default(
-            changes,
-            true,
-          );
+          // require('@nozbe/watermelondb/sync/debugPrintChanges').default(
+          //   changes,
+          //   true,
+          // );
           const {enroll_courses, enroll_classrooms, center_attendences} =
             changes;
           // let mappedChanges = await syncAdapter.toRemote(changes);

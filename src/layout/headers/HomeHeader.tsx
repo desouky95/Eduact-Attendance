@@ -84,7 +84,7 @@ export const HomeHeader = ({
         <Icon
           onPress={() => {
             if (!isConnected) return;
-            runSync(true);
+            runSync(false);
           }}
           disabled={!isConnected}
           style={{opacity: isConnected ? 1 : 0.5}}
