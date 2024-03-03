@@ -55,8 +55,6 @@ export const setupClassrooms = async (withProgress?: WithProgressArgs) => {
       );
     }
 
- 
-
     for (let index = 0; index < courses.length; index++) {
       const course = courses[index];
       batchActions.push(
@@ -121,6 +119,7 @@ export const setupClassrooms = async (withProgress?: WithProgressArgs) => {
             },
             groupsQuery.schema,
           );
+          builder._raw._status = 'synced';
         }),
       );
     }
@@ -128,7 +127,7 @@ export const setupClassrooms = async (withProgress?: WithProgressArgs) => {
     await database.write(async () => {
       await database.batch(batchActions);
     });
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(error['message']);
   }
   // store.dispatch(completeStep('classrooms'));

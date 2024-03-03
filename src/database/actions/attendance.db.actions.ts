@@ -28,7 +28,8 @@ export const setupAttendance = async (withProgress?: WithProgressArgs) => {
       const createdAttendance = query.prepareCreate(builder => {
         builder._raw = sanitizedRaw(
           {
-            id: `${attendance.student_id}-${attendance.classroom_id}-${attendance.course_id}`,
+            // id: `${attendance.student_id}-${attendance.classroom_id}-${attendance.course_id}`,
+            id: attendance.id.toString(),
             sid: attendance.id,
             quizId: attendance.quiz_id?.toString(),
             classroomId: attendance.classroom_id.toString(),
