@@ -26,11 +26,11 @@ export const AttendanceScreen = () => {
   const [notFound, setNotFound] = useState(false);
   const [toggleSearch, setToggleSearch] = useState(false);
 
-  const {height} = useWindowDimensions()
+  const {height , width} = useWindowDimensions()
   return (
     <ScrollView
       style={{
-        paddingHorizontal: 20,
+        paddingHorizontal: width * 0.02,
         flex: 1,
         width: '100%',
       }}>

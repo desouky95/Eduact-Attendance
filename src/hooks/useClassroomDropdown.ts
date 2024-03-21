@@ -22,7 +22,7 @@ const classroomsObservable = database.collections
 const coursesObservable = (classroom_id?: number) =>
   database.collections
     .get<CourseModel>(CourseModel.table)
-    .query(Q.where('classroom_id', classroom_id ?? null))
+    .query(Q.where('classroom_id', classroom_id ?? null),Q.sortBy('order','asc'))
     .observe();
 
 const testsObservable = (course_id?: number) =>

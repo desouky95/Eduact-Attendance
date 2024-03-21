@@ -28,7 +28,7 @@ export const setupTestAttempts = async (withProgress?: WithProgressArgs) => {
       const {
         data: {testAttempts},
       } = await getTestAttempts(withProgress, page);
-      testAttemptsData = [...testAttemptsData,...testAttempts.data]
+      testAttemptsData = [...testAttemptsData, ...testAttempts.data];
     }
 
     for (let index = 0; index < testAttemptsData.length; index++) {
@@ -49,6 +49,7 @@ export const setupTestAttempts = async (withProgress?: WithProgressArgs) => {
             },
             attemptQuery.schema,
           );
+          builder._raw._status = 'synced';
         }),
       );
     }
@@ -56,7 +57,7 @@ export const setupTestAttempts = async (withProgress?: WithProgressArgs) => {
     await database.write(async () => {
       await database.batch(batchActions);
     });
-  } catch (error) {
+  } catch (error : any) {
     throw new Error(error['message']);
   }
 };

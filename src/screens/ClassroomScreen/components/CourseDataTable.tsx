@@ -72,6 +72,7 @@ export const CourseDataTable = ({group_id, type = null, enrolled}: Props) => {
     type,
     page: data.page,
     perPage: data.perPage,
+    // perPage: 1,
     search: data.search,
     enrolled,
   });
